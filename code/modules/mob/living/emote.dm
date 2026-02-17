@@ -1252,6 +1252,22 @@
 
 	emote("yawn", intentional = TRUE)
 
+//Caustic Edit - Add *swear emote
+/datum/emote/living/swear
+	key = "swear"
+	key_third_person = "swears"
+	message = "says a swear word!"
+	message_muffled = "quietly mumbles a swear."
+	emote_type = EMOTE_AUDIBLE
+	show_runechat = TRUE
+
+/mob/living/carbon/human/verb/emote_swear()
+	set name = "Swear"
+	set category = "Noises"
+
+	emote("swear", intentional = TRUE)
+//Caustic Edit End
+
 /datum/emote/living/custom
 	key = "me"
 	key_third_person = "custom"
