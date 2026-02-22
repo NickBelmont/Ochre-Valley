@@ -2883,6 +2883,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 									name = "[i] - [realname][nickname ? " ([nickname])" : ""]"
 								if(loaded_slot == i)
 									choices_default = name
+								choices[name] = i
 					var/choice = tgui_input_list(user, "CHOOSE A HERO","AZURE PEAK", choices, choices_default)
 					// Caustic Edit End
 					if(choice)
