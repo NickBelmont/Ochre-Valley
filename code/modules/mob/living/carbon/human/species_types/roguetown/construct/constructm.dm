@@ -13,7 +13,7 @@
 	construct = 1
 	skin_tone_wording = "Material"
 	default_color = "FFFFFF"
-	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY,NOBLOOD)
+	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY,NOBLOOD,MUTCOLORS)
 	///Caustic edit
 	allowed_taur_types = list(
 		/obj/item/bodypart/taur/lamia,
