@@ -1,0 +1,5 @@
+author: "Ryumi"
+delete-after: True
+changes:
+  - server: "Renamed server-side instances of \"Caustic Cove\" to \"Ochre Valley\""
+  - config: "Correctly links Ochre Valley's Github for testmerge redirects"
