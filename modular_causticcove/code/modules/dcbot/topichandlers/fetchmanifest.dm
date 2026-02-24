@@ -6,5 +6,5 @@
 	var/dat
 	var/list/sortedActors = get_sorted_actors_list()
 	for(var/X in sortedActors)
-		dat += ("[sortedActors[X]["data"]["name"]]" + " as " + "[sortedActors[X]["data"]["rank"]]")
+		dat += ("[sortedActors[X]["data"]["name"]]" + " as " + "[sortedActors[X]["data"]["rank"]]\n")
 	return dat
