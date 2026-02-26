@@ -13,8 +13,8 @@
 	warnie = "sydwarning"
 	movement_interrupt = FALSE
 	sound = 'sound/magic/ENDVRE.ogg'
-	invocations = list(span_blue("quietly recites an orison, invoking the warmth of a dying light."))
-	invocation_type = "emote"
+	invocations = list("ENDURE!","GET UP!","COME ON!") //CC Edit reverting this because all balls but no cum? //Kept intentionally vague as to whether it's genuine magic or just a very inspiring attempt to rally the target, like with 'PRAYER'. Invigorate the wounded; give them the motivation to thug it out.
+    invocation_type = "shout" //CC Edit, reverting
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = FALSE
 	recharge_time = 30 SECONDS
