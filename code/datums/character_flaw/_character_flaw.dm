@@ -1,43 +1,45 @@
 
 GLOBAL_LIST_INIT(character_flaws, list(
-	"Alcoholic"=/datum/charflaw/addiction/alcoholic,
-	"Averse"=/datum/charflaw/averse,
-	"Devout Follower"=/datum/charflaw/addiction/godfearing,
-	"Colorblind"=/datum/charflaw/colorblind,
-	"Smoker"=/datum/charflaw/addiction/smoker,
-	"Junkie"=/datum/charflaw/addiction/junkie,
-	"Unintelligible"=/datum/charflaw/unintelligible,
-	"Greedy"=/datum/charflaw/greedy,
-	"Narcoleptic"=/datum/charflaw/narcoleptic,
-	"Nymphomaniac"=/datum/charflaw/addiction/lovefiend,
-	"Sadist"=/datum/charflaw/addiction/sadist,
-	"Masochist"=/datum/charflaw/addiction/masochist,
-	"Clingy"=/datum/charflaw/clingy,
-	"Finicky"=/datum/charflaw/finicky,
-	"Lonely"=/datum/charflaw/lonely,
-	"Paranoid"=/datum/charflaw/addiction/paranoid,
-	"Clamorous"=/datum/charflaw/addiction/clamorous,
-	"Thrillseeker"=/datum/charflaw/addiction/thrillseeker,
-	"Indebted"=/datum/charflaw/indebted,
-	"Voyeur"=/datum/charflaw/addiction/voyeur,
-	"Bad Sight"=/datum/charflaw/badsight,
-	"Cyclops (R)"=/datum/charflaw/noeyer,
-	"Cyclops (L)"=/datum/charflaw/noeyel,
-	"Blindness"=/datum/charflaw/noeyeall,
-	"Wood Arm (R)"=/datum/charflaw/limbloss/arm_r,
-	"Wood Arm (L)"=/datum/charflaw/limbloss/arm_l,
-	"Sleepless"=/datum/charflaw/sleepless,
-	"Mute"=/datum/charflaw/mute,
-	"Critical Weakness"=/datum/charflaw/critweakness,
-	//Caustic edit
-	"Bottomless"=/datum/charflaw/bottomless,
-	"Asundered Mind"=/datum/charflaw/mind_broken,
-	//Caustic edit end
-	"Hunted"=/datum/charflaw/hunted,
+	/datum/charflaw/addiction/alcoholic::name = /datum/charflaw/addiction/alcoholic,
+	/datum/charflaw/averse::name = /datum/charflaw/averse,
+	/datum/charflaw/addiction/godfearing::name = /datum/charflaw/addiction/godfearing,
+	/datum/charflaw/addiction/caffiend::name = /datum/charflaw/addiction/caffiend,
+	/datum/charflaw/colorblind::name = /datum/charflaw/colorblind,
+	/datum/charflaw/addiction/smoker::name = /datum/charflaw/addiction/smoker,
+	/datum/charflaw/addiction/junkie::name = /datum/charflaw/addiction/junkie,
+	/datum/charflaw/unintelligible::name = /datum/charflaw/unintelligible,
+	/datum/charflaw/greedy::name = /datum/charflaw/greedy,
+	/datum/charflaw/narcoleptic::name = /datum/charflaw/narcoleptic,
+	/datum/charflaw/addiction/lovefiend::name = /datum/charflaw/addiction/lovefiend,
+	/datum/charflaw/addiction/sadist::name = /datum/charflaw/addiction/sadist,
+	/datum/charflaw/addiction/masochist::name = /datum/charflaw/addiction/masochist,
+	/datum/charflaw/clingy::name = /datum/charflaw/clingy,
+	/datum/charflaw/finicky::name = /datum/charflaw/finicky,
+	/datum/charflaw/lonely::name = /datum/charflaw/lonely,
+	/datum/charflaw/addiction/paranoid::name = /datum/charflaw/addiction/paranoid,
+	/datum/charflaw/addiction/clamorous::name = /datum/charflaw/addiction/clamorous,
+	/datum/charflaw/addiction/thrillseeker::name = /datum/charflaw/addiction/thrillseeker,
+	/datum/charflaw/indebted::name = /datum/charflaw/indebted,
+	/datum/charflaw/addiction/voyeur::name = /datum/charflaw/addiction/voyeur,
+	/datum/charflaw/badsight::name = /datum/charflaw/badsight,
+	/datum/charflaw/noeyer::name = /datum/charflaw/noeyer,
+	/datum/charflaw/noeyel::name = /datum/charflaw/noeyel,
+	/datum/charflaw/noeyeall::name = /datum/charflaw/noeyeall,
+	/datum/charflaw/limbloss/arm_r::name = /datum/charflaw/limbloss/arm_r,
+	/datum/charflaw/limbloss/arm_l::name = /datum/charflaw/limbloss/arm_l,
+	/datum/charflaw/sleepless::name = /datum/charflaw/sleepless,
+	/datum/charflaw/mute::name = /datum/charflaw/mute,
+	/datum/charflaw/critweakness::name = /datum/charflaw/critweakness,
+	/datum/charflaw/hunted::name = /datum/charflaw/hunted,
 	/datum/charflaw/mind_broken::name = /datum/charflaw/mind_broken,
-	"Random or No Flaw"=/datum/charflaw/randflaw,
-	"No Flaw (-4 TRIUMPHS)"=/datum/charflaw/noflaw,
-	"Leper (+1 TRIUMPHS)"=/datum/charflaw/leprosy,
+	/datum/charflaw/noflaw::name = /datum/charflaw/noflaw,
+	/datum/charflaw/leprosy::name = /datum/charflaw/leprosy,
+	/datum/charflaw/randflaw::name = /datum/charflaw/randflaw,
+
+	//Caustic edit
+	/datum/charflaw/bottomless::name=/datum/charflaw/bottomless,
+	/datum/charflaw/mind_broken::name=/datum/charflaw/mind_broken,
+	//Caustic edit end
 	))
 
 GLOBAL_LIST_INIT(averse_factions, list(
@@ -56,6 +58,9 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	var/name
 	var/desc
 	var/ephemeral = FALSE // This flaw is currently disabled and will not process
+	/// For voyeur vice examines only. Format is "[name] is " + this + "...", leave blank to use the flaw's name.
+	/// Intended for addiction types only.
+	var/voyeur_descriptor	
 
 /datum/charflaw/proc/on_mob_creation(mob/user)
 	return
@@ -76,38 +81,30 @@ GLOBAL_LIST_INIT(averse_factions, list(
 
 /mob/living/carbon/human/has_flaw(flaw)
 	if(!flaw)
-		return
-	if(istype(charflaw, flaw))
-		return TRUE
+		return FALSE
+
+	if(charflaws && charflaws.len)
+		for(var/datum/charflaw/cf in charflaws)
+			if(istype(cf, flaw))
+				return TRUE
+
+	if(client?.prefs?.charflaws && client.prefs.charflaws.len)
+		for(var/datum/charflaw/cf in client.prefs.charflaws)
+			if(istype(cf, flaw))
+				return TRUE
+
+	return FALSE
 
 /mob/proc/get_flaw()
 	return
 
-/mob/living/carbon/human/get_flaw()
-	return charflaw
-
-/datum/charflaw/randflaw
-	name = "Random or None"
-	desc = "A 50% chance to be given a random flaw, or a 50% chance to have NO flaw."
-
-/datum/charflaw/randflaw/apply_post_equipment(mob/user)
-	var/mob/living/carbon/human/H = user
-	if(prob(50))
-		var/flawz = GLOB.character_flaws.Copy()
-		var/charflaw = pick_n_take(flawz)
-		charflaw = GLOB.character_flaws[charflaw]
-		if((charflaw == type) || (charflaw == /datum/charflaw/noflaw))
-			charflaw = pick_n_take(flawz)
-			charflaw = GLOB.character_flaws[charflaw]
-		if((charflaw == type) || (charflaw == /datum/charflaw/noflaw))
-			charflaw = pick_n_take(flawz)
-			charflaw = GLOB.character_flaws[charflaw]
-		H.charflaw = new charflaw()
-		H.charflaw.on_mob_creation(H)
-	else
-		H.charflaw = new /datum/charflaw/eznoflaw()
-		H.charflaw.on_mob_creation(H)
-
+/mob/living/carbon/human/get_flaw(flaw_type)
+	if(!flaw_type)
+		return charflaws.len > 0 ? charflaws[1] : null
+	for(var/datum/charflaw/cf in charflaws)
+		if(istype(cf, flaw_type))
+			return cf
+	return null
 
 /datum/charflaw/eznoflaw
 	name = "No Flaw"
@@ -118,29 +115,53 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	desc = "I'm a normal person, how rare! (Consumes 4 triumphs or gives a random flaw.)"
 	var/nochekk = TRUE
 
-/datum/charflaw/noflaw/flaw_on_life(mob/user)
-	if(!nochekk)
-		return
-	if(ishuman(user))
-		var/mob/living/carbon/human/H = user
-		if(H.ckey)
-			if(H.get_triumphs() < 4) // Edit here
-				nochekk = FALSE
-				var/flawz = GLOB.character_flaws.Copy()
-				var/charflaw = pick_n_take(flawz)
-				charflaw = GLOB.character_flaws[charflaw]
-				if((charflaw == type) || (charflaw == /datum/charflaw/randflaw))
-					charflaw = pick_n_take(flawz)
-					charflaw = GLOB.character_flaws[charflaw]
-				if((charflaw == type) || (charflaw == /datum/charflaw/randflaw))
-					charflaw = pick_n_take(flawz)
-					charflaw = GLOB.character_flaws[charflaw]
-				H.charflaw = new charflaw()
-				H.charflaw.on_mob_creation(H)
-			else
-				nochekk = FALSE
-				H.adjust_triumphs(-4) // Edit here
-// Caustic Cove Edit end
+/datum/charflaw/noflaw/apply_post_equipment(mob/user)
+	var/mob/living/carbon/human/H = user
+	if(H.get_triumphs() < 4) // CC Edit 3 -> 4
+		var/flawz = GLOB.character_flaws.Copy()
+		var/charflaw = pick_n_take(flawz)
+		charflaw = GLOB.character_flaws[charflaw]
+		var/datum/charflaw/new_flaw = new charflaw()
+		H.charflaws.Add(new_flaw)
+		new_flaw.on_mob_creation(H)
+	else
+		H.adjust_triumphs(-4) // CC Edit 3 -> 4
+
+/datum/charflaw/randflaw
+	name = "Random"
+	desc = "A chance for a random flaw."
+
+/datum/charflaw/randflaw/apply_post_equipment(mob/user)
+	var/mob/living/carbon/human/target = user
+
+	var/list/cf_list = GLOB.character_flaws.Copy()
+	for(var/key in cf_list)
+		if(cf_list[key] == type || cf_list[key] == /datum/charflaw/noflaw)
+			cf_list -= key
+
+	var/datum/job/mob_job = null
+	if(target.mind?.assigned_role)
+		mob_job = SSjob.GetJob(target.mind.assigned_role)
+	else if(target.client?.prefs?.lastclass)
+		mob_job = SSjob.GetJob(target.client.prefs.lastclass)
+
+	if(mob_job && mob_job.vice_restrictions)
+		for(var/key in cf_list)
+			if(cf_list[key] in mob_job.vice_restrictions)
+				cf_list -= key
+
+	var/datum/charflaw/chosen_type = null
+	if(length(cf_list))
+		var/chosen_key = pick_n_take(cf_list)
+		chosen_type = GLOB.character_flaws[chosen_key]
+
+	if(chosen_type)
+		var/datum/charflaw/added_flaw = new chosen_type()
+		target.charflaws.Add(added_flaw)
+		added_flaw.on_mob_creation(target)
+
+	target.charflaws.Remove(src)
+	QDEL_NULL(src)
 
 /datum/charflaw/badsight
 	name = "Bad Eyesight"
@@ -389,10 +410,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	var/mob/living/carbon/human/H = user
 	if(!H.wear_mask)
 		H.equip_to_slot_or_del(new /obj/item/clothing/glasses/blindfold(H), SLOT_WEAR_MASK)
-	var/obj/item/bodypart/head/head = H.get_bodypart(BODY_ZONE_HEAD)
-	head?.add_wound(/datum/wound/facial/eyes/left/permanent)
-	head?.add_wound(/datum/wound/facial/eyes/right/permanent)
-	H.update_fov_angles()
+	H.overlay_fullscreen("blind_flaw", /atom/movable/screen/fullscreen/impaired, 2)
 
 /datum/charflaw/colorblind
 	name = "Colorblind"
@@ -736,15 +754,28 @@ GLOBAL_LIST_INIT(averse_factions, list(
 				count++
 				if(count >= 2)
 					user.add_stress(/datum/stressevent/averse)
+					break
 				if(paid_triumphs)
 					triumph_refund(user)
 
 
 /datum/charflaw/averse/proc/check_aversion(mob/user, mob/target)
-	if(target != user && target.stat != DEAD)
-		var/datum/job/J = SSjob.GetJob(target.job)
-		if(chosen_group & J.department_flag)
-			return TRUE
+	if(target == user || target.stat == DEAD)
+		return FALSE
+
+	if(!ishuman(target))
+		return FALSE
+
+	var/datum/job/J = SSjob.GetJob(target.job)
+	if(!J || !J.department_flag)
+		return FALSE
+
+	if(!chosen_group)
+		return FALSE
+
+	if(chosen_group & J.department_flag)
+		return TRUE
+
 	return FALSE
 
 /datum/charflaw/averse/proc/triumph_refund(mob/user)
@@ -777,32 +808,40 @@ GLOBAL_LIST_INIT(averse_factions, list(
 		CRASH("Invalid set_jobflag called from Averse charflaw using the faction:[faction].")
 
 /datum/charflaw/averse/proc/check_for_candidates(mob/user)
-	if(user.mind)
-		var/averse_found = FALSE
-		for(var/mob/living/player in GLOB.player_list)
-			if(player != user)
-				if(ishuman(player))
-					var/datum/job/J = SSjob.GetJob(player.job)
-					if(chosen_group & J.department_flag)
-						averse_found = TRUE
-						break
-		if(!averse_found)
-			//Caustic Edit - Changing the cost to reflect the no-vice cost of 4 instead of 3
-			var/list/options = list("Pick a Random Aversion", "Keep Current (-4 TRI)")
-			var/choice = input(user, "There are no viable candidates for your Aversion. What do you do?", "AVERSION ALERT") as anything in options
-			if(choice == "Keep Current (-4 TRI)" || !choice)
-				user.adjust_triumphs(-4)
-				paid_triumphs = TRUE
-			//Caustic Edit End
-			else if(choice == "Pick a Random Aversion")
-				var/new_aversion
-				var/max_attempts = 10
-				for(var/i = 1 to max_attempts)
-					new_aversion = pick(GLOB.averse_factions)
-					if(new_aversion != chosen_group)
-						to_chat(user, span_info("New Aversion selected: [new_aversion]"))
-						set_jobflag(new_aversion)
-						break
+	if(!user || QDELETED(user) || !user.mind)
+		return
+
+	var/averse_found = FALSE
+	for(var/mob/living/player in GLOB.player_list)
+		if(player == user)
+			continue
+		if(!ishuman(player))
+			continue
+
+		var/datum/job/J = SSjob.GetJob(player.job)
+		if(!J || !J.department_flag)
+			continue
+		if(!chosen_group)
+			return FALSE
+
+		if(chosen_group & J.department_flag)
+			averse_found = TRUE
+			break
+	if(!averse_found)
+		var/list/options = list("Pick a Random Aversion", "Keep Current (-3 TRI)")
+		var/choice = input(user, "There are no viable candidates for your Aversion. What do you do?", "AVERSION ALERT") as anything in options
+		if(choice == "Keep Current (-4 TRI)" || !choice)
+			user.adjust_triumphs(-4)
+			paid_triumphs = TRUE
+		else if(choice == "Pick a Random Aversion")
+			var/new_aversion
+			var/max_attempts = 10
+			for(var/i = 1 to max_attempts)
+				new_aversion = pick(GLOB.averse_factions)
+				if(new_aversion != chosen_group)
+					to_chat(user, span_info("New Aversion selected: [new_aversion]"))
+					set_jobflag(new_aversion)
+					break
 
 
 /datum/charflaw/averse/apply_post_equipment(mob/user)
@@ -811,6 +850,8 @@ GLOBAL_LIST_INIT(averse_factions, list(
 			set_jobflag(user.client.prefs?.averse_chosen_faction)
 			is_active = TRUE
 			active_since = world.time
-	addtimer(CALLBACK(src, PROC_REF(check_for_candidates), user), 5 SECONDS)
+	if(is_active && user && !QDELETED(user))
+		addtimer(CALLBACK(src, PROC_REF(check_for_candidates), user), 5 SECONDS)
+
 
 

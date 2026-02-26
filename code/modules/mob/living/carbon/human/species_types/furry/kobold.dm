@@ -4,9 +4,13 @@
 /datum/species/kobold
 	name = "Kobold"
 	id = "kobold"
+	is_subrace = TRUE
+	origin_default = /datum/virtue/origin/gronn
+	origin = "Gronn"
+	base_name = "Zard"
 	desc = "<b>Kobold</b><br>\
 	Short in stature and typically scrawny, these little lizards make up for it in their natural agility. People typically stereotype them as thieves, though...<br>\
-	(+1 Fortune)"
+	<span style='color: #6a8cb7;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;'><b>+1 FOR | +1 STAT of choice.</b></span><br>"
 	species_traits = list(EYECOLOR,LIPS,STUBBLE,MUTCOLORS)
 	///Caustic edit
 	allowed_taur_types = list(
@@ -45,6 +49,15 @@
 		//Caustic End
 		)
 	race_bonus = list(STAT_FORTUNE = 1)
+
+	custom_selection = list(
+		"+1 FOR" = STATKEY_LCK,
+		"+1 INT" = STATKEY_INT,
+		"+1 CON" = STATKEY_CON,
+		"+1 WIL" = STATKEY_WIL,
+		"+1 PER" = STATKEY_PER,
+	)
+
 	enflamed_icon = "widefire"
 	attack_verb = "slash"
 	attack_sound = 'sound/blank.ogg'

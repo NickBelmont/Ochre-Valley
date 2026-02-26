@@ -253,10 +253,8 @@
 	if(HAS_TRAIT(climaxer, TRAIT_UNSATISFIED)) //Given for 30 seconds when someone sets their arousal, it prevents gaining any benefits from orgasm
 		return
 
-	if(climaxer.has_flaw(/datum/charflaw/addiction/lovefiend))
-		climaxer.sate_addiction()
-	if(partner.has_flaw(/datum/charflaw/addiction/lovefiend))
-		partner.sate_addiction()
+	climaxer.sate_addiction(/datum/charflaw/addiction/lovefiend)
+	partner.sate_addiction(/datum/charflaw/addiction/lovefiend)
 
 	switch(intensity)
 		if(1) //Should only be achievable with masturbation
@@ -354,7 +352,7 @@
 		if(0 to 5)
 			chosen_emote = "sexmoanlight"
 		if(5 to INFINITY)
-			chosen_emote = "sexamoanhvy"
+			chosen_emote = "sexmoanhvy"
 
 	if(pain_amt >= PAIN_MILD_EFFECT)
 		if(giving)

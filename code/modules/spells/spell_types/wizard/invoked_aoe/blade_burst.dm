@@ -23,6 +23,7 @@
 	glow_intensity = GLOW_INTENSITY_HIGH
 	gesture_required = TRUE
 	ignore_los = FALSE
+	human_req = TRUE // Combat spell
 	var/delay = 12
 	var/damage = 125 //if you get hit by this it's your fault
 	var/area_of_effect = 1
@@ -69,8 +70,11 @@
 		new /obj/effect/temp_visual/blade_burst(affected_turf)
 		for(var/mob/living/L in affected_turf.contents)
 			if(L.anti_magic_check())
-				visible_message(span_warning("The blades dispel when they near [L]!"))
+				L.visible_message(span_warning("The blades dispel when they near [L]!"))
 				playsound(get_turf(L), 'sound/magic/magic_nulled.ogg', 100)
+				continue
+			if(spell_guard_check(L, TRUE))
+				L.visible_message(span_warning("[L] steps out of the way of the blades!"))
 				continue
 			play_cleave = TRUE
 			L.adjustBruteLoss(damage)

@@ -123,6 +123,12 @@
 	var/nsfwflavortext = null
 	var/erpprefs = null
 
+	// Cached version
+	var/flavortext_cached = ""
+	var/nsfwflavortext_cached = ""
+	var/ooc_notes_cached = ""
+	var/erpprefs_cached = ""
+
 	var/list/img_gallery = list()
 	
 
@@ -167,7 +173,7 @@
 	var/next_tempo_cull
 
 
-	var/datum/charflaw/charflaw
+	var/list/charflaws = list()
 
 	// curse list and cooldown
 	var/list/curses = list()

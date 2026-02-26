@@ -15,6 +15,45 @@
 	stack_fovs = TRUE
 	sellprice = 30 //Helmets are really important.
 
+/obj/item/clothing/head/roguetown/helmet/heavy/bronze
+	name = "bronze barbute"
+	desc = "A greathelm of bronze, who's nasalguard and mandibles leave the wearer's face cloaked in darkness. The heroes of yore have long since passed, yet their blood still courses through the veins of Psydonia's children; you are no different. Quiff a feather to its skullcap to bare your allegience with pride."
+	body_parts_covered = FULL_HEAD
+	icon_state = "bronzebarbute"
+	item_state = "bronzebarbute"
+	flags_inv = HIDEEARS|HIDEFACE|HIDESNOUT
+	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
+	armor = ARMOR_PLATE_BRONZE
+	block2add = FOV_BEHIND
+	smeltresult = /obj/item/ingot/bronze
+	max_integrity = ARMOR_INT_HELMET_HEAVY_BRONZE
+	armor_class = ARMOR_CLASS_MEDIUM
+	prevent_crits = PREVENT_CRITS_ALL
+	smelt_bar_num = 1
+	stack_fovs = TRUE
+
+/obj/item/clothing/head/roguetown/helmet/heavy/bronze/attackby(obj/item/W, mob/living/user, params)
+	..()
+	if(istype(W, /obj/item/natural/feather) && !detail_tag)
+		var/choice = input(user, "Choose a color.", "Plume") as anything in COLOR_MAP
+		detail_color = COLOR_MAP[choice]
+		detail_tag = "_detail"
+		user.visible_message(span_warning("[user] adds [W] to [src]."))
+		user.transferItemToLoc(W, src, FALSE, FALSE)
+		update_icon()
+		if(loc == user && ishuman(user))
+			var/mob/living/carbon/H = user
+			H.update_inv_head()
+
+/obj/item/clothing/head/roguetown/helmet/heavy/bronze/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
 /obj/item/clothing/head/roguetown/helmet/heavy/aalloy
 	name = "decrepit barbute"
 	desc = "Frayed bronze plates, pounded into a visored helmet. Scrapes and dents line the curved plating, weathered from centuries of neglect. The remains of a plume's stub hang atop its rim."
@@ -23,6 +62,7 @@
 	icon_state = "ancientbarbute"
 	color = "#bb9696"
 	chunkcolor = "#532e25"
+	material_category = ARMOR_MAT_PLATE
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
 	prevent_crits = PREVENT_CRITS_NONE
@@ -53,7 +93,7 @@
 /obj/item/clothing/head/roguetown/helmet/heavy/kabuto
 	name = "kabuto"
 	desc = "A Kazengunite helmet of steel plates, gilded in blacksteel and gold trim alike to evoke feelings of nobility and strength. Commonly worn with a mask or mouthguard."
-	flags_inv = HIDEEARS
+	flags_inv = HIDEEARS|HIDEHAIR
 	flags_cover = null
 	icon_state = "kazengunheavyhelm"
 	sellprice = 50
@@ -101,6 +141,7 @@
 	icon_state = "ancientsavoyard"
 	color = "#bb9696"
 	chunkcolor = "#532e25"
+	material_category = ARMOR_MAT_PLATE
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
 	prevent_crits = PREVENT_CRITS_NONE
@@ -113,6 +154,18 @@
 	smeltresult = /obj/item/ingot/aaslag
 	sellprice = 20
 
+/obj/item/clothing/head/roguetown/helmet/heavy/beakhelm
+	name = "beak helmet"
+	desc = "An odd spherical helmet with a beaklike visor."
+	icon = 'icons/roguetown/clothing/head.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head.dmi'
+	icon_state = "beakhelmet"
+	item_state = "beakhelmet"
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR
+	block2add = FOV_BEHIND
+	smeltresult = /obj/item/ingot/steel
+	smelt_bar_num = 2
+
 /obj/item/clothing/head/roguetown/helmet/heavy/sheriff
 	name = "barred helmet"
 	desc = "A helmet which offers good protection to the face at the expense of vision."
@@ -123,6 +176,29 @@
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
 	sellprice = 40
+
+/obj/item/clothing/head/roguetown/helmet/heavy/sheriff/gold
+	name = "golden helmet"
+	desc = "A resplendant barbute, masterfully forged from pure gold. Its nasalguard is marked by a holy sigil, and its interior is fitted with a besilked arming cap. Even in absolute darkness, the polished surface sparkles with imbued sunlight."
+	icon_state = "goldbarbute"
+	armor = ARMOR_GOLD //Renders its wearer completely invulnerable to damage. The caveat is, however..
+	max_integrity = ARMOR_INT_SIDE_GOLD // ..is that it's extraordinarily fragile. To note, this is lower than even Decrepit-tier armor.
+	armor_class = ARMOR_CLASS_HEAVY //Ceremonial. Heavy is the head that bares the burden.
+	anvilrepair = null
+	smeltresult = /obj/item/ingot/gold
+	smelt_bar_num = 1 //Prevents resmelting to easily recreate.
+	grid_height = 96 //Prevents 'armorstacking'. That, and it's like.. carrying a golden watermelon.
+	grid_width = 96
+	sellprice = 200
+	unenchantable = TRUE
+
+/obj/item/clothing/head/roguetown/helmet/heavy/sheriff/gold/king
+	name = "royal golden helmet"
+	desc = "A resplendant barbute, masterfully forged from pure gold. Its nasalguard is marked by a holy sigil, and its interior is fitted with a besilked arming cap. The dorpeled crown atop its brow invokes authority, be it misbegotten or endowed."
+	icon_state = "goldbarbute_crown"
+	max_integrity = ARMOR_INT_SIDE_GOLDPLUS // Doubled integrity.
+	sellprice = 300
+	unenchantable = TRUE
 
 /obj/item/clothing/head/roguetown/helmet/heavy/knight
 	name = "knight's armet"
@@ -166,6 +242,27 @@
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
+/obj/item/clothing/head/roguetown/helmet/heavy/knight/aalloy
+	name = "decrepit bascinet"
+	desc = "A chipped greathelm of frayed bronze. The fittings squeal with nauseous annoyance, whenever you move to lift its half-rusted visor up and down. Add a feather to show the colors of your family or allegiance."
+	icon_state = "ancientknight"
+	item_state = "ancientknight"
+	max_integrity = ARMOR_INT_HELMET_HEAVY_DECREPIT
+	smeltresult = /obj/item/ingot/aaslag
+	color = "#bb9696"
+	chunkcolor = "#532e25"
+	material_category = ARMOR_MAT_PLATE
+	smeltresult = /obj/item/ingot/aaslag
+	anvilrepair = null
+	prevent_crits = PREVENT_CRITS_NONE
+
+/obj/item/clothing/head/roguetown/helmet/heavy/knight/paalloy
+	name = "ancient bascinet"
+	desc = "An ancient greathelm of polished gilbranze. There is no sight more haunting than that of a noble knight, long-succumbed to the undying forces of evylle. Add a feather to show the colors of your family or allegiance."
+	icon_state = "ancientknight"
+	item_state = "ancientknight"
+	smeltresult = /obj/item/ingot/aaslag
+
 /obj/item/clothing/head/roguetown/helmet/heavy/knight/fluted
 	name = "fluted armet"
 	desc = "An ornate steel greathelm with a visor, which protects the entire head. While bulky, the fluted design excels at prolonging chivalrous bouts with fellow knights. Add a feather to show the colors of your family or allegiance."
@@ -189,6 +286,29 @@
 	icon_state = "iknightclassic"
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = ARMOR_INT_HELMET_HEAVY_IRON
+
+/obj/item/clothing/head/roguetown/helmet/heavy/knight/gold
+	name = "golden knight's armet"
+	desc = "A resplendant armet, masterfully forged from pure gold. Hexagrammic etchings of a holy sigil line its visor, and its interior is fitted with a besilked arming cap. Even in absolute darkness, the polished surface sparkles with imbued sunlight."
+	icon_state = "goldknight"
+	armor = ARMOR_GOLD //Renders its wearer completely invulnerable to damage. The caveat is, however..
+	max_integrity = ARMOR_INT_SIDE_GOLD // ..is that it's extraordinarily fragile. To note, this is lower than even Decrepit-tier armor.
+	armor_class = ARMOR_CLASS_HEAVY //Ceremonial. Heavy is the head that bares the burden.
+	anvilrepair = null
+	smeltresult = /obj/item/ingot/gold
+	smelt_bar_num = 1 //Prevents resmelting to easily recreate.
+	grid_height = 96 //Prevents 'armorstacking'. That, and it's like.. carrying a golden watermelon.
+	grid_width = 96
+	sellprice = 200
+	unenchantable = TRUE
+
+/obj/item/clothing/head/roguetown/helmet/heavy/knight/gold/king
+	name = "royal golden armet"
+	desc = "A resplendant armet, masterfully forged from pure gold. Hexagrammic etchings of a holy sigil line its visor, and its interior is fitted with a besilked arming cap. The dorpeled crown atop its brow invokes authority, be it misbegotten or endowed."
+	icon_state = "goldknight_crown"
+	max_integrity = ARMOR_INT_SIDE_GOLDPLUS // Doubled integrity.
+	sellprice = 300
+	unenchantable = TRUE
 
 /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle
 	name = "slitted kettle helm"
@@ -468,21 +588,39 @@
 	..()
 
 /obj/item/clothing/head/roguetown/helmet/heavy/absolver
-	name = "psydonic conical helm"
-	desc = "Based on the visage worn by Saint Pestra's order, this cryptic helmet provides its wearer with the satisfaction of reminding heretics that fear is not an emotion easily lost. Even the dead may learn to taste terror again."
+	name = "absolver's greathelm"
+	desc = "Based on the visage worn by Saint Pestra's order, this cryptic helmet provides its wearer with the satisfaction of reminding heathens that fear is not an emotion easily lost. Even the dead may learn to taste terror again."
 	icon_state = "absolutionisthelm"
 	item_state = "absolutionisthelm"
 	emote_environment = 3
 	body_parts_covered = FULL_HEAD|NECK
-	block2add = FOV_RIGHT|FOV_LEFT
-	max_integrity = ARMOR_INT_HELMET_HEAVY_STEEL + ARMOR_INT_HELMET_HEAVY_ADJUSTABLE_PENALTY // Worst vision. Yes.
+	block2add = FOV_BEHIND //Unlike the Froggemund, this variant has an improved FOV radius - from ~60-90 to 180 degrees.
+	max_integrity = ARMOR_INT_HELMET_HEAVY_STEEL + ARMOR_INT_HELMET_HEAVY_ADJUSTABLE_PENALTY
+	armor_class = ARMOR_CLASS_LIGHT //Exclusive to the Absolver, ensures they can use it without having to deal with the potential headache of giving them maille training. Spare versions require very expensive reagents and skills.
 	worn_x_dimension = 64
 	worn_y_dimension = 64
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/64x64/head.dmi'
 	bloody_icon = 'icons/effects/blood64.dmi'
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT
-	smeltresult = /obj/item/ingot/silver
-	sellprice = 150
+	sellprice = 150 //CC Edit
+	smeltresult = /obj/item/ingot/silverblessed
+	smelt_bar_num = 2
+
+/obj/item/clothing/head/roguetown/helmet/heavy/absolver/unblessed
+	name = "psydonic conical greathelm" //Vanilla version of the Greathelm, like before.
+	desc = "'In my dreams, I heard your footsteps coming closer.' \
+	</br>'In my dreams I tried to talk to you and introduce myself.' \
+	</br>'Guardian of the Comet and the Comet's banner.' \
+	</br>'With great pain, I carry the emblem of the All-Father.' \
+	</br>'I am the hands of bloodied skin, I am the eyes from which our Saints gaze.' \
+	</br>'But nothing I know of you, except your cold and forgotten visage.' \
+	</br>'Apart from your calloused and wounded hands.' \
+	</br>'Apart from the mourning of your ultimate sacrifice.' \
+	</br>'No, I know nothing of you, for only the Comet knows.' \
+	</br>'Now may your sword full of guilt and mine of silver, collide.' \
+	</br>'Let them hurt and march in procession.' </br>'I curse you forever in name, I bless you forever in death..'"
+	armor_class = ARMOR_CLASS_MEDIUM
+	block2add = FOV_RIGHT|FOV_LEFT
 
 /obj/item/clothing/head/roguetown/helmet/heavy/psybucket
 	name = "psydonic bucket helmet"
@@ -627,7 +765,7 @@
 	name = "woad elven helm"
 	desc = "An assembly of woven trunk, kept alive by ancient song, now twisted and warped for battle and scorn."
 	body_parts_covered = FULL_HEAD | NECK
-	armor = list("blunt" = 100, "slash" = 20, "stab" = 110, "piercing" = 40, "fire" = 0, "acid" = 0)//Resistant to blunt & stab, but very weak to slash.
+	armor = ARMOR_BLACKOAK //Resistant to blunt & stab, but very weak to slash.
 	prevent_crits = PREVENT_CRITS_ALL
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/race_armor.dmi'
@@ -683,6 +821,10 @@
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
+/obj/item/clothing/head/roguetown/helmet/heavy/frogmouth/legacy //Triumph-exclusive.
+	name = "valorian froggemund helmet"
+	desc = "A triumphant greathelm, crested with a steel gorget that - while cumbersome - offers the finest protection in all of Azuria. Will you succumb to despair, or will you fight for your happiness?"
+	smelt_bar_num = 1
 
 /obj/item/clothing/head/roguetown/helmet/heavy/matthios
 	name = "gilded visage"
@@ -706,7 +848,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/heavy/graggar
 	name = "vicious helmet"
-	desc = "'YOU FIGHT WELL. YOUR CLEMENCY HATH BEEN EARNED. SURRENDER NOW, AND THE SINISTAR SHALL-'</br>‎  </br>'No.' </br>‎  </br>'-WHAT? YOU'RE GOING TO THROW AWAY YOUR LYFE FOR A GOD THAT HAS NO LOVE FOR YOU?' </br>‎  </br>'One of us will.'"
+	desc = "Snarled teeth gnash the unholy bascinet's visor, drenched in scarlet. Your beluxed invocation; the dinnerbell for a feast of blood and steel."
 	icon_state = "graggarplatehelm"
 	max_integrity = ARMOR_INT_HELMET_ANTAG
 	flags_inv = HIDEEARS|HIDEFACE|HIDESNOUT|HIDEHAIR|HIDEFACIALHAIR
@@ -746,6 +888,7 @@
 	prevent_crits = PREVENT_CRITS_ALL
 	peel_threshold = 4
 	chunkcolor = "#363030"
+	material_category = ARMOR_MAT_PLATE
 	var/frogstyle = FALSE
 	sellprice = 200 //Heretical..!
 

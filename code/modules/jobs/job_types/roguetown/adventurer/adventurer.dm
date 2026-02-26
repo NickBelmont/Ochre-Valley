@@ -49,6 +49,10 @@ GLOBAL_VAR_INIT(adventurer_hugbox_duration_still, 3 MINUTES)
 		/datum/advclass/rogue/thief,
 		/datum/advclass/rogue/bard,
 		/datum/advclass/rogue/swashbuckler,
+		/datum/advclass/mystic,
+		/datum/advclass/mystic/resilientsoul,
+		/datum/advclass/mystic/holyblade,
+		/datum/advclass/mystic/theurgist,
 		/datum/advclass/mage,
 		/datum/advclass/mage/spellblade,
 		/datum/advclass/mage/spellsinger,
@@ -68,6 +72,9 @@ GLOBAL_VAR_INIT(adventurer_hugbox_duration_still, 3 MINUTES)
 		/datum/advclass/mage/spellthief,
 		/datum/advclass/rogue/buccaneer,
 		///Caustic edit end
+		/datum/advclass/foreigner/shepherd,
+		/datum/advclass/foreigner/fencerguy,
+		/datum/advclass/foreigner/bronzeclad
 	)
 
 /mob/living/carbon/human/proc/adv_hugboxing_start()

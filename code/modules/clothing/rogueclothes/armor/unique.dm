@@ -61,23 +61,11 @@
 	armor = ARMOR_LEATHER_STUDDED 
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM
 
-
-/obj/item/clothing/suit/roguetown/armor/basiceast/captainrobe
-	name = "foreign robes"
-	desc = "Flower-styled robes, said to have been infused with magical protection. The Merchant Guild says that this is from the southern Kazengite region."
-	icon_state = "eastsuit4"
-	item_state = "eastsuit4"
-	armor = ARMOR_LEATHER_STUDDED
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + 25 // Head Honcho gets a buff
-	sellprice = 25
-
-// this robe spawns on a role that offers no leg protection nor further upgrades to the loadout, in exchange for better roundstart gear
-
 /obj/item/clothing/suit/roguetown/armor/plate/elven_plate
 	name = "woad elven plate"
 	desc = "Woven by song and tool of the oldest elven druids. It still creaks and weeps with forlorn reminiscence of a bygone era. It looks like only Elves can fit in it."
 	allowed_race = list(/datum/species/elf/wood, /datum/species/human/halfelf, /datum/species/elf/dark, /datum/species/elf)
-	armor = list("blunt" = 100, "slash" = 20, "stab" = 130, "piercing" = 40, "fire" = 0, "acid" = 0)
+	armor = ARMOR_BLACKOAK
 	prevent_crits = PREVENT_CRITS_ALL
 	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'

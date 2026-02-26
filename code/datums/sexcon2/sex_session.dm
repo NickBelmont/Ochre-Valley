@@ -213,7 +213,7 @@
 		return FALSE
 	if(user.stat != CONSCIOUS)
 		return FALSE
-	if(!user.Adjacent(target))
+	if(!user.Adjacent(target) && !action.ranged_action)
 		return FALSE
 	if(action.check_incapacitated && user.incapacitated())
 		return FALSE
@@ -485,7 +485,8 @@
 			if(collective)
 				collective.collective_display_name = params["name"]
 			. = TRUE
-
+		if("refresh")
+			. = TRUE
 	if(.)
 		SStgui.update_uis(src)
 

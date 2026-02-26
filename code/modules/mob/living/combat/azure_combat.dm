@@ -39,6 +39,7 @@
 		remove_status_effect(/datum/status_effect/buff/clash)
 		apply_status_effect(/datum/status_effect/buff/adrenaline_rush)
 		purge_peel(GUARD_PEEL_REDUCTION)
+		H.reset_desert_rider_momentum_tier()
 
 //This is a gargantuan, clunky proc that is meant to tally stats and weapon properties for the potential disarm.
 //For future coders: Feel free to change this, just make sure someone like Struggler statpack doesn't get 3-fold advantage.
@@ -387,3 +388,11 @@
 				return 2
 			if(has_status_effect(/datum/status_effect/buff/tempo_three))
 				return 3
+		//Whether our baiters / feinters have to be in FOV of us.
+		if(TEMPO_TAG_FEINTBAIT_FOV)
+			if(has_status_effect(/datum/status_effect/buff/tempo_one))
+				return FALSE
+			if(has_status_effect(/datum/status_effect/buff/tempo_two))
+				return TRUE
+			if(has_status_effect(/datum/status_effect/buff/tempo_three))
+				return TRUE

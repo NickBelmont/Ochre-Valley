@@ -41,6 +41,7 @@
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
 
 	)
+	subclass_languages = list(/datum/language/undercommon)
 	extra_context = "This subclass is race-limited to: Dark Elves Only. Chooses either free Saddleborn virtue with access to Drider Spider mount, or +1 to Athlethics level."
 
 /datum/outfit/job/roguetown/mercenary/anthrax/pre_equip(mob/living/carbon/human/H)
@@ -65,6 +66,8 @@
 	backr = /obj/item/rogueweapon/shield/tower/spidershield
 	beltr = /obj/item/rogueweapon/whip/spiderwhip	
 	beltl = /obj/item/rope/chain
+
+	H.faction += "spider_lowers"
 
 	if(H.mind)
 		var/riding = list("I'm a spider rider (your pet with you)", "I walk on my legs (+1 for athletics)")
@@ -121,6 +124,8 @@
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle
 	beltl = /obj/item/rogueweapon/scabbard/sword
 	r_hand = /obj/item/rogueweapon/sword/sabre/stalker
+
+	H.faction += "spider_lowers"
 
 	if(H.mind)
 		var/weapon = list("Bow and Arrow", "Dual Sabres")

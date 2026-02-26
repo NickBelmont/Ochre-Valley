@@ -2,7 +2,8 @@
 	var/list/played_loops = list() //uses dlink to link to the sound
 
 
-/proc/playsound(atom/source, soundin, vol as num, vary, extrarange as num, falloff, frequency = null, channel, pressure_affected = FALSE, ignore_walls = TRUE, soundping = FALSE, repeat, animal_pref = FALSE, preference )
+/proc/playsound(atom/source, soundin, vol as num, vary, extrarange as num, falloff, frequency = null, channel, pressure_affected = FALSE, ignore_walls = TRUE, soundping = FALSE, repeat, animal_pref = FALSE, quiet = FALSE, preference )
+
 	if(isarea(source))
 		CRASH("playsound(): source is an area")
 
@@ -69,6 +70,12 @@
 			if(dullahan.headless)
 				turf_check = get_turf(dullahan.my_head)
 
+		if(quiet)
+			if(turf_check.z != turf_source.z)
+				continue
+			if(get_dist(turf_check, turf_source) > 3)
+				continue
+
 		if(get_dist(turf_check, turf_source) <= maxdistance)
 			if(animal_pref)
 				if(M.client?.prefs?.mute_animal_emotes)
@@ -84,6 +91,7 @@
 		return
 	I.pixel_y = 6
 	I.mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	I.appearance_flags = RESET_COLOR
 	flick_overlay(I, GLOB.clients, 6)
 
 /proc/ping_sound_through_walls(turf/T)
@@ -330,7 +338,7 @@
 	UNTIL(SSticker.login_music) //wait for SSticker init to set the login music
 
 	if(prefs && (prefs.toggles & SOUND_LOBBY))
-		SEND_SOUND(src, sound(SSticker.login_music, repeat = 1, wait = 0, volume = prefs.musicvol, channel = CHANNEL_LOBBYMUSIC)) // MAD JAMS
+		SEND_SOUND(src, sound(SSticker.login_music, repeat = 1, wait = 0, volume = prefs.lobbymusicvol, channel = CHANNEL_LOBBYMUSIC)) // MAD JAMS
 
 /proc/get_rand_frequency()
 	return rand(43100, 45100) //Frequency stuff only works with 45kbps oggs.

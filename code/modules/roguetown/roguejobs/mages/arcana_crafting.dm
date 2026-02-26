@@ -91,7 +91,7 @@
 /datum/crafting_recipe/roguetown/arcana/shimmeringlens
 	name = "shimmering lens"
 	result = /obj/item/clothing/ring/active/shimmeringlens
-	reqs = list(/obj/item/magic/iridescentscale = 1,
+	reqs = list(/obj/item/magic/fae/iridescentscale = 1,
 				/obj/item/magic/leyline = 1,
 				/obj/item/magic/melded/t2 = 1)
 	craftdiff = 3
@@ -135,7 +135,7 @@
 	name = "binding shackles (T5)"
 	result = /obj/item/rope/chain/bindingshackles/t5
 	reqs = list(/obj/item/rope/chain/bindingshackles/t4 = 1,
-				/obj/item/magic/melded/t5 = 1)
+				/obj/item/magic/voidstone = 1)
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/arcana/forge
@@ -157,7 +157,7 @@
 	name = "arcanic meld"
 	result = /obj/item/magic/melded/t1
 	reqs = list(/obj/item/magic/infernal/ash = 1,
-				/obj/item/magic/fairydust = 1,
+				/obj/item/magic/fae/fairydust = 1,
 				/obj/item/magic/elemental/mote = 1)
 	craftdiff = 2
 
@@ -165,7 +165,7 @@
 	name = "dense arcanic meld"
 	result = /obj/item/magic/melded/t2
 	reqs = list(/obj/item/magic/infernal/fang = 1,
-				/obj/item/magic/iridescentscale = 1,
+				/obj/item/magic/fae/iridescentscale = 1,
 				/obj/item/magic/elemental/shard = 1)
 	craftdiff = 2
 
@@ -173,7 +173,7 @@
 	name = "sorcerous weave"
 	result = /obj/item/magic/melded/t3
 	reqs = list(/obj/item/magic/infernal/core = 1,
-				/obj/item/magic/heartwoodcore = 1,
+				/obj/item/magic/fae/heartwoodcore = 1,
 				/obj/item/magic/elemental/fragment = 1)
 	craftdiff = 2
 
@@ -181,7 +181,7 @@
 	name = "magical confluence"
 	result = /obj/item/magic/melded/t4
 	reqs = list(/obj/item/magic/infernal/flame = 1,
-				/obj/item/magic/sylvanessence = 1,
+				/obj/item/magic/fae/sylvanessence = 1,
 				/obj/item/magic/elemental/relic = 1)
 	craftdiff = 2
 
@@ -197,30 +197,30 @@
 //fae conversions
 
 /datum/crafting_recipe/roguetown/arcana/fairydust //T1 mage summon loot
-	name = "fairy dust)"
-	result = /obj/item/magic/fairydust
+	name = "fairy dust"
+	result = /obj/item/magic/fae/fairydust
 	reqs = list(/obj/item/magic/manacrystal = 1,
 				/obj/item/reagent_containers/food/snacks/grown/berries/rogue = 2)
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/arcana/iridescentscale //T2 mage summon loot
 	name = "iridescent scales"
-	result = /obj/item/magic/iridescentscale
-	reqs = list(/obj/item/magic/fairydust = 2,
+	result = /obj/item/magic/fae/iridescentscale
+	reqs = list(/obj/item/magic/fae/fairydust = 2,
 				/obj/item/reagent_containers/food/snacks/fish = 1)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/arcana/heartwoodcore //T3 mage summon loot
 	name = "heartwood core"
-	result = /obj/item/magic/heartwoodcore
-	reqs = list(/obj/item/magic/iridescentscale = 2,
+	result = /obj/item/magic/fae/heartwoodcore
+	reqs = list(/obj/item/magic/fae/iridescentscale = 2,
 				/obj/item/grown/log/tree/small = 1)
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/arcana/sylvanessence //T4 mage summon loot
 	name = "sylvan essence"
-	result = /obj/item/magic/sylvanessence
-	reqs = list(/obj/item/magic/heartwoodcore = 4,
+	result = /obj/item/magic/fae/sylvanessence
+	reqs = list(/obj/item/magic/fae/heartwoodcore = 4,
 				/obj/item/roguegem/green= 1)
 	craftdiff = 5
 
@@ -291,8 +291,8 @@
 				  /obj/item/magic/manacrystal,
 				  /obj/item/magic/infernal/ash,
 				  /obj/item/magic/infernal/fang,
-				  /obj/item/magic/fairydust,
-				  /obj/item/magic/iridescentscale,
+				  /obj/item/magic/fae/fairydust,
+				  /obj/item/magic/fae/iridescentscale,
 				  /obj/item/magic/elemental/mote,
 				  /obj/item/magic/elemental/shard)
 	reqs = list(/obj/item/natural/cured/essence = 1,
@@ -305,25 +305,25 @@
 /datum/crafting_recipe/roguetown/arcana/arcynefission2 //gives T1, T2, and T3 arcane material, sorry Tudon
 	name = "arcyne fission (lich phylactery)"
 	result = list(/obj/item/magic/manacrystal,
-				/obj/item/magic/manacrystal,
-				/obj/item/magic/manacrystal,
-				/obj/item/magic/manacrystal,
-				/obj/item/magic/manacrystal,
-				/obj/item/magic/infernal/ash,
-				/obj/item/magic/infernal/ash,
-				/obj/item/magic/infernal/fang,
-				/obj/item/magic/infernal/fang,
-				/obj/item/magic/infernal/core,
-				/obj/item/magic/fairydust,
-				/obj/item/magic/fairydust,
-				/obj/item/magic/iridescentscale,
-				/obj/item/magic/iridescentscale,
-				/obj/item/magic/heartwoodcore,
-				/obj/item/magic/elemental/mote,
-				/obj/item/magic/elemental/mote,
-				/obj/item/magic/elemental/shard,
-				/obj/item/magic/elemental/shard,
-				/obj/item/magic/elemental/fragment,)
+				  /obj/item/magic/manacrystal,
+				  /obj/item/magic/manacrystal,
+				  /obj/item/magic/manacrystal,
+				  /obj/item/magic/manacrystal,
+				  /obj/item/magic/infernal/ash,
+				  /obj/item/magic/infernal/ash,
+				  /obj/item/magic/infernal/fang,
+				  /obj/item/magic/infernal/fang,
+				  /obj/item/magic/infernal/core,
+				  /obj/item/magic/fae/fairydust,
+				  /obj/item/magic/fae/fairydust,
+				  /obj/item/magic/fae/iridescentscale,
+				  /obj/item/magic/fae/iridescentscale,
+				  /obj/item/magic/fae/heartwoodcore,
+				  /obj/item/magic/elemental/mote,
+				  /obj/item/magic/elemental/mote,
+				  /obj/item/magic/elemental/shard,
+				  /obj/item/magic/elemental/shard,
+				  /obj/item/magic/elemental/fragment,)
 	reqs = list(/obj/item/phylactery = 1,
 				/datum/reagent/water/salty = 15,
 				/obj/item/natural/clay = 2,
@@ -331,3 +331,10 @@
 				/obj/item/rogueore/cinnabar = 1)
 	craftdiff = 5
 
+// Menucrafting alternative to the slapcrafting method, because we're not moving toward slapcrafting here except for food
+/datum/crafting_recipe/roguetown/arcana/pre_arcyne_spellbook
+	name = "tome in waiting"
+	result = /obj/item/spellbook_unfinished/pre_arcyne
+	reqs = list(/obj/item/natural/hide = 1,
+	/obj/item/paper/scroll = 6)
+	craftdiff = 3

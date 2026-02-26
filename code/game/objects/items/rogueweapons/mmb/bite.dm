@@ -38,9 +38,16 @@
 	if(HAS_TRAIT(user, TRAIT_NO_BITE))
 		to_chat(user, span_warning("I can't bite."))
 		return
-	user.changeNext_move(clickcd)
 	if(!user_species || (user_species && !user_species.headless))
 		user.face_atom(target)
+	if(iscarbon(user))
+		var/mob/living/carbon/carbon_user = user
+		if(carbon_user.mouth?.type == /obj/item/grabbing/bite)
+			var/obj/item/grabbing/bite/bitey = carbon_user.mouth
+			bitey.bitelimb(carbon_user)
+			. = ..()
+			return
+	user.changeNext_move(clickcd)
 	target.onbite(user)
 	. = ..()
 	return
@@ -138,7 +145,7 @@
 		var/used_limb = src.find_used_grab_limb(user)
 		B.name = "[src]'s [parse_zone(used_limb)]"
 		var/obj/item/bodypart/BP = get_bodypart(check_zone(used_limb))
-		BP.grabbedby += B
+		LAZYADD(BP.grabbedby, B)
 		B.grabbed = src
 		B.grabbee = user
 		B.limb_grabbed = BP
@@ -173,6 +180,9 @@
 
 /obj/item/grabbing/bite/valid_check()
 	// We require adjacency to count the grab as valid
+	if(!grabbee)
+		qdel(src)
+		return FALSE
 
 	if(isdullahan(grabbee) && ishuman(grabbed))
 		var/mob/living/carbon/human/target = grabbed

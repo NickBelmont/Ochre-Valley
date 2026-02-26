@@ -38,6 +38,7 @@
 	max_integrity = ARMOR_INT_SIDE_DECREPIT
 	color = "#bb9696"
 	chunkcolor = "#532e25"
+	material_category = ARMOR_MAT_PLATE
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
 	prevent_crits = PREVENT_CRITS_NONE
@@ -85,7 +86,8 @@
 	icon_state = "zizogauntlets"
 	max_integrity = ARMOR_INT_SIDE_ANTAG
 	chunkcolor = "#363030"
-	sellprice = 44
+	material_category = ARMOR_MAT_PLATE
+	sellprice = 44 //CC Edit
 
 /* //Caustic Edit - Allow dropping of Heretic Armors (so fun can happen :P)
 /obj/item/clothing/gloves/roguetown/plate/zizo/Initialize()
