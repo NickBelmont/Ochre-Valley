@@ -7,7 +7,7 @@
 	traits_applied = list(TRAIT_HOMESTEAD_EXPERT)
 	cmode_music = 'sound/music/cmode/towner/combat_towner2.ogg'
 	category_tags = list(CTAG_TOWNER)
-	maximum_possible_slots = 3 //So you don't get a swarm of ppl
+	maximum_possible_slots = 20 //OV edit because the levies must flow
 	subclass_stats = list(
 		STATKEY_CON = 2,
 		STATKEY_STR = 2,
