@@ -105,7 +105,7 @@
 	icon_state = "teapot"
 	fill_icon_thresholds = null
 	dropshrink = 1.0
-	volume = 99
+	volume = 90 //OV Edit: Teapots shoud be in multiples of 30 due to how brewing works.
 	sellprice = 0
 
 /obj/item/reagent_containers/glass/bucket/pot/carved/getonmobprop(tag)

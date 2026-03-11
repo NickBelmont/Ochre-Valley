@@ -131,7 +131,7 @@
 			desc = "A frybird coated in toastcrumbs. It awaits a hot oil bath."
 			icon_state = "chickentender_step3"
 			process_step = 3
-			deep_fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/nitzel
+			deep_fried_type = /obj/item/reagent_containers/food/snacks/rogue/meat/chickentender //OV Edit: Supposed to make the chicken variant
 			update_icon()
 			qdel(I)
 			return
