@@ -77,6 +77,10 @@ GLOBAL_LIST_EMPTY(prayers)
 		if(follower.has_status_effect(STATUS_EFFECT_SLEEPING))
 			to_chat(follower, span_danger("I mustn't be sleeping to pray!"))
 			return FALSE	//Stops praying just by sleeping.
+	//OV Edit: Re-add non-devoted followers praying everywhere
+	if(!follower.has_flaw(/datum/charflaw/addiction/godfearing))
+		return TRUE
+	//OV Edit End
 	. = TRUE
 
 /// Called when a patron's follower prays to them.
