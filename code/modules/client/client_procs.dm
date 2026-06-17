@@ -490,6 +490,14 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 		log_admin("[ckey] was denied a connection due to not being whitelisted.")
 		qdel(src)
 		return 0
+	//OVEdit: Whitelist check
+	if(!amia_whitelistcheck(ckey))
+		tgui_alert(src, "Your ckey is either not linked, or you are not on the Ochre Valley discord server, please go to the #Ckey-linking channel on the OV discord to remedy this.", "Connection Denied!", list(), 5 SECONDS, TRUE)
+		message_admins("[ckey] was denied a connection due to failing the whitelist or presence check.")
+		log_admin("[ckey] was denied a connection due to failing the whitelist or presence check.")
+		qdel(src)
+		return 0
+	//OVEdit End
 	if(mob && reconnecting)
 		var/area/joined_area = get_area(mob.loc)
 		if(joined_area)
