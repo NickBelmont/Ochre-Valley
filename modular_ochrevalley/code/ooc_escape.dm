@@ -53,7 +53,10 @@
 			to_chat(src, span_warning("Your body seems to have been destroyed, making a backup, but you should probably ahelp!"))
 			forceMove(get_turf(S))
 			msg += "Their body has somehow been destroyed and they may need assistance."
-		S.icon_state = "necro_crystal_dormant"
+		S.set_icon(FALSE)
+		S.trapped = null
+		S.body_tracker = null
+		S.originalDead = FALSE
 	else	//For everything else
 		msg += "They were in [where]. "
 	msg += "They have been placed on \the [loc]. [ADMIN_JMP(src)]"
