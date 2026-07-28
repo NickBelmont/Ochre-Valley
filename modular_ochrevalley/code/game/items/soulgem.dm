@@ -41,7 +41,7 @@
 			body_tracker = WEAKREF(M)
 			trapped = new /mob/living/carbon/human(src)
 			copy_to_trapped(H)
-			VORE_PREF_TRANSFER(trapped, H) \\So prefs properly transfer over
+			VORE_PREF_TRANSFER(trapped, H) //So prefs properly transfer over
 			trapped.key = H.key
 			RegisterSignal(H, COMSIG_MOB_DIGESTION_DEATH, PROC_REF(handle_vore_death))
 			set_icon(TRUE)
