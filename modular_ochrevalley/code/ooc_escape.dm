@@ -48,6 +48,9 @@
 		var/mob/living/carbon/human/H = S.body_tracker.resolve()
 		if(H)
 			H.key = key
+			if(S.originalDead)
+				H.bring_body(get_turf(S))
+				H.rise_body()
 			qdel(S.trapped)
 		else
 			to_chat(src, span_warning("Your body seems to have been destroyed, making a backup, but you should probably ahelp!"))

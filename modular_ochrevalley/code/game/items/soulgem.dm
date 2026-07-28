@@ -26,6 +26,7 @@
 				qdel(transfer_beam)
 				return
 			user.visible_message(span_warning("[src]'s ominous light fades, as [M] begins to stir..."), vision_distance = 1)
+			UnregisterSignal(M, COMSIG_MOB_DIGESTION_DEATH)
 			clear_gem()
 			set_icon(FALSE)
 	else if(ishuman(M) && !trapped)
