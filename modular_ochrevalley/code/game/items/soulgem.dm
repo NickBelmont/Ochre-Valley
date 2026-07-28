@@ -41,6 +41,7 @@
 			body_tracker = WEAKREF(M)
 			trapped = new /mob/living/carbon/human(src)
 			copy_to_trapped(H)
+			VORE_PREF_TRANSFER(trapped, H) \\So prefs properly transfer over
 			trapped.key = H.key
 			RegisterSignal(H, COMSIG_MOB_DIGESTION_DEATH, PROC_REF(handle_vore_death))
 			set_icon(TRUE)
@@ -127,7 +128,7 @@
 
 /obj/item/soulgem/effigy
 	name = "luxseal effigy"
-	desc = "A strange doll, either designed to entrap one's lux and take on their appearance."
+	desc = "A strange doll, designed to entrap one's lux and take on their appearance."
 	icon = 'icons/roguetown/items/cooking.dmi'
 	icon_state = "clayporcelainstatueraw"
 
