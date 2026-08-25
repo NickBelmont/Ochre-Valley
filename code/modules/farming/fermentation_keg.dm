@@ -7,7 +7,7 @@ GLOBAL_LIST_EMPTY(custom_fermentation_recipes)
 
 /obj/structure/fermentation_keg
 	name = "fermentation keg"
-	desc = "A keg that bares the duty of birthing plenty of bubbling brews."
+	desc = "A keg that bears the duty of birthing plenty of bubbling brews."
 
 	icon = 'icons/obj/brewing.dmi'
 	icon_state = "barrel_tapless"
@@ -49,10 +49,9 @@ GLOBAL_LIST_EMPTY(custom_fermentation_recipes)
 	var/heated_progress_time
 	///when our heat can decay
 	var/heat_decay = 0
-	sellprice = 15 // Default price for the keg.
 	var/rotation_speed_mult = 1 //for the copper distiller
 
-/obj/structure/fermentation_keg/Initialize()
+/obj/structure/fermentation_keg/Initialize(mapload)
 	create_reagents(900, OPENCONTAINER | NO_REACT | AMOUNT_VISIBLE | REFILLABLE) //on agv it should be 120u for water then rest can be other needed chemicals
 	. = ..()
 	recipe_crop_stocks = list()
@@ -458,7 +457,7 @@ GLOBAL_LIST_EMPTY(custom_fermentation_recipes)
 				bottle_made.icon_state = "[glass_colour]"
 				bottle_made.name = "brewer's bottle of [selected_recipe.bottle_name]"
 				bottle_made.sellprice = round(selected_recipe.sell_value / selected_recipe.brewed_amount)
-				bottle_made.desc =  selected_recipe.bottle_desc || "A bottle of locally-brewed [selected_recipe.bottle_name]."
+				bottle_made.desc =	selected_recipe.bottle_desc || "A bottle of locally-brewed [selected_recipe.bottle_name]."
 				var/datum/reagent/brewed_reagent = selected_recipe.reagent_to_brew
 				if(selected_recipe.ages)
 					var/time = world.time - age_start_time
@@ -521,7 +520,7 @@ GLOBAL_LIST_EMPTY(custom_fermentation_recipes)
 /obj/item/reagent_containers/glass/bottle/brewing_bottle
 	name = "brewer's bottle"
 	desc = "A bottle with a cork."
-	icon =  'icons/obj/bottle.dmi'
+	icon =	'icons/obj/bottle.dmi'
 	icon_state = "brew_bottle"
 
 	var/glass_name

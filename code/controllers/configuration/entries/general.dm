@@ -1,4 +1,4 @@
-/datum/config_entry/flag/autoadmin  // if autoadmin is enabled
+/datum/config_entry/flag/autoadmin	// if autoadmin is enabled
 	protection = CONFIG_ENTRY_LOCKED
 
 /datum/config_entry/string/autoadmin_rank	// the rank for autoadmins
@@ -102,7 +102,7 @@
 	integer = FALSE
 	min_val = 0
 
-/datum/config_entry/number/vote_period  // length of voting period (deciseconds, default 1 minute)
+/datum/config_entry/number/vote_period	// length of voting period (deciseconds, default 1 minute)
 	config_entry_value = 600
 	integer = FALSE
 	min_val = 0
@@ -119,7 +119,7 @@
 	config_entry_value = 20
 	integer = FALSE
 	min_val = 1
-	max_val = 100   //byond will start crapping out at 50, so this is just ridic
+	max_val = 100	//byond will start crapping out at 50, so this is just ridic
 	var/sync_validate = FALSE
 
 /datum/config_entry/number/fps/ValidateAndSet(str_val)
@@ -546,3 +546,11 @@
 /datum/config_entry/number/hard_deletes_overrun_limit
 	config_entry_value = 1
 	min_val = 0
+
+/// Log json versions of log entries
+/datum/config_entry/flag/log_as_json
+	default = TRUE
+
+/// Log human readable versions of log entries
+/datum/config_entry/flag/log_as_human_readable
+	default = TRUE

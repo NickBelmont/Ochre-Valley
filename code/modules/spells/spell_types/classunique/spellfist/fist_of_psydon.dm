@@ -1,4 +1,5 @@
 /datum/action/cooldown/spell/fist_of_psydon
+	source_aspect = /datum/magic_aspect/pseudo/spellfist
 	button_icon = 'icons/mob/actions/classuniquespells/spellfist.dmi'
 	button_icon_state = "fist_of_psydon"
 	name = "Fist of Psydon"
@@ -63,7 +64,7 @@
 
 	// Telegraph on 3x3 area
 	for(var/turf/affected_turf in get_hear(area_of_effect, T))
-		new /obj/effect/temp_visual/air_strike_telegraph(affected_turf)
+		new /obj/effect/temp_visual/telegraph/air_strike(affected_turf)
 	playsound(T, pick('sound/combat/ground_smash1.ogg', 'sound/combat/ground_smash2.ogg', 'sound/combat/ground_smash3.ogg'), 60, TRUE)
 	H.emote("attackgrunt", forced = TRUE)
 

@@ -418,11 +418,6 @@
 	desc = span_red("Where is their head? What is that flame?!")
 	timer = 5 MINUTES
 
-/datum/stressevent/targeted // When a targeted character sees someone in a mask
-	timer = 2 MINUTES
-	stressadd = 3
-	desc = span_boldred("I can't see their face! Have they found me? Is this the end?")
-
 /datum/stressevent/profane // When a non-assassin touches a profane dagger
 	timer = 3 MINUTES
 	stressadd = 4
@@ -557,3 +552,9 @@
 	timer = 30 SECONDS
 	stressadd = 6
 	desc = list(span_boldred("TEETH?!"), span_boldred("IT'S ALIVE!!"), span_boldred("NO, NO, NO!!"), span_boldred("GET BACK!!"), span_boldred("MONSTER!!"), span_boldred("IT MOVED!!"), span_boldred("DON'T TOUCH THE CHEST!!"), span_boldred("IT'S NOT A CHEST!!"), span_boldred("CARKIN', A MIMIC!!"), span_boldred("I'M NEVER OPENING A CHEST AGAIN!!"))
+
+/// The gods are alive and watching you now, idk what you expected going to the church for
+/datum/stressevent/blessed_evil
+	timer = 15 MINUTES
+	stressadd = 2
+	desc = span_artery("I feel a judgmental presence watching over me with disgust. I don't like this.")

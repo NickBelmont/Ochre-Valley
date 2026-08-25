@@ -93,12 +93,12 @@
 	welcome_text = "A cold dread settles over the town.."
 	color_theme = "#a43c3c"
 	preset_pool = GAMEMODE_POOL_GUARANTEED
-	guaranteed_hard = TRUE
-	guarantees_roundstart_roleset = TRUE
+	guaranteed_hard = FALSE //OV EDIT
+	guarantees_roundstart_roleset = FALSE //OV Edit
 	roundstart_prob = 100
 	block_hard = FALSE
 	block_soft = FALSE
-	allow_dreamwalker = FALSE //OV Edit
+	allow_dreamwalker = TRUE
 	preferred_gnoll_mode = GNOLL_SCALING_FLAT	// max 2
 	wretch_slot_cap = 9
 

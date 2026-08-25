@@ -3,15 +3,15 @@
  *
  * Each enchantment is aligned with a realm. The material cost is exactly
  * one mob's worth of same-tier realm drops:
- *   T1: 4x T1 realm mat + cinnabar + scroll
- *   T2: 2x T2 realm mat + cinnabar + scroll
- *   T3: 1x T3 realm mat + cinnabar + scroll + leyline shard
- *   T4: 1x T4 realm mat + cinnabar + scroll + leyline shard
+ *	T1: 4x T1 realm mat + cinnabar + scroll
+ *	T2: 2x T2 realm mat + cinnabar + scroll
+ *	T3: 1x T3 realm mat + cinnabar + scroll + leyline shard
+ *	T4: 1x T4 realm mat + cinnabar + scroll + leyline shard
  *
  *
  * Rune requirements:
- *   Imbuement Array — T1 through T3 enchantments.
- *   Greater Imbuement Array — all enchantments (T1 through T4).
+ *	Imbuement Array — T1 through T3 enchantments.
+ *	Greater Imbuement Array — all enchantments (T1 through T4).
  *
  * No melds required — enchanting is a solo activity. (In theory)
  * Melds gate binding instead.
@@ -49,6 +49,14 @@
 	tier = 1
 	required_atoms = list(/obj/item/rogueore/cinnabar = 1, /obj/item/paper/scroll = 1, /obj/item/magic/fae/fairydust = 4)
 	result_atoms = list(/obj/item/enchantmentscroll/basic/xylix)
+
+/datum/runeritual/enchanting/fairseeming
+	name = "Fair Seeming"
+	desc = "Become Spotless!"
+	blacklisted = FALSE
+	tier = 1
+	required_atoms = list(/obj/item/rogueore/cinnabar = 1, /obj/item/paper/scroll = 1, /obj/item/magic/fae/fairydust = 4)
+	result_atoms = list(/obj/item/enchantmentscroll/basic/fairseeming)
 
 /datum/runeritual/enchanting/revealinglight
 	name = "Revealing Light"

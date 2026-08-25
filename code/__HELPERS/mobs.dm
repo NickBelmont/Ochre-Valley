@@ -199,7 +199,7 @@ GLOBAL_LIST_EMPTY(species_list)
 		if(!can_move && (!user.Adjacent(target)))
 			. = 0
 			break
-			
+
 		if(user.get_active_held_item() != holding || user.incapacitated() || (extra_checks && !extra_checks.Invoke()))
 			. = 0
 			break
@@ -238,17 +238,17 @@ GLOBAL_LIST_EMPTY(species_list)
  * mob/user - The mob performing the action.
  *
  * delay = the time in deciseconds. Use time defines (SECONDS, MINUTES) for readability.
- * 
+ *
  * needhand - check for an empty hand
- * 
+ *
  * target - the target of the action
  *
  * progress - whether to display a progress bar
- * 
+ *
  * datum/callback/extra_checks - additional check callbacks to perform during do_after
- * 
+ *
  * same_direction - whether the mob performing the action may switch directions or not
- * 
+ *
  * interrupt - whether to interrupt a prior do_after or not
 */
 
@@ -629,7 +629,7 @@ GLOBAL_LIST_EMPTY(species_list)
 		AM.setDir(originaldir)
 
 //When you cop out of the round
-/mob/proc/make_me_an_observer(var/existing = FALSE)
+/mob/proc/make_me_an_observer(existing = FALSE)
 	var/mob/dead/new_player/lobbyer
 
 	if(!existing)
@@ -681,3 +681,27 @@ GLOBAL_LIST_EMPTY(species_list)
 		mind = null
 		qdel(src)
 	return TRUE
+
+/proc/is_human_part_visible(mob/living/carbon/human/human, flags_inv)
+	if(!human)
+		return TRUE
+	if(flags_inv == NONE)
+		return TRUE
+	// this previously monumentally sucked and iterated over every item in a person's inventory every time their appearance needed to be checked, which was often.
+	// replaced it by checking what hide slots are obscured at any given point in a /mob/'s `obscured_flags` var, so we check that instead
+	return !(human.obscured_flags & flags_inv)
+
+/mob/living/proc/rebuild_obscured_flags()
+	// we do this when we equip and unequip anything to make sure all our flags are set properly
+	var/list/equipped_items = get_equipped_items(FALSE)
+	var/new_flags = NONE
+	for(var/obj/item/thing as anything in equipped_items)
+		if (thing.flags_inv)
+			new_flags |= thing.flags_inv
+
+	if(new_flags == obscured_flags)
+		return
+	obscured_flags = new_flags
+	if(ishuman(src))
+		var/mob/living/carbon/human/H = src
+		H.update_body_parts()

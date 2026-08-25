@@ -27,7 +27,6 @@
 	var/diagonal = FALSE //allows diagonal structures to have their direction chosen.
 	var/craftdiff = 1
 	var/xp_modifier = 1 // Multiplier for crafting XP. Set to 0 to disable XP (e.g. arcana recipes).
-	var/sellprice = 0
 	/// Whether this recipe will be hidden from recipe books
 	var/hides_from_books = FALSE
 	// Does not imposes quality on the finished item, but take the lowest quality of input items to prevent any kind of quality transmutation exploit
@@ -40,7 +39,7 @@
 	var/required_tech_node = null // String ID of required tech node, or null if no tech required
 	var/tech_unlocked = TRUE // Set to TRUE when the required tech is unlocked
 	var/ignoredensity = FALSE //used on objects that we want to build into walls or atop other structures
- 	// If TRUE, this recipe will be skipped by the nodupe tests
+	// If TRUE, this recipe will be skipped by the nodupe tests
 	var/bypass_dupe_test = FALSE
 	//Hardcoded aliases, fill this in for things that have things like slang names. Real item alias names will be appended automatically during build_recipe_data
 	var/aliases = ""
@@ -64,7 +63,7 @@
 	data["name"] = name
 	data["ref"] = "[REF(src)]"
 	data["path"] = type
-	var/resolved_sellprice = sellprice
+	var/resolved_sellprice = 0
 	var/result_path
 	if(islist(result))
 		var/list/result_list = result
@@ -158,8 +157,8 @@
 		created_stationary = result
 		if(AM.sellprice)
 			uncrafted_sellprice = AM.sellprice
-	var/final_sellprice = sellprice || uncrafted_sellprice
-	var/html 
+	var/final_sellprice = uncrafted_sellprice
+	var/html
 	if (!isnull(created_stuff))
 		html = {"
 			<!DOCTYPE html>
@@ -210,7 +209,7 @@
 		html += "Combat Properties<br>"
 		if(bookweapon.minstr)
 			html += "\n<b>MIN.STR:</b> [bookweapon.minstr]<br>"
-		
+
 		if(bookweapon.force)
 			html += "\n<b>FORCE:</b> [bookweapon.force]<br>"
 		if(bookweapon.gripped_intents && !bookweapon.wielded)
@@ -223,7 +222,7 @@
 				html += "Heavy<br>"
 			if(bookweapon.wbalance == WBALANCE_SWIFT)
 				html += "Swift<br>"
-			
+
 
 		if(bookweapon.wlength != WLENGTH_NORMAL)
 			html += "\n<b>LENGTH:</b> "
@@ -254,19 +253,19 @@
 			html += "\n<b>DEFENSE:</b> [bookweapon.wdefense]<br>"
 		if(bookweapon.associated_skill && bookweapon.associated_skill.name)
 			html += "\n<b>SKILL:</b> [bookweapon.associated_skill.name]<br>"
-		
+
 		if(bookweapon.intdamage_factor != 1 && bookweapon.force >= 5)
 			html += "\n<b>INTEGRITY DAMAGE:</b> [bookweapon.intdamage_factor * 100]%<br>"
 
 	if(craftdiff > 0)
 		html += "<br><b>Skills Required:</b> [capitalize(SSskills.level_names_plain[craftdiff])]<br>"
 	else
-		html += "<br><b>Skills Required:</b> None<br>"	
+		html += "<br><b>Skills Required:</b> None<br>"
 
 	html += {"<div>
-		      <br>
-		      <strong>Requirements</strong>
-			  <br>"}
+				<br>
+				<strong>Requirements</strong>
+				<br>"}
 
 	for(var/path as anything in reqs)
 		var/count = reqs[path]
@@ -289,9 +288,9 @@
 		html += {"
 		<br>
 		<div>
-		    <strong>Required Tools</strong>
+			<strong>Required Tools</strong>
 			<br>
-			  "}
+				"}
 		for(var/atom/path as anything in tools)
 			if(subtype_reqs)
 				html += "[icon2html(new path, user)] any [initial(path.name)]<br>"
@@ -306,9 +305,9 @@
 		html += {"
 		<br>
 		<div>
-		    <strong>Required Liquids</strong>
+			<strong>Required Liquids</strong>
 			<br>
-			  "}
+				"}
 		for(var/atom/path as anything in chem_catalysts)
 			var/count = chem_catalysts[path]
 			html += "[FLOOR(count, 1)] [UNIT_FORM_STRING(FLOOR(count, 1))] of [initial(path.name)]<br>"

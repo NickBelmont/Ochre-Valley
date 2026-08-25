@@ -127,7 +127,7 @@
 		qdel(src)
 		return
 
-	if(caster.IsKnockdown() || caster.IsStun() || caster.IsParalyzed() || caster.has_status_effect(/datum/status_effect/debuff/exposed))
+	if(caster.IsKnockdown() || caster.IsStun() || caster.IsParalyzed() || caster.has_status_effect(/datum/status_effect/debuff/cast_disrupted))
 		caster.visible_message(span_boldwarning("[caster]'s storm of blades scatters!"), span_warning("My blade dance is broken!"))
 		qdel(src)
 		return
@@ -151,7 +151,7 @@
 				var/target_zone = caster.zone_selected || BODY_ZONE_CHEST
 				arcyne_strike(caster, L, null, tick_damage, target_zone, \
 					BCLASS_CUT, spell_name = "Blade Dance", \
-					damage_type = BRUTE, npc_simple_damage_mult = 1, \
+					damage_type = BRUTE, \
 					skip_animation = TRUE, skip_message = TRUE, \
 					allow_shield_check = TRUE)
 			else

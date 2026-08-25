@@ -13,7 +13,7 @@
 /client/proc/get_looc()
 	var/msg = input(src, "", "looc") as text|null
 	do_looc(msg, FALSE)
-	
+
 
 /client/verb/looc(msg as text)
 	set name = "LOOC"
@@ -49,9 +49,13 @@
 		to_chat(src, span_danger("I cannot use LOOC (perma muted)."))
 		return
 
+	//OV EDIT START - SLOOC allowed while ghosting/dead
+	/*
 	if(isobserver(mob) && !holder)
 		to_chat(src, span_danger("I cannot use LOOC while dead."))
 		return
+	*/
+	//OV EDIT END
 
 	if(!holder && istype(mob, /mob/dead/new_player))
 		to_chat(src, span_danger("I cannot use LOOC while in the lobby. Join the round or observe first."))
@@ -128,6 +132,7 @@
 				continue
 
 			seen[C] = TRUE
+			SEND_SOUND(C, sound('modular_ochrevalley/sounds/message_effects/slooc.ogg')) // OV Edit - SLOOC sound effect
 			var/outgoing_msg = ((C in GLOB.admins) && (C.prefs.admin_chat_toggles & CHAT_ADMINLOOC)) ? msg_adm : msg_reg
 			to_chat(C, outgoing_msg, type = MESSAGE_TYPE_OOC)
 	else
@@ -140,11 +145,14 @@
 			seen[target_client] = TRUE
 			var/target_msg = ((target_client in GLOB.admins) && (target_client.prefs.admin_chat_toggles & CHAT_ADMINLOOC)) ? msg_adm : msg_reg
 			to_chat(target_client, target_msg, type = MESSAGE_TYPE_OOC)
+			SEND_SOUND(target_client, sound('modular_ochrevalley/sounds/message_effects/slooc.ogg')) // OV Edit - SLOOC sound effect
 
 		if((prefs.chat_toggles & CHAT_OOC) && !(src in seen))
 			seen[src] = TRUE
 			var/self_msg = ((src in GLOB.admins) && (prefs.admin_chat_toggles & CHAT_ADMINLOOC)) ? msg_adm : msg_reg
 			to_chat(src, self_msg, type = MESSAGE_TYPE_OOC)
+
+		SEND_SOUND(src, sound('modular_ochrevalley/sounds/message_effects/slooc.ogg')) // OV Edit - SLOOC sound effect
 
 	for(var/client/C in GLOB.admins)
 		if(seen[C] || !(C.prefs.admin_chat_toggles & CHAT_ADMIN_SLOOC) || !(C.prefs.chat_toggles & CHAT_OOC))

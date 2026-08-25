@@ -231,7 +231,7 @@
 		return "normal grip"
 	var/balloon_name = altgrip_name(current_alt_grip, user)
 	if(balloon_name != "alternate grip")
-		if(length(balloon_name) > 5 && lowertext(copytext(balloon_name, length(balloon_name) - 4)) == " grip")
+		if(length(balloon_name) > 5 && LOWER_TEXT(copytext(balloon_name, length(balloon_name) - 4)) == " grip")
 			balloon_name = copytext(balloon_name, 1, length(balloon_name) - 4)
 	return "[balloon_name]!"
 
@@ -293,12 +293,6 @@
 	update_force_dynamic()
 	update_wdefense_dynamic()
 	return TRUE
-
-/obj/item/proc/apply_override_state(state)
-	if(!state)
-		return
-	icon_state = state
-	item_state = state
 
 /obj/item/proc/clear_altgrip_state()
 	if(current_alt_grip)
@@ -574,7 +568,7 @@
 	var_overrides = null
 
 /datum/alt_grip/mordhau/broadsword/dream_broadsword
-	grip_intents = list(		
+	grip_intents = list(
 		SWORD_BASH,
 		/datum/intent/sword/strike/bash/mordhau/smash,
 		/datum/intent/effect/daze
@@ -654,12 +648,12 @@
 /datum/alt_grip/halfsword/lesser
 	grip_intents = list(
 		/datum/intent/sword/thrust/long/halfsword/jab,
-		SWORD_BASH, 
+		SWORD_BASH,
 		/datum/intent/sword/thrust/long/deep/halfsword
 	)
 
 /datum/alt_grip/mordhau/sword/lesser
-	grip_intents = list(		
+	grip_intents = list(
 		SWORD_BASH,
 		/datum/intent/effect/daze
 	)
@@ -667,7 +661,7 @@
 /datum/alt_grip/halfsword/frei
 	trait_applied = list(TRAIT_LONGSWORDSMAN)
 	additive_var_overrides = list(
-		"wdefense" = 3 
+		"wdefense" = 3
 	)
 	grip_intents = list(
 		/datum/intent/sword/thrust/long/halfsword/frei,

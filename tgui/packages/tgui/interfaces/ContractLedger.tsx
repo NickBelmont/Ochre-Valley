@@ -7,6 +7,7 @@ import { Window } from '../layouts';
 import { InnkeeperRumorPanel } from './ContractLedgerInnkeeper';
 import { StewardDefensePanel } from './ContractLedgerSteward';
 import { TownerPostingPanel } from './ContractLedgerTowner';
+import { formatRatioPct } from './common/format';
 
 type Contract = {
   ref: string;
@@ -122,8 +123,7 @@ export const ContractLedger = () => {
         ? [data.dynamic_role]
         : [];
   const showingDynamic = mode.kind === 'dynamic';
-  const activeDynamicRole =
-    mode.kind === 'dynamic' ? mode.role : null;
+  const activeDynamicRole = mode.kind === 'dynamic' ? mode.role : null;
 
   const matchesRegion = (c: Contract) =>
     activeRegion === ALL_REGIONS || c.region === activeRegion;
@@ -158,7 +158,9 @@ export const ContractLedger = () => {
                 <span
                   className={
                     'ContractLedger__HeaderMode' +
-                    (!showingDynamic ? ' ContractLedger__HeaderMode--active' : '')
+                    (!showingDynamic
+                      ? ' ContractLedger__HeaderMode--active'
+                      : '')
                   }
                   onClick={() => setMode({ kind: 'contracts' })}
                 >
@@ -296,7 +298,8 @@ const ContractCard = (props: { contract: Contract }) => {
               : undefined;
   const stamps: { label: string; modifier: string }[] = [];
   if (c.is_rumor) stamps.push({ label: 'RUMORED!', modifier: 'rumor' });
-  if (c.is_defense) stamps.push({ label: 'COMMISSIONED', modifier: 'commissioned' });
+  if (c.is_defense)
+    stamps.push({ label: 'COMMISSIONED', modifier: 'commissioned' });
   if (c.levy_exempt) stamps.push({ label: 'LEVY EXEMPT', modifier: 'exempt' });
   const contentTopPad = stamps.length > 0 ? 8 + stamps.length * 16 : 0;
   return (
@@ -352,7 +355,8 @@ const ContractCard = (props: { contract: Contract }) => {
       </div>
       {(() => {
         const levyRate = c.levy_exempt ? 0 : data.tax_rate;
-        const guildRate = c.is_defense || c.guild_cut_exempt ? 0 : data.guild_cut_rate || 0;
+        const guildRate =
+          c.is_defense || c.guild_cut_exempt ? 0 : data.guild_cut_rate || 0;
         const levy = Math.round(c.reward * levyRate);
         const guild = Math.round(c.reward * guildRate);
         const purse = c.reward - levy - guild;
@@ -361,9 +365,12 @@ const ContractCard = (props: { contract: Contract }) => {
             {!c.levy_exempt && data.tax_rate > 0 && (
               <div className="ContractLedger__CardRow">
                 <span className="ContractLedger__CardLabel">
-                  Crown Levy ({Math.round(data.tax_rate * 100)}%)
+                  Crown Levy ({formatRatioPct(data.tax_rate)})
                 </span>
-                <span className="ContractLedger__CardValue" style={{ color: '#c44' }}>
+                <span
+                  className="ContractLedger__CardValue"
+                  style={{ color: '#c44' }}
+                >
                   -{levy}
                 </span>
               </div>
@@ -371,9 +378,12 @@ const ContractCard = (props: { contract: Contract }) => {
             {guildRate > 0 && (
               <div className="ContractLedger__CardRow">
                 <span className="ContractLedger__CardLabel">
-                  Guild Cut ({Math.round(guildRate * 100)}%)
+                  Guild Cut ({formatRatioPct(guildRate)})
                 </span>
-                <span className="ContractLedger__CardValue" style={{ color: '#c44' }}>
+                <span
+                  className="ContractLedger__CardValue"
+                  style={{ color: '#c44' }}
+                >
                   -{guild}
                 </span>
               </div>
@@ -381,7 +391,10 @@ const ContractCard = (props: { contract: Contract }) => {
             {(levy > 0 || guild > 0) && (
               <div className="ContractLedger__CardRow">
                 <span className="ContractLedger__CardLabel">Purse</span>
-                <span className="ContractLedger__CardValue" style={{ fontWeight: 'bold' }}>
+                <span
+                  className="ContractLedger__CardValue"
+                  style={{ fontWeight: 'bold' }}
+                >
                   {purse}
                 </span>
               </div>
