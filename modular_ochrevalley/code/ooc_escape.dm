@@ -53,7 +53,7 @@
 				if(G)
 					G.forceMove(loc)
 					G.vore_death = TRUE
-					G.bring_body(portal_loc)
+					G.bring_body(loc)
 					G.rise_body()
 			qdel(S.trapped)
 		else
