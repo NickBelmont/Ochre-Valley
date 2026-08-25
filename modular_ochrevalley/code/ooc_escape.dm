@@ -48,6 +48,13 @@
 		var/mob/living/carbon/human/H = S.body_tracker.resolve()
 		if(H)
 			H.key = key
+			if(S.originalDead)
+				var/mob/dead/observer/G = H.ghostize(TRUE)
+				if(G)
+					G.forceMove(loc)
+					G.vore_death = TRUE
+					G.bring_body(portal_loc)
+					G.rise_body()
 			qdel(S.trapped)
 		else
 			to_chat(src, span_warning("Your body seems to have been destroyed, making a backup, but you should probably ahelp!"))
