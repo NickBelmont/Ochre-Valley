@@ -41,10 +41,13 @@
 		/datum/virtue/utility/feytouched, // They are already FAE
 		/datum/virtue/utility/riding, // Hags literally get a teleportation mechanic, it doesn't make much sense.
 		)
-	vice_restrictions = list(/datum/charflaw/hunted, /datum/charflaw/targeted, /datum/charflaw/wanted) // could you fucking imagine
+	//ov edit- add feycursed
+	vice_restrictions = list(/datum/charflaw/hunted, /datum/charflaw/targeted, /datum/charflaw/wanted, /datum/charflaw/changeling) // could you fucking imagine
+	//ov edit end
 	job_subclasses = list(
 		/datum/advclass/hag,
 	)
+	has_subprefs = FALSE // only one subclass
 
 /datum/job/roguetown/hag/special_job_check(mob/dead/new_player/player)
 	if(!hag_slots_open())

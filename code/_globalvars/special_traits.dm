@@ -45,20 +45,21 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 		apply_dnr_trait(character, player)
 	if(player.prefs.qsr_pref)
 		apply_qsr_trait(character, player)
-	var/triumph_discount_remaining = is_donator(player.ckey) ? 3 : 0 // donators get first 3 triumph points free
+	character.mind.triumph_discount_remaining = is_donator(player.ckey) ? 3 : 0 // donators get first 3 triumph points free, spent on retrieval
 	for(var/item_name in player.prefs.gear_list)
 		var/datum/loadout_item/LI = GLOB.loadout_items_by_name[item_name]
 		if(!LI)
 			continue
 		if(LI.triumph_cost)
-			var/discounted_cost = max(0, LI.triumph_cost - triumph_discount_remaining)
-			if(discounted_cost > 0 && character.get_triumphs() < discounted_cost)
-				continue
-			triumph_discount_remaining = max(0, triumph_discount_remaining - LI.triumph_cost) //OV Edit - Adjusted so triumph is deducted on removal of item
-			if(discounted_cost > 0)
-				character.adjust_triumphs(-discounted_cost)
-		character.mind.special_items[LI.name] = LI.path
+			// Tag triumph cost items so that it is charged properly
+			character.mind.special_items["[LI.name][TRIUMPH_STASH_SUFFIX]"] = LI.path
+		else
+			character.mind.special_items[LI.name] = LI.path
+		character.mind.special_items_metadata[LI.name] = player.prefs.gear_list[item_name]
 	var/datum/job/assigned_job = SSjob.GetJob(character.mind?.assigned_role)
+	var/list/prefs = player.prefs?.job_subprefs
+	if(prefs)
+		character.mind.job_subprefs = prefs.Copy()
 	if(assigned_job)
 		assigned_job.clamp_stats(character)
 	check_trait_incompatibilities(character)
@@ -73,11 +74,11 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 		REMOVE_TRAIT(H, TRAIT_EASYDISMEMBER, null) // Doesn't care for source, they ARE getting canceled
 		REMOVE_TRAIT(H, TRAIT_CRITICAL_RESISTANCE, null)
 		to_chat(H, span_warning("My limbs are too frail and my body too tough... the contradiction leaves me unable to resist critical wounds."))
-		
+
 	var/datum/advclass/advclass = H.get_advclass_datum()
 	if(advclass?.tempo_capable && H.mind.assigned_role != "Court Agent" && H.mind.assigned_role != "Adventurer" && H.mind.assigned_role != "Towner") // (Easier to filter these out than apply the bool to every subclass)
 		if(!H.mind.has_antag_datum(/datum/antagonist/skeleton) && !H.mind.has_antag_datum(/datum/antagonist/lich) && !H.mind.has_antag_datum(/datum/antagonist/vampire) && !H.mind.has_antag_datum(/datum/antagonist/vampire/lord))
-			ADD_TRAIT(H, TRAIT_TEMPO, SPECIES_TRAIT)		
+			ADD_TRAIT(H, TRAIT_TEMPO, SPECIES_TRAIT)
 	return TRUE
 
 /proc/apply_voicepacks(mob/living/carbon/human/character, client/player)
@@ -126,7 +127,7 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 			apply_virtue(character, extravirtue_type)
 		else
 			to_chat(character, "Incorrect Extra Virtue parameters! It will not be applied.")
-		//OV Add End	
+		//OV Add End
 	if(origin_type)
 		if((language_type && language_type != "None"))
 			character.grant_language(language_type)
@@ -141,7 +142,7 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 				origin_type = new character.dna.species.origin_default
 				apply_virtue(character, origin_type)
 
-/proc/origin_check(var/datum/virtue/V, datum/species/species)
+/proc/origin_check(datum/virtue/V, datum/species/species)
 	if(!species || !V)
 		return
 	if(V)
@@ -170,7 +171,7 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 	var/bonus = player.prefs.race_bonus
 	if(!(bonus in character.dna.species.custom_selection))
 		return
-	var/full_bonus 
+	var/full_bonus
 	full_bonus = character.dna.species.custom_selection[bonus]
 	if(!full_bonus)
 		return
@@ -194,7 +195,7 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 	if(bonus in GLOB.roguetraits)
 		ADD_TRAIT(character, bonus, SPECIES_TRAIT)
 
-/proc/virtue_check(var/datum/virtue/V, heretic = FALSE, datum/species/species)
+/proc/virtue_check(datum/virtue/V, heretic = FALSE, datum/species/species)
 	if(V)
 		if(istype(V,/datum/virtue/heretic) && !heretic)
 			return FALSE
@@ -208,16 +209,19 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 
 /proc/apply_charflaw_equipment(mob/living/carbon/human/character, client/player)
 	var/has_extra_vice = FALSE
-	for(var/datum/charflaw/cf in character.charflaws) // if we didn't do this, someone could take hunted and targeted together and no other vice
-		if(!cf.needs_extra_vice)
+	var/needs_extra_vice = FALSE
+	for(var/datum/charflaw/cf in character.charflaws) // difficulty flaws don't count as each other's extra vice
+		if(cf.needs_extra_vice)
+			needs_extra_vice = TRUE
+		else
 			has_extra_vice = TRUE
 	for(var/datum/charflaw/cf in character.charflaws)
 		cf.apply_post_equipment(character)
-		if(cf.needs_extra_vice && !has_extra_vice)
-			var/datum/charflaw/randflaw/rf = new()
-			character.charflaws.Add(rf)
-			rf.apply_post_equipment(character)
 		record_featured_object_stat(FEATURED_STATS_VICES, cf.name)
+	if(needs_extra_vice && !has_extra_vice)
+		var/datum/charflaw/randflaw/rf = new()
+		character.charflaws.Add(rf)
+		rf.apply_post_equipment(character)
 
 /proc/apply_dnr_trait(mob/living/carbon/human/character, client/player)
 	ADD_TRAIT(player.mob, TRAIT_DNR, TRAIT_GENERIC)

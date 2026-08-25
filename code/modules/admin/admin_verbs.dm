@@ -63,6 +63,7 @@ GLOBAL_PROTECT(admin_verbs_admin)
 	/client/proc/reload_whitelist,
 	/client/proc/reestablish_db_connection, /*reattempt a connection to the database*/
 	/client/proc/cmd_admin_pm_context,	/*right-click adminPM interface*/
+	/client/proc/cmd_admin_godmode_targetable,	/*right-click godmode toggle*/
 	/client/proc/cmd_admin_pm_panel,		/*admin-pm list*/
 	/client/proc/stop_sounds,
 	/client/proc/mark_datum_mapview,
@@ -114,6 +115,7 @@ GLOBAL_PROTECT(admin_verbs_admin)
 	/datum/admins/proc/wake_view,
 	/datum/admins/proc/extend_round,
 	/client/proc/cmd_admin_set_ic_date, /* Set custom IC date for events */
+	/client/proc/log_viewer_new,
 	/client/proc/reenable_pq, //OV ADD
 	/client/proc/log_viewer_new, // OV Add: JSON Logging
 	/client/proc/item_gm_quest, //OV ADD
@@ -188,7 +190,8 @@ GLOBAL_PROTECT(admin_verbs_server)
 	/datum/admins/proc/BC_RemoveKeyVerb,
 	/datum/admins/proc/admin_add_donator_verb,
 	/datum/admins/proc/admin_remove_donator_verb,
-	/client/proc/toggle_hub
+	/client/proc/toggle_hub,
+	/client/proc/download_player_save
 	)
 GLOBAL_LIST_INIT(admin_verbs_debug, world.AVerbsDebug())
 GLOBAL_PROTECT(admin_verbs_debug)
@@ -235,7 +238,8 @@ GLOBAL_PROTECT(admin_verbs_debug)
 	/client/proc/performance_stress_test, // Uncomment these if you tick the performance stress test .dm file
 	/client/proc/cleanup_stress_test_mobs,
 	/client/proc/cmd_admin_economic_panel,
-	/client/proc/cmd_admin_view_chronicle
+	/client/proc/cmd_admin_view_chronicle,
+	/client/proc/cmd_admin_view_economics
 	)
 GLOBAL_LIST_INIT(admin_verbs_possess, list(/proc/possess, GLOBAL_PROC_REF(release)))
 GLOBAL_PROTECT(admin_verbs_possess)
@@ -636,7 +640,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 				mob.name = initial(mob.name)
 				mob.mouse_opacity = initial(mob.mouse_opacity)
 		else
-			var/new_key = ckeyEx(input("Enter your desired display name.", "Fake Key", key) as text|null)
+			var/new_key = ckeyEx(input(usr, "Enter your desired display name.", "Fake Key", key) as text|null)
 			if(!new_key)
 				return
 			if(length(new_key) >= 26)
@@ -658,7 +662,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	set desc = ""
 
 	var/list/choices = list("Small Bomb (1, 2, 3, 3)", "Medium Bomb (2, 3, 4, 4)", "Big Bomb (3, 5, 7, 5)", "Maxcap", "Custom Bomb")
-	var/choice = input("What size explosion would you like to produce? NOTE: You can do all this rapidly and in an IC manner (using cruise missiles!) with the Config/Launch Supplypod verb. WARNING: These ignore the maxcap") as null|anything in choices
+	var/choice = input(usr, "What size explosion would you like to produce? NOTE: You can do all this rapidly and in an IC manner (using cruise missiles!) with the Config/Launch Supplypod verb. WARNING: These ignore the maxcap") as null|anything in choices
 	var/turf/epicenter = mob.loc
 
 	switch(choice)
@@ -673,20 +677,20 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 		if("Maxcap")
 			explosion(epicenter, GLOB.MAX_EX_DEVESTATION_RANGE, GLOB.MAX_EX_HEAVY_RANGE, GLOB.MAX_EX_LIGHT_RANGE, GLOB.MAX_EX_FLASH_RANGE)
 		if("Custom Bomb")
-			var/devastation_range = input("Devastation range (in tiles):") as null|num
+			var/devastation_range = input(usr, "Devastation range (in tiles):") as null|num
 			if(devastation_range == null)
 				return
-			var/heavy_impact_range = input("Heavy impact range (in tiles):") as null|num
+			var/heavy_impact_range = input(usr, "Heavy impact range (in tiles):") as null|num
 			if(heavy_impact_range == null)
 				return
-			var/light_impact_range = input("Light impact range (in tiles):") as null|num
+			var/light_impact_range = input(usr, "Light impact range (in tiles):") as null|num
 			if(light_impact_range == null)
 				return
-			var/flash_range = input("Flash range (in tiles):") as null|num
+			var/flash_range = input(usr, "Flash range (in tiles):") as null|num
 			if(flash_range == null)
 				return
 			if(devastation_range > GLOB.MAX_EX_DEVESTATION_RANGE || heavy_impact_range > GLOB.MAX_EX_HEAVY_RANGE || light_impact_range > GLOB.MAX_EX_LIGHT_RANGE || flash_range > GLOB.MAX_EX_FLASH_RANGE)
-				if(alert("Bomb is bigger than the maxcap. Continue?",,"Yes","No") != "Yes")
+				if(alert(usr, "Bomb is bigger than the maxcap. Continue?",,"Yes","No") != "Yes")
 					return
 			epicenter = mob.loc //We need to reupdate as they may have moved again
 			explosion(epicenter, devastation_range, heavy_impact_range, light_impact_range, flash_range, TRUE, TRUE)
@@ -699,7 +703,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	set name = "Bomb - DynEx..."
 	set desc = ""
 
-	var/ex_power = input("Explosive Power:") as null|num
+	var/ex_power = input(usr, "Explosive Power:") as null|num
 	var/turf/epicenter = mob.loc
 	if(ex_power && epicenter)
 		dyn_explosion(epicenter, ex_power)
@@ -712,7 +716,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	set name = "Get DynEx Range"
 	set desc = ""
 
-	var/ex_power = input("Explosive Power:") as null|num
+	var/ex_power = input(usr, "Explosive Power:") as null|num
 	if (isnull(ex_power))
 		return
 	var/range = round((2 * ex_power)**GLOB.DYN_EX_SCALE)
@@ -723,7 +727,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	set name = "Get DynEx Power"
 	set desc = ""
 
-	var/ex_range = input("Light Explosion Range:") as null|num
+	var/ex_range = input(usr, "Light Explosion Range:") as null|num
 	if (isnull(ex_range))
 		return
 	var/power = (0.5 * ex_range)**(1/GLOB.DYN_EX_SCALE)
@@ -734,36 +738,21 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	set name = "Set DynEx Scale"
 	set desc = ""
 
-	var/ex_scale = input("New DynEx Scale:") as null|num
+	var/ex_scale = input(usr, "New DynEx Scale:") as null|num
 	if(!ex_scale)
 		return
 	GLOB.DYN_EX_SCALE = ex_scale
 	log_admin("[key_name(usr)] has modified Dynamic Explosion Scale: [ex_scale]")
-	message_admins("[key_name_admin(usr)] has  modified Dynamic Explosion Scale: [ex_scale]")
+	message_admins("[key_name_admin(usr)] has	modified Dynamic Explosion Scale: [ex_scale]")
 
 /client/proc/give_spell(mob/T in GLOB.mob_list)
 	set category = "Game Master"
 	set name = "Give Spell"
 	set desc = ""
 
-	var/list/spell_list = list()
-	var/type_length = length("/obj/effect/proc_holder/spell") + 2
-	for(var/A in GLOB.spells)
-		spell_list[copytext("[A]", type_length)] = A
-	var/obj/effect/proc_holder/spell/S = input("Choose the spell to give to that guy", "ABRAKADABRA") as null|anything in sortList(spell_list)
-	if(!S)
-		return
-
-	SSblackbox.record_feedback("tally", "admin_verb", 1, "Give Spell") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
-	log_admin("[key_name(usr)] gave [key_name(T)] the spell [S].")
-	message_admins(span_adminnotice("[key_name_admin(usr)] gave [key_name_admin(T)] the spell [S]."))
-
-	S = spell_list[S]
-	if(T.mind)
-		T.mind.AddSpell(new S)
-	else
-		T.AddSpell(new S)
-		message_admins(span_danger("Spells given to mindless mobs will not be transferred in mindswap or cloning!"))
+	var/granted = loadout_add_spell(T)
+	if(granted)
+		SSblackbox.record_feedback("tally", "admin_verb", 1, "Give Spell") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/remove_spell(mob/T in GLOB.mob_list)
 	set category = "Game Master"
@@ -771,7 +760,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	set desc = ""
 
 	if(T && T.mind)
-		var/obj/effect/proc_holder/spell/S = input("Choose the spell to remove", "NO ABRAKADABRA") as null|anything in sortList(T.mind.spell_list)
+		var/obj/effect/proc_holder/spell/S = input(usr, "Choose the spell to remove", "NO ABRAKADABRA") as null|anything in sortList(T.mind.spell_list)
 		if(S)
 			T.mind.RemoveSpell(S)
 			log_admin("[key_name(usr)] removed the spell [S] from [key_name(T)].")
@@ -794,23 +783,23 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	set category = "Admin.Special"
 	set name = "Force Speech"
 	set desc = ""
-	
+
 	if(!L)
 		to_chat(usr, span_warning("No mob selected."))
 		return
-	
+
 	if(!isliving(L))
 		to_chat(usr, span_warning("Target must be a living mob."))
 		return
-	
+
 	if(!L.loc)
 		to_chat(usr, span_warning("Target mob has no location."))
 		return
-	
+
 	var/message = input(usr, "What do you want them to say?", "Force Say") as text | null
 	if(!message)
 		return
-	
+
 	L.say(message)
 	log_admin("[key_name(usr)] forced [key_name(L)] at [AREACOORD(L)] to say \"[message]\"")
 	message_admins(span_adminnotice("[key_name_admin(usr)] forced [key_name_admin(L)] at [AREACOORD(L)] to say \"[message]\""))
@@ -973,7 +962,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 			scom_announce("An unknown force has erased the bounty on [target_name]. The gods are displeased.")
 			message_admins("[ADMIN_LOOKUPFLW(src)] has removed the bounty on [ADMIN_LOOKUPFLW(target_name)]")
 			return
-	to_chat(src, "Error. Bounty no longer active.") 
+	to_chat(src, "Error. Bounty no longer active.")
 
 /client/proc/enable_browser_debug()
 	set category = "Debug"
@@ -982,5 +971,5 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 		return
 
 	to_chat(src, "Browser tools are now enabled.")
-	winset(src, null, "browser-options=devtools,find,refresh") // OV Edit: Correct browser options
+	winset(src, null, "browser-options=devtools,find,refresh")
 

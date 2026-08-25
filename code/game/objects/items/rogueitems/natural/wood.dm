@@ -26,7 +26,7 @@
 	. += span_info("Full logs, small logs, and sticks can be 'slapcrafted' into new items by left-clicking them with certain tools and materials. 'Slapcrafted' items don't require a Crafting skill to make.")
 	. += span_info("'Slapcrafts' for full logs include quarterstaffs, bows, oars, and boats.")
 
-/obj/item/grown/log/tree/Initialize()
+/obj/item/grown/log/tree/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/woodstaff,
@@ -121,7 +121,7 @@
 	name = "small log"
 	desc = "Piece of lumber cut from a larger log. Suitable for building."
 	icon_state = "logsmall"
-	grid_width = 64
+	grid_width = 32
 	grid_height = 96
 	attacked_sound = 'sound/misc/woodhit.ogg'
 	max_integrity = 30
@@ -137,7 +137,7 @@
 	. = ..()
 	. += span_info("'Slapcrafts' for small logs include stone-and-wooden tools, cutlery, prosthetics, buckets, paper, weapons, shields, tarots, and bows. Left-clicking a small log with a handsaw turns it into planks, which is quite useful for carpentry and construction.")
 
-/obj/item/grown/log/tree/small/Initialize()
+/obj/item/grown/log/tree/small/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/stoneaxe,
@@ -245,7 +245,7 @@
 	smeltresult = /obj/item/rogueore/coal
 	lumber_amount = 0
 
-/obj/item/grown/log/tree/bowpartial/Initialize()
+/obj/item/grown/log/tree/bowpartial/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/bow,
@@ -262,7 +262,7 @@
 	icon = 'icons/roguetown/items/64x.dmi'
 	icon_state = "recurve_bowstave"
 
-/obj/item/grown/log/tree/bowpartial/recurve/Initialize()
+/obj/item/grown/log/tree/bowpartial/recurve/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/recurvebow,
@@ -274,7 +274,7 @@
 	icon = 'icons/roguetown/items/64x.dmi'
 	icon_state = "long_bowstave"
 
-/obj/item/grown/log/tree/bowpartial/longbow/Initialize()
+/obj/item/grown/log/tree/bowpartial/longbow/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/longbow,
@@ -317,10 +317,10 @@
 				qdel(src)
 				if (L.alpha == 0 && L.rogue_sneaking) // not anymore you're not
 					L.update_sneak_invis(TRUE)
-				if(!HAS_TRAIT(L, TRAIT_WOODWALKER))	
+				if(!HAS_TRAIT(L, TRAIT_WOODWALKER))
 					L.consider_ambush()
 
-/obj/item/grown/log/tree/stick/Initialize()
+/obj/item/grown/log/tree/stick/Initialize(mapload)
 	icon_state = "stick[rand(1,2)]"
 	..()
 	var/static/list/slapcraft_recipe_list = list(
@@ -368,13 +368,13 @@
 				stackcount--
 			else if(stackcount >= 2)
 				var/obj/item/natural/bundle/stick/B = new(get_turf(user))
-				B.amount = clamp(stackcount, 2, 4)
+				B.amount = clamp(stackcount, 2, 10)
 				B.update_bundle()
-				stackcount -= clamp(stackcount, 2, 4)
+				stackcount -= clamp(stackcount, 2, 10)
 				user.put_in_hands(B)
 		for(var/obj/item/grown/log/tree/stick/F in get_turf(src))
-			playsound(get_turf(user.loc), 'sound/foley/dropsound/wooden_drop.ogg', 100)
 			qdel(F)
+		playsound(get_turf(user.loc), 'sound/foley/dropsound/wooden_drop.ogg', 100)
 
 
 /obj/item/grown/log/tree/stick/attackby(obj/item/I, mob/living/user, params)
@@ -446,7 +446,7 @@
 			if("onbelt")
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
-/obj/item/grown/log/tree/stake/Initialize()
+/obj/item/grown/log/tree/stake/Initialize(mapload)
 	. = ..()
 	var/static/list/slapcraft_recipe_list = list(
 		/datum/crafting_recipe/roguetown/survival/whetstone,
@@ -500,7 +500,7 @@
 	sellprice = 4
 	bundletype = /obj/item/natural/bundle/plank
 	smeltresult = /obj/item/ash
-	
+
 /obj/item/natural/wood/plank/attack_right(mob/living/user)
 	if(user.get_active_held_item())
 		return

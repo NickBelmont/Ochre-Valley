@@ -114,6 +114,14 @@
 	name = "Gift - Kit, Gothic Steel Armor"
 	path = /obj/item/enchantingkit/gothicsteelarmor
 
+/datum/loadout_item/donator/universal/armor_gothic_burgeonet
+	name = "Gift - Kit, Gothic Burgeonet"
+	path = /obj/item/enchantingkit/gothicburgeonet
+
+/datum/loadout_item/donator/universal/armor_gothic_psydonic
+	name = "Gift - Kit, Gothic Psydonic Cuirass"
+	path = /obj/item/enchantingkit/gothicpsydoniccuirass
+
 /datum/loadout_item/donator/universal/cuirass_throwback
 	name = "Gift - Kit, Heroic Leather Cuirass"
 	path = /obj/item/enchantingkit/heroicleathercuirass
@@ -141,6 +149,14 @@
 /datum/loadout_item/donator/universal/headpiece_greatplume
 	name = "Gift - Helmet Cosmetic, Greatplume"
 	path = /obj/item/clothing/head/roguetown/decoration/greatplume
+
+/datum/loadout_item/donator/universal/headpiece_featherplume
+	name = "Gift - Helmet Cosmetic, Featherplume"
+	path = /obj/item/clothing/head/roguetown/decoration/featherplume
+
+/datum/loadout_item/donator/universal/headpiece_crestplume
+	name = "Gift - Helmet Cosmetic, Crestplume"
+	path = /obj/item/clothing/head/roguetown/decoration/crestplume
 
 /datum/loadout_item/donator/universal/armorpiece_shoulderguard
 	name = "Gift - Armor Cosmetic, Shoulderguard"
@@ -173,7 +189,7 @@
 
 /datum/loadout_item/donator/universal/belt_bronze
 	name = "Gift - Belt of Bronze Maille"
-	path = /obj/item/storage/belt/rogue/leather/donator_bronze 
+	path = /obj/item/storage/belt/rogue/leather/donator_bronze
 
 /datum/loadout_item/donator/universal/belt_iron
 	name = "Gift - Belt of Iron Maille"
@@ -206,6 +222,136 @@
 /datum/loadout_item/donator/universal/armorpiece_armharness
 	name = "Gift - Armor Cosmetic, Arm Harness"
 	path = /obj/item/enchantingkit/donator_universal_armharness
+
+/datum/loadout_item/donator/universal/heelkit
+	name = "Gift - Armor Cosmetic, Heelification Elixir"
+	path = /obj/item/heelkit
+
+/datum/loadout_item/donator/universal/donator_cropped_gambeson
+	name = "Gift - Kit, Cropped Gambeson"
+	path = /obj/item/enchantingkit/donator_cropped_gambeson
+// --- GRENZEL REGIONAL ---
+
+/datum/loadout_item/donator/universal/regional/grenzelhat
+	name = "Gift - Regional, Grenzel Hat"
+	path = /obj/item/clothing/head/roguetown/grenzelhofthat/loadout
+
+/datum/loadout_item/donator/universal/regional/grenzelpants
+	name = "Gift - Regional, Grenzel Pants"
+	path = /obj/item/clothing/under/roguetown/heavy_leather_pants/grenzelpants/loadout
+
+/datum/loadout_item/donator/universal/regional/grenzelshoes
+	name = "Gift - Regional, Grenzel Shoes"
+	path = /obj/item/clothing/shoes/roguetown/grenzelhoft/loadout
+
+/datum/loadout_item/donator/universal/regional/grenzelgloves
+	name = "Gift - Regional, Grenzel Gloves"
+	path = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/loadout
+
+/datum/loadout_item/donator/universal/regional/grenzelshirt
+	name = "Gift - Regional, Grenzel Shirt"
+	path = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft/loadout
+
+// --- AAVNR REGIONAL (FENCING) ---
+
+/datum/loadout_item/donator/universal/regional/fencingjacket
+	name = "Gift - Regional, Fencing Jacket"
+	path = /obj/item/clothing/suit/roguetown/armor/leather/heavy/freifechter/loadout
+
+/datum/loadout_item/donator/universal/regional/fencingshirt
+	name = "Gift - Regional, Fencing Shirt"
+	path = /obj/item/clothing/suit/roguetown/shirt/freifechter/loadout
+
+/datum/loadout_item/donator/universal/regional/fencingpants
+	name = "Gift - Regional, Fencing Breeches"
+	path = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan/generic/loadout
+
+/datum/loadout_item/donator/universal/regional/fencingshoes
+	name = "Gift - Regional, Fencing Shoes"
+	path = /obj/item/clothing/shoes/roguetown/grenzelhoft/freifechter/loadout
+
+/datum/loadout_item/donator/universal/regional/fencinggloves
+	name = "Gift - Regional, Fencing Gloves"
+	path = /obj/item/clothing/gloves/roguetown/angle/freifechter/loadout
+
+// --- EASTERN REGIONAL (KAZEN / LINGYUE) ---
+
+/datum/loadout_item/donator/universal/regional/easthat
+	name = "Gift - Regional, Worn Bamboo Hat"
+	path = /obj/item/clothing/head/roguetown/mentorhat/loadout
+
+/datum/loadout_item/donator/universal/regional/eastpants
+	name = "Gift - Regional, Cut-throat Pants"
+	path = /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1/loadout
+
+/datum/loadout_item/donator/universal/regional/eastpants2
+	name = "Gift - Regional, Ripped Pants"
+	path = /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants2/loadout
+
+/datum/loadout_item/donator/universal/regional/eastdobo
+	name = "Gift - Regional, Simple Dobo Robe"
+	path = /obj/item/clothing/suit/roguetown/armor/basiceast/loadout
+
+/datum/loadout_item/donator/universal/regional/eastdobodecorated
+	name = "Gift - Regional, Decorated Dobo Robe"
+	path = /obj/item/clothing/suit/roguetown/armor/basiceast/crafteast/loadout
+
+/datum/loadout_item/donator/universal/regional/eastdoboold
+	name = "Gift - Regional, Old Dobo Robe"
+	path = /obj/item/clothing/suit/roguetown/armor/basiceast/mentorsuit/loadout
+
+// --- NALEDI / RANESHEN ---
+
+/datum/loadout_item/donator/universal/regional/naledipontigambeson
+	name = "Gift - Regional, Pontifex Outerwear"
+	path = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/pontifex/loadout
+
+/datum/loadout_item/donator/universal/regional/naledipontishirt
+	name = "Gift - Regional, Pontifex Innerwear"
+	path = /obj/item/clothing/suit/roguetown/shirt/robe/pointfex/loadout
+
+/datum/loadout_item/donator/universal/regional/naledipontipants
+	name = "Gift - Regional, Pontifex Pants"
+	path = /obj/item/clothing/under/roguetown/trou/leather/pontifex/loadout
+
+/datum/loadout_item/donator/universal/regional/naledihierogambeson
+	name = "Gift - Regional, Hierophant Outerwear"
+	path = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hierophant/loadout
+
+/datum/loadout_item/donator/universal/regional/naledihieroshirt
+	name = "Gift - Regional, Hierophant Innerwear"
+	path = /obj/item/clothing/suit/roguetown/shirt/robe/hierophant/loadout
+
+// --- ANTHRAXI / DROW (TALL HUMANOIDS ONLY) ---
+
+/datum/loadout_item/donator/universal/regional/anthraxishirt
+	name = "Gift - Regional, Shadowy Shirt (Tall Humanoid Only)"
+	path = /obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock/loadout
+
+/datum/loadout_item/donator/universal/regional/anthraxirobe
+	name = "Gift - Regional, Shadowy Robe (Tall Humanoid Only)"
+	path = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/shadowrobe/loadout
+
+/datum/loadout_item/donator/universal/regional/anthraxigloves
+	name = "Gift - Regional, Shadowy Gloves (Tall Humanoid Only)"
+	path = /obj/item/clothing/gloves/roguetown/fingerless/shadowgloves/elflock/loadout
+
+/datum/loadout_item/donator/universal/regional/anthraxicloak
+	name = "Gift - Regional, Shadowy Cloak"
+	path = /obj/item/clothing/cloak/half/shadowcloak
+
+/datum/loadout_item/donator/universal/regional/anthraxipants
+	name = "Gift - Regional, Shadowy Pants (Tall Humanoid Only)"
+	path = /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/loadout
+
+/datum/loadout_item/donator/universal/regional/trophyfurs
+	name = "Gift - Regional, Trophy Robes"
+	path = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/elven/loadout
+
+/datum/loadout_item/donator/universal/regional/hatangacoat
+	name = "Gift - Regional, Hatanga Coat"
+	path = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/steppe/loadout
+
 
 /////////////////////////////
 // ! Player / Donor Kits ! //
@@ -317,7 +463,7 @@
 /datum/loadout_item/donator/eiren5
 	name = "Donator Kit - Glintstone Longsword"
 	path = /obj/item/enchantingkit/weapon/eiren_m
-	ckeywhitelist = list("eirenxiv", "magicalbard")
+	ckeywhitelist = list("eirenxiv", "magicalbard", "naorgteine")
 
 /datum/loadout_item/donator/eiren6
 	name = "Donator Kit - Stygian Longsword"
@@ -373,23 +519,28 @@
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/willmbrink
 
 /datum/loadout_item/donator/dasfox
-	name = "Donator Kit - Archaic Ceremonial Valkyrhelm"
-	path = /obj/item/enchantingkit/dasfox_helm
-	ckeywhitelist = list("dasfox", "purplepineapple") // on request by dasfox
-
-/datum/loadout_item/donator/dasfox/cuirass
-	name = "Donator Kit - Archaic Ceremonial Cuirass"
-	path = /obj/item/enchantingkit/dasfox_cuirass
-
-/datum/loadout_item/donator/dasfox/periapt
-	name = "Donator Item - Defiled Astratan Periapt"
-	path = /obj/item/clothing/neck/roguetown/psicross/astrata/dasfox
 	ckeywhitelist = list("dasfox")
 
 /datum/loadout_item/donator/dasfox/lance
 	name = "Donator Item - Decorated Lance"
 	path = /obj/item/enchantingkit/dasfox_lance
 	ckeywhitelist = list("dasfox", "cre77") // on request by dasfox
+
+/datum/loadout_item/donator/dasfox/tyesca_brigandine
+	name = "Donator Item - fencer's brigandine"
+	path = /obj/item/enchantingkit/tyesca_brigandine
+
+/datum/loadout_item/donator/dasfox/tyesca_montante
+	name = "Donator Item - Tyesca's montante"
+	path = /obj/item/enchantingkit/weapon/tyesca_sword
+
+/datum/loadout_item/donator/dasfox/tyesca_cloak
+	name = "Donator Item - Tyesca's cloak"
+	path = /obj/item/clothing/cloak/raincloak/tyesca
+
+/datum/loadout_item/donator/dasfox/tyesca_scabbard
+	name = "Donator Item - Tyesca's scabbard"
+	path = /obj/item/rogueweapon/scabbard/sword/tyesca
 
 /datum/loadout_item/donator/ryan
 	name = "Donator Item - Western Estates Caparison"
@@ -421,12 +572,12 @@
 /datum/loadout_item/donator/dakken
 	name = "Donator Kit - Armoured Avantyne Barbute"
 	path = /obj/item/enchantingkit/dakken_zizhelm
-	ckeywhitelist = list("dakken12") 
+	ckeywhitelist = list("dakken12")
 
 /datum/loadout_item/donator/dakken/sword
 	name = "Donator Kit - Avantyne Threaded Sword"
 	path = /obj/item/enchantingkit/dakken_alloybsword
-	ckeywhitelist = list("dakken12") 
+	ckeywhitelist = list("dakken12")
 
 /datum/loadout_item/donator/stinketh
 	name = "Donator Kit - Silver Shashka"
@@ -454,7 +605,7 @@
 /datum/loadout_item/donator/lmwevil/brassbeak
 	name = "Donator Item - Brass Beak Mask"
 	path = /obj/item/enchantingkit/lmwevil_brassbeak
-	ckeywhitelist = list("lmwevil")
+	ckeywhitelist = list("lmwevil", "theeternalflame")
 
 /datum/loadout_item/donator/shudderfly/eoranspike
 	name = "Donator Kit - Eoran Spike"
@@ -488,11 +639,6 @@
 	name = "Donator Item - Sandlash"
 	path = /obj/item/enchantingkit/sci_sand
 	ckeywhitelist = list("scidragon")
-
-/datum/loadout_item/donator/aisuwand
-    name = "Donator Kit - Crystalline Rapier"
-    path = /obj/item/enchantingkit/aisuwand
-    ckeywhitelist = list("aisu9")
 
 /datum/loadout_item/donator/regnum
 	name = "Donator Item - Regnum"
@@ -571,17 +717,17 @@
 /datum/loadout_item/donator/nero_sword
 	name = "Donator Kit - Sylvan Longsword"
 	path = /obj/item/enchantingkit/weapon/nero_lsword
-	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica")
+	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica","purplepineapple","stalkerino","shadowradar1212","omicega")
 
 /datum/loadout_item/donator/nero_dagger
 	name = "Donator Kit - Sylvan Dagger"
 	path = /obj/item/enchantingkit/weapon/nero_dagger
-	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica")
+	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica","purplepineapple","stalkerino","shadowradar1212","omicega")
 
 /datum/loadout_item/donator/nero_sabre
 	name = "Donator Kit - Sylvan Sabre"
 	path = /obj/item/enchantingkit/weapon/nero_sabre
-	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica")
+	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica","purplepineapple","stalkerino","shadowradar1212","omicega")
 
 /datum/loadout_item/donator/des_gaebolg
 	name = "Dontaor Kit - Gae Bolg"
@@ -619,14 +765,14 @@
 	ckeywhitelist = list("jademanique")
 
 /datum/loadout_item/donator/olygsword
-    name = "Donator Kit - Gre'as'anto d'Shar"
-    path = /obj/item/enchantingkit/olygsword
-    ckeywhitelist = list("olympus7")
-	
+	name = "Donator Kit - Gre'as'anto d'Shar"
+	path = /obj/item/enchantingkit/olygsword
+	ckeywhitelist = list("olympus7")
+
 /datum/loadout_item/donator/bobby
 	name = "Donator Kit - Holy Astratan Bascinet"
 	path = /obj/item/enchantingkit/bobby_helm
-	ckeywhitelist = list("spartanbobby") 
+	ckeywhitelist = list("spartanbobby")
 
 /datum/loadout_item/donator/ollanius_sword
 	name = "Donator Kit - Azurosa-Wrapped Sword"
@@ -638,7 +784,177 @@
 	path = /obj/item/enchantingkit/spaz_helm
 	ckeywhitelist = list("seniorspaz")
 
+/datum/loadout_item/donator/lime_helm
+	name = "Donator Kit - Serpentine Bascinet"
+	path = /obj/item/enchantingkit/limetease
+	ckeywhitelist = list("limetease", "simplypoodle")
+
+/datum/loadout_item/donator/lime_dress
+	name = "Donator Item - Noviciate Robe"
+	path = /obj/item/clothing/suit/roguetown/shirt/robe/limetease
+	ckeywhitelist = list("limetease", "simplypoodle", "ketrai", "shiroseschnee", "kimmieweeb")
+
+/datum/loadout_item/donator/lime_dress_color
+	name = "Donator Item - Colorable Noviciate Robe"
+	path = /obj/item/clothing/suit/roguetown/shirt/robe/limetease/color
+	ckeywhitelist = list("limetease", "simplypoodle", "ketrai", "shiroseschnee", "kimmieweeb")
+
 /datum/loadout_item/donator/gazelleskull
 	name = "Donator Item - Gazelle Skull"
 	path = /obj/item/clothing/head/roguetown/decoration/gazelleskull
 	ckeywhitelist = list("shiroseschnee")
+
+/datum/loadout_item/donator/morto_staff
+	name = "Donator Kit - Frozen Vow"
+	path = /obj/item/enchantingkit/morto_staff
+	ckeywhitelist = list("mortosasye")
+
+/datum/loadout_item/donator/racobio_staff
+	name = "Donator Kit - Obsidian Tower"
+	path = /obj/item/enchantingkit/racobio_staff
+	ckeywhitelist = list("racobio")
+
+/datum/loadout_item/donator/cobb_conviction
+	name = "Donator Kit - Conviction"
+	path = /obj/item/enchantingkit/weapon/cobb_conviction
+	ckeywhitelist = list("cobbantichrist")
+
+/datum/loadout_item/donator/athena_solace
+	name = "Donator Kit - Solace"
+	path = /obj/item/enchantingkit/weapon/athena_solace
+	ckeywhitelist = list("athena14")
+
+/datum/loadout_item/donator/longest_night
+	name = "Donator Item - Longest Night Cloak"
+	path = /obj/item/clothing/cloak/longest_night
+	ckeywhitelist = list("shiroseschnee")
+
+/datum/loadout_item/donator/falling_star
+	name = "Donator Kit - Falling Star"
+	path = /obj/item/enchantingkit/weapon/falling_star
+	ckeywhitelist = list("octus")
+
+/datum/loadout_item/donator/aticius_fls
+	name = "Donator Kit - For Love's Sake"
+	path = /obj/item/enchantingkit/aticius_fls
+	ckeywhitelist = list("aticius")
+
+/datum/loadout_item/donator/chivalre_aasimar
+	name = "Donator Kit - Aasimari Equipment"
+	path = /obj/item/enchantingkit/chivalre_aasimar
+	ckeywhitelist = list("oddbomber3768")
+
+/datum/loadout_item/donator/chivalre_aasimar_sack
+	name = "Donator Kit - Aasimari Equipment, Sackful"
+	path = /obj/item/storage/roguebag/donator_chivalre_elixirs
+	ckeywhitelist = list("oddbomber3768")
+
+/datum/loadout_item/donator/truill_flowerblade
+	name = "Donator Kit - Beflowered Longsword"
+	path = /obj/item/enchantingkit/truill_flowerblade
+	ckeywhitelist = list("truill")
+
+/datum/loadout_item/donator/rhynnrhynn_staff
+	name = "Donator Kit - Celestial Staff"
+	path = /obj/item/enchantingkit/rhynnrhynn_staff
+	ckeywhitelist = list("rhynnrhynn")
+
+/datum/loadout_item/donator/rhynnrhynn_staff_crested
+	name = "Donator Kit - Celestial Staff, Crested"
+	path = /obj/item/enchantingkit/rhynnrhynn_staff_crested
+	ckeywhitelist = list("rhynnrhynn")
+
+/datum/loadout_item/donator/rhynnrhynn_staff_winged
+	name = "Donator Kit - Celestial Staff, Winged"
+	path = /obj/item/enchantingkit/rhynnrhynn_staff_winged
+	ckeywhitelist = list("rhynnrhynn")
+
+/datum/loadout_item/donator/rhynnrhynn_staff_solar
+	name = "Donator Kit - Celestial Staff, Solar"
+	path = /obj/item/enchantingkit/rhynnrhynn_staff_solar
+	ckeywhitelist = list("rhynnrhynn")
+
+/datum/loadout_item/donator/lamprey_stechhelm
+	name = "Donator Kit - Stechhelm"
+	path = /obj/item/enchantingkit/lamprey_stechhelm
+	ckeywhitelist = list("derpi559")
+
+/datum/loadout_item/donator/squidqueen_longcoat
+	name = "Donator Kit - Ragged Longcoat"
+	path = /obj/item/enchantingkit/squidqueen_longcoat
+	ckeywhitelist = list("lmwevil")
+
+/datum/loadout_item/donator/squidqueen_longcoat_alt
+	name = "Donator Kit - Frayed Longcoat"
+	path = /obj/item/enchantingkit/squidqueen_longcoat_alt
+	ckeywhitelist = list("lmwevil")
+
+/datum/loadout_item/donator/squidqueen_harlottoga
+	name = "Donator Item - Harlotous Toga"
+	path = /obj/item/clothing/cloak/tabard/donator_squidqueen_harlottoga
+	ckeywhitelist = list("lmwevil")
+
+/datum/loadout_item/donator/hellpossum_apostle_armor
+	name = "Donator Kit - Apostle's Armor"
+	path = /obj/item/enchantingkit/hellpossum_apostle_armor
+	ckeywhitelist = list("dasfox", "purplepineapple", "bigfoot02", "ryan180602", "oddbomber3768", "yeeteryieter")
+
+/datum/loadout_item/donator/hellpossum_robed_apostle_armor
+	name = "Donator Kit - Apostle's Armor, Robed"
+	path = /obj/item/enchantingkit/hellpossum_robed_apostle_armor
+	ckeywhitelist = list("dasfox", "purplepineapple", "bigfoot02", "ryan180602", "oddbomber3768", "yeeteryieter")
+
+/datum/loadout_item/donator/hellpossum_apostle_helm
+	name = "Donator Kit - Apostle's Burgeonet"
+	path = /obj/item/enchantingkit/hellpossum_apostle_helm
+	ckeywhitelist = list("dasfox", "purplepineapple", "bigfoot02", "ryan180602", "oddbomber3768", "yeeteryieter")
+
+/datum/loadout_item/donator/hellpossum_apostle_winghelm
+	name = "Donator Kit - Apostle's Burgeonet, Winged"
+	path = /obj/item/enchantingkit/hellpossum_apostle_winghelm
+	ckeywhitelist = list("dasfox", "purplepineapple", "bigfoot02", "ryan180602", "oddbomber3768", "yeeteryieter")
+
+/datum/loadout_item/donator/hellpossum_apostle_wingsallet
+	name = "Donator Kit - Apostle's Sallet, Winged"
+	path = /obj/item/enchantingkit/hellpossum_apostle_wingsallet
+	ckeywhitelist = list("dasfox", "purplepineapple", "bigfoot02", "ryan180602", "oddbomber3768", "yeeteryieter")
+
+/datum/loadout_item/donator/hellpossum_grandmaster_armor
+	name = "Donator Kit - Grandmaster's Armor, Robed"
+	path = /obj/item/enchantingkit/hellpossum_grandmaster_armor
+	ckeywhitelist = list("dasfox")
+
+/datum/loadout_item/donator/hellpossum_grandmaster_helm
+	name = "Donator Kit - Grandmaster's Burgeonet"
+	path = /obj/item/enchantingkit/hellpossum_grandmaster_helm
+	ckeywhitelist = list("dasfox")
+
+/datum/loadout_item/donator/hellpossum_grandmaster_helm_habit
+	name = "Donator Kit - Grandmaster's Burgeonet, Habited"
+	path = /obj/item/enchantingkit/hellpossum_grandmaster_habit
+	ckeywhitelist = list("dasfox")
+
+/datum/loadout_item/donator/rosy/birdmask
+	name = "Donator Kit - Beaked Mask"
+	path = /obj/item/enchantingkit/rosy/birdmask
+	ckeywhitelist = list("rosysaturniidae")
+
+/datum/loadout_item/donator/nero_woodlandcloak
+	name = "Gift - Woodland Mantle"
+	path = /obj/item/clothing/cloak/furcloak/woodland
+	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica","purplepineapple","stalkerino","shadowradar1212","omicega")
+
+/datum/loadout_item/donator/nero_woodlandhood
+	name = "Gift - Woodland Shawl"
+	path = /obj/item/clothing/head/roguetown/roguehood/shawl/woodland
+	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica","purplepineapple","stalkerino","shadowradar1212","omicega")
+
+/datum/loadout_item/donator/nero_woodlandcloak_noire
+	name = "Gift - Collared Woodland Mantle"
+	path = /obj/item/clothing/cloak/furcloak/woodland/noire
+	ckeywhitelist = list("nerocavalier")
+
+/datum/loadout_item/donator/nero_woodlandbrig
+	name = "Donator Kit - Woodland Brigandine"
+	path = /obj/item/enchantingkit/nero_woodlandbrig
+	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica","purplepineapple","stalkerino","shadowradar1212","omicega")

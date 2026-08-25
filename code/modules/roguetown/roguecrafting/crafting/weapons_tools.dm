@@ -474,7 +474,7 @@
 /datum/crafting_recipe/roguetown/survival/sharpenedstake
 	name = "stake, sharpened"
 	display_category = ITEM_CAT_WEAPONS_DAGGERS
-	category = "Tools" 
+	category = "Tools"
 	result = list(/obj/item/rogueweapon/huntingknife/idagger/stake)
 	reqs = list(
 		/obj/item/grown/log/tree/stake = 1,
@@ -523,7 +523,6 @@
 	skillcraft = /datum/skill/craft/carpentry
 
 /obj/item/rogueweapon/shield/heater/crafted
-	sellprice = 6
 
 
 /datum/crafting_recipe/roguetown/survival/bonespear
@@ -573,7 +572,6 @@
 		)
 
 /obj/item/fishingrod/crafted
-	sellprice = 8
 
 /datum/crafting_recipe/roguetown/survival/rodblacksteel
 	name = "fishing rod, blacksteel"
@@ -615,8 +613,8 @@
 	display_category = ITEM_CAT_TOOLS_SUNDRIES
 	category = "Tools"
 	result = list(/obj/item/construction/repairkit/structure,
-				  /obj/item/construction/repairkit/structure,
-				  /obj/item/construction/repairkit/structure)
+					/obj/item/construction/repairkit/structure,
+					/obj/item/construction/repairkit/structure)
 	reqs = list(/obj/item/construction/nail = 6,
 				/obj/item/natural/wood/plank = 3,
 				/obj/item/natural/stoneblock = 3)

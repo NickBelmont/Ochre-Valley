@@ -110,11 +110,7 @@
 /obj/effect/frozen_mist/proc/initial_frost(turf/center)
 	for(var/turf/T in range(effect_radius, center))
 		for(var/mob/living/L in T.contents)
-			if(L == caster)
-				continue
 			if(L.anti_magic_check())
-				continue
-			if(source_spell?.spell_guard_check(L))
 				continue
 			apply_frost_stack(L, 1)
 
@@ -143,18 +139,14 @@
 			new /obj/effect/temp_visual/small_smoke(T)
 			qdel(hotspot)
 		for(var/mob/living/L in T.contents)
-			if(L == caster)
-				continue
 			if(L.anti_magic_check())
-				continue
-			if(source_spell?.spell_guard_check(L))
 				continue
 			apply_frost_stack(L, 1)
 			var/actual_damage = rand(5, tick_damage)
 			if(ishuman(L) && ishuman(caster))
 				arcyne_strike(caster, L, null, actual_damage, BODY_ZONE_CHEST, \
 					BCLASS_BURN, spell_name = "Frozen Mist", \
-					damage_type = BURN, npc_simple_damage_mult = 1, \
+					damage_type = BURN, \
 					skip_animation = TRUE, skip_message = TRUE)
 			else
 				L.adjustFireLoss(actual_damage)

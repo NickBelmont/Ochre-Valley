@@ -31,6 +31,7 @@
 					/datum/advclass/warden/wildsoul,
 					//OV Add End
 					)
+//	has_subprefs = FALSE // only one subclass //OV EDIT - Comented out because yes subclass
 
 /datum/outfit/job/roguetown/warden
 	neck = /obj/item/clothing/neck/roguetown/coif/padded
@@ -132,7 +133,7 @@
 				H.change_stat(STATKEY_STR, 1)
 
 		var/helmets = list(
-			"Path of the Antelope" 	= /obj/item/clothing/head/roguetown/helmet/bascinet/antler,
+			"Path of the Antelope"	= /obj/item/clothing/head/roguetown/helmet/bascinet/antler,
 			"Path of the Volf"		= /obj/item/clothing/head/roguetown/helmet/sallet/warden/wolf,
 			"Path of the Ram"		= /obj/item/clothing/head/roguetown/helmet/sallet/warden/goat,
 			"Path of the Bear"		= /obj/item/clothing/head/roguetown/helmet/sallet/warden/bear,
@@ -144,7 +145,7 @@
 			head = helmets[helmchoice]
 
 		var/hoods = list(
-			"Common Shroud" 	= /obj/item/clothing/head/roguetown/roguehood/warden,
+			"Common Shroud"	= /obj/item/clothing/head/roguetown/roguehood/warden,
 			"Antlered Shroud"		= /obj/item/clothing/head/roguetown/roguehood/warden/antler,
 			"None"
 		)

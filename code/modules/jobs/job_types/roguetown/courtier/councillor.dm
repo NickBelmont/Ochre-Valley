@@ -12,7 +12,7 @@
 	is_quest_giver = TRUE
 
 	tutorial = "You may have inherited this position, bought your way into it, or were appointed to it by merit--perish the thought! Whatever the case though, you work as an assistant and agent of the crown in matters of state. Whether this be aiding the steward, the sheriff, or the crown itself, or simply enjoying the free food of the keep, your duties vary day by day. You may be the lowest rung of the ladder, but that rung still towers over everyone else in town."
-	
+
 	whitelist_req = FALSE
 	outfit = /datum/outfit/job/roguetown/councillor
 	advclass_cat_rolls = list(CTAG_COUNCILLOR = 2)
@@ -37,7 +37,6 @@
 	name = "Herald"
 	tutorial = "While lacking in some faculties, such as wealth and courtly advice, you have the uncanny ability to spread the word of the court, and rally people to your liege's cause. The crown saw it fit to employ you as a messenger, but may still lend an ear if you speak your mind. You may be the lowest rung of the ladder, but that rung still towers over everyone else in town."
 	outfit = /datum/outfit/job/roguetown/councillor/herald
-	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/tame/saddled
 	category_tags = list(CTAG_COUNCILLOR)
 	subclass_stats = list(
 		STATKEY_SPD = 2,
@@ -49,7 +48,7 @@
 
 	// better movement skills
 	subclass_skills = list(
-		/datum/skill/misc/riding = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
@@ -59,12 +58,16 @@
 		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
 	)
+	subclass_virtues = list(
+		/datum/virtue/utility/riding
+	)
 
 /datum/advclass/councillor/cofferer
 	name = "Cofferer"
 	tutorial = "Whether born into wealth, or earned through working up from the bottom, you have quite the reserve of mammon at your disposal. Use your silver-tongue to acquire more, or buy more favour with the court. You may be the lowest rung of the ladder, but that rung still towers over everyone else in town."
 	outfit = /datum/outfit/job/roguetown/councillor/cofferer
 	category_tags = list(CTAG_COUNCILLOR)
+	virtue_limits = list(/datum/virtue/utility/skilled, /datum/virtue/utility/apprentice) // You are the only one with direct Steward access, and therefore should not be able to easily self cheese
 	subclass_stats = list(
 		STATKEY_WIL = 2,
 		STATKEY_INT = 2,
@@ -152,7 +155,7 @@
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/steel
 	backl = /obj/item/storage/backpack/rogue/satchel
 	belt = /obj/item/storage/belt/rogue/leather
-	beltl = /obj/item/storage/keyring/steward
+	beltl = /obj/item/storage/keyring/manorbase
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel
 	cloak = /obj/item/clothing/cloak/half/red
 	backpack_contents = list(
@@ -190,8 +193,8 @@
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/steel
 	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
 	backr = /obj/item/storage/backpack/rogue/satchel
+	beltl = /obj/item/storage/keyring/manorbase
 	belt = /obj/item/storage/belt/rogue/leather
-	beltl = /obj/item/storage/keyring/steward
 	beltr = /obj/item/quiver/arrows
 	cloak = /obj/item/clothing/cloak/half/red
 	backpack_contents = list(
@@ -216,9 +219,8 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/steel
 	backl = /obj/item/storage/backpack/rogue/satchel
+	beltl = /obj/item/storage/keyring/manorbase
 	belt = /obj/item/storage/belt/rogue/leather
-	// Less money of their own, but does need funds to oversee defenses
-	beltl = /obj/item/storage/keyring/steward
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel
 	cloak = /obj/item/clothing/cloak/half/red
 	backpack_contents = list(

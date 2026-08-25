@@ -83,7 +83,10 @@ USE_EXP_TRACKING
 ## Allows admins to bypass job playtime requirements.
 #USE_EXP_RESTRICTIONS_ADMIN_BYPASS
 
-## Should we also log entries as human readable
+## Should we log entries as JSON
+LOG_AS_JSON
+
+## Should we log entries as human readable
 LOG_AS_HUMAN_READABLE
 
 ## log OOC channel
@@ -248,13 +251,13 @@ USEBLACKLIST
 # SERVER ss13.example.com:2506
 
 ## Discod address
-# DISCORDURL https://discord.gg/bx9c7ha5Qk
+# DISCORDURL https://discord.gg/E2ay9BUszE
 
 ## Wiki address
-# WIKIURL https://wiki.moviesfreepremium.xyz/blackstone
+WIKIURL https://ochrevalley.miraheze.org
 
 ## Rules address
-# RULESURL https://wiki.moviesfreepremium.xyz/blackstone/rules
+RULESURL https://ochrevalley.miraheze.org/wiki/Rules
 
 ## Github address
 GITHUBURL https://github.com/Ochre-Valley/Ochre-Valley

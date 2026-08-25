@@ -51,7 +51,6 @@
 #define SPAN_SANS "sans"
 #define SPAN_PAPYRUS "papyrus"
 #define SPAN_REALLYBIG "reallybig"
-#define SPAN_COMMAND "command_headset"
 #define SPAN_CLOWN "clown"
 #define SPAN_SINGING "singing"
 
@@ -78,7 +77,7 @@
 #define SPAN_AAVNIC "aavnic"
 #define SPAN_UNDERCOMMON "undercommon"
 #define SPAN_UNDEAD "undead"
-#define SPAN_CAT "cat"		 //nyi but file found
+#define SPAN_CAT "cat"			//nyi but file found
 #define SPAN_PULSEDEATH "pulsedeath"
 #define SPAN_PETRIFIED_SPEECH "petrified_speech" //OV Add
 
@@ -105,6 +104,7 @@
 #define LINGHIVE_LINK 3
 
 //Don't set this very much higher then 1024 unless you like inviting people in to dos your server with message spam
+#define MAX_NOTE_SIZE			8192
 #define MAX_MESSAGE_BIGME		4096
 #define MAX_MESSAGE_LEN			2048
 #define MAX_NAME_LEN			42

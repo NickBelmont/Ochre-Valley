@@ -9,7 +9,7 @@
 	max_integrity = 0
 	var/aportalloc = "a"
 
-/obj/structure/fluff/testportal/Initialize()
+/obj/structure/fluff/testportal/Initialize(mapload)
 	name = aportalloc
 	..()
 
@@ -49,7 +49,7 @@
 	var/travel_access_hint = null
 	var/watchable = TRUE
 
-/obj/structure/fluff/traveltile/Initialize()
+/obj/structure/fluff/traveltile/Initialize(mapload)
 	GLOB.traveltiles += src
 	. = ..()
 
@@ -165,32 +165,20 @@
 
 	return
 
-//OV EDIT START - Port of Caustic Edit
 /obj/structure/fluff/traveltile/proc/has_access(atom/movable/AM)
 	if(!length(required_jobs) && !length(required_traits))
 		return TRUE
-	
 	var/has_job = FALSE
 	var/has_trait = FALSE
-	if(!length(required_jobs))
-		has_job = TRUE
-	if(!length(required_traits))
-		has_trait = TRUE
-	
-	if(!has_job && ishuman(AM))
+	if(length(required_jobs) && ishuman(AM))
 		var/mob/living/carbon/human/H = AM
 		has_job = (H.job in required_jobs)
-	if(!has_trait && isliving(AM))
+	if(length(required_traits) && isliving(AM))
 		for(var/trait in required_traits)
 			if(HAS_TRAIT(AM, trait))
 				has_trait = TRUE
 				break
-	
-	if(has_job && has_trait)
-		return TRUE
-	else
-		return FALSE
-//OV EDIT END - Port of Caustic Edit
+	return (has_job || has_trait)
 
 /obj/structure/fluff/traveltile/proc/can_go(atom/movable/AM)
 	if(AM.recent_travel)
@@ -255,7 +243,7 @@
 	required_traits = list(TRAIT_ZURCH) //I'd tie this to trait_outlaw but unfortunately the heresiarch virtue exists so we're making a new trait instead.
 /obj/structure/fluff/traveltile/drow
 	required_traits = list(TRAIT_CAVEDWELLER)
-	
+
 /obj/structure/fluff/traveltile/dungeon
 	name = "gate"
 	desc = "This gate's enveloping darkness is so opressive you dread to step through it."

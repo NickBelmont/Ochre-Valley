@@ -123,6 +123,11 @@
 #define STATS_BLOCKADES_CLEARED "blockades_cleared"
 #define STATS_BLOCKADE_CONTRACTS_FAILED "blockade_contracts_failed"
 #define STATS_BLOCKADE_REWARDS_PAID "blockade_rewards_paid"
+// For material flows
+#define STATS_COMMISSION_MAMMONS_PAID "commission_mammons_paid"
+#define STATS_SCRAP_MAMMONS_PAID "scrap_mammons_paid"
+#define STATS_MATERIAL_UNITS_IN "material_units_in"
+#define STATS_MATERIAL_UNITS_OUT "material_units_out"
 
 // Influence related statistics
 
@@ -359,7 +364,7 @@ GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_ALIVE_MOTHS = 0,
 	STATS_ALIVE_HARPIES = 0, // OV Add
 	STATS_PEOPLE_DROWNED = 0,
-	STATS_WATER_CONSUMED  = 0,
+	STATS_WATER_CONSUMED	= 0,
 	STATS_LIMBS_BITTEN = 0,
 	STATS_UNDERWORLD_DUELS = 0,
 	STATS_LOCKS_PICKED = 0,
@@ -488,6 +493,10 @@ GLOBAL_LIST_INIT(azure_round_stats, list(
 	STATS_BLOCKADES_CLEARED = 0,
 	STATS_BLOCKADE_CONTRACTS_FAILED = 0,
 	STATS_BLOCKADE_REWARDS_PAID = 0,
+	STATS_COMMISSION_MAMMONS_PAID = 0,
+	STATS_SCRAP_MAMMONS_PAID = 0,
+	STATS_MATERIAL_UNITS_IN = 0,
+	STATS_MATERIAL_UNITS_OUT = 0,
 	STATS_KILLED_HIGHWAYMEN = 0,
 	STATS_KILLED_BOGMEN = 0,
 	STATS_KILLED_LESSER_BEASTS = 0,
@@ -513,6 +522,7 @@ GLOBAL_LIST_EMPTY(patron_follower_counts)
 #define FEATURED_STATS_ALCHEMISTS "alchemists"
 #define FEATURED_STATS_TAX_PAYERS "tax_payers"
 #define FEATURED_STATS_ALCOHOLICS "alcohol_drinkers"
+#define FEATURED_STATS_SMOKERS "smokers"
 #define FEATURED_STATS_SPEAKERS "speakers"
 #define FEATURED_STATS_FISHERS "fishers"
 #define FEATURED_STATS_GOURMETS "gourmets"
@@ -623,18 +633,22 @@ GLOBAL_LIST_INIT(featured_stats, list(
 		"color" = "#945d96",
 		"entries" = list()
 	),
+	FEATURED_STATS_SMOKERS = list(
+		"name" = "TOP Blacklungs",
+		"color" = "#2e201c",
+		"entries" = list()
+	),
 	FEATURED_STATS_MAGES = list(
 		"name" = "TOP Mages",
 		"color" = "#9eaceb",
 		"entries" = list()
 	),
-
 	FEATURED_STATS_SPELLS = list(
 		"name" = "TOP Spells",
 		"color" = "#6375c5",
 		"entries" = list(),
 		"object_stat" = TRUE
-	),	
+	),
 	FEATURED_STATS_ORIGINS = list(
 		"name" = "TOP Origins",
 		"color" = "#602d91",

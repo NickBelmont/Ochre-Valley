@@ -43,11 +43,52 @@ GLOBAL_LIST_EMPTY(lord_titles)
 		/datum/advclass/lord/mage,
 		/datum/advclass/lord/inbred
 	)
-	
+	default_subprefs = list("favorite_advclass" = null, "primcolor" = null, "seccolor" = null)
 
 /datum/outfit/job/roguetown/lord
 	job_bitflag = BITFLAG_ROYALTY
 	has_loadout = TRUE
+
+/datum/job/roguetown/lord/update_subprefs_window(mob/user)
+	if(!advclass_cat_rolls)
+		return
+	var/client/C = usr.client
+	if(!C || !C.prefs)
+		return
+	var/list/roleprefs = get_roleprefs(C)
+	var/datum/advclass/favorite = roleprefs["favorite_advclass"]
+	var/favorite_name = favorite ? favorite::name : "Choose"
+	var/HTML = {"
+		<i>You can choose a favorite subclass here. You'll automatically select this subclass on roundstart if possible.</i><br/><br/>
+		<b>Selected class:</b> <a href="?src=[REF(src)];class=1">[favorite_name]</a><br/>
+		<i>You can choose your ducal colors here; this will only take effect if both are set.</i><br/>
+		<b>Primary color:</b> <a href="?src=[REF(src)];primcolor=1">[roleprefs["primcolor"] || "Choose"]</a><br/>
+		<b>Secondary color:</b> <a href="?src=[REF(src)];seccolor=1">[roleprefs["seccolor"] || "Choose"]</a><br/>
+		<center><a href="?src=[REF(src)];subprefsexit=1">EXIT</a>\t\t<a href="?src=[REF(src)];subprefsreset=1">RESET</a></center>
+	"}
+	// the fact that the window width/height will be different each time is the main reason this isn't all done in a parent proc on /datum/job
+	var/datum/browser/popup = new(user, "[JOB_SUBPREFS_WINDOW_ID]", "<div align='center'>[title] Preferences</div>", 500, 400)
+	popup.set_content(HTML)
+	popup.open(FALSE)
+	if(winexists(usr, "[JOB_SUBPREFS_WINDOW_ID]"))
+		winset(usr, "[JOB_SUBPREFS_WINDOW_ID]", "focus=true")
+
+/datum/job/roguetown/lord/Topic(href, list/href_list)
+	. = ..()
+	var/client/C = usr.client
+	if(!C || !C.prefs)
+		return
+	var/list/roleprefs = get_roleprefs(C)
+	if(href_list["primcolor"])
+		var/choice = input(usr, "Choose a Primary Color", "ROYAL STANDARD") as anything in COLOR_MAP
+		if(choice)
+			roleprefs["primcolor"] = choice
+			update_subprefs_window(usr)
+	if(href_list["seccolor"])
+		var/choice = input(usr, "Choose a Secondary Color", "ROYAL STANDARD") as anything in COLOR_MAP
+		if(choice)
+			roleprefs["seccolor"] = choice
+			update_subprefs_window(usr)
 
 /datum/job/roguetown/lord/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	. = ..()
@@ -60,7 +101,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 			GLOB.lordsurname = "of [L.real_name]"
 		SSticker.set_ruler_mob(L)
 		var/realm = SSticker.realm_name || "Azure Peak"
-		to_chat(world, "<b><span class='notice'><span class='big'>[L.real_name] is [SSticker.rulertype] of [realm].</span></span></b>")
+		to_world("<b><span class='notice'><span class='big'>[L.real_name] is [SSticker.rulertype] of [realm].</span></span></b>")
 		if(istype(SSticker.regentmob, /mob/living/carbon/human))
 			var/mob/living/carbon/human/regentbuddy = SSticker.regentmob
 			to_chat(L, span_notice("Word reached me on the approach that [regentbuddy.real_name], the [regentbuddy.job], served as regent in my absence."))
@@ -69,7 +110,20 @@ GLOBAL_LIST_EMPTY(lord_titles)
 		addtimer(CALLBACK(L, TYPE_PROC_REF(/mob, lord_marriage_choice)), 50) //sensible to have this first
 		addtimer(CALLBACK(L, TYPE_PROC_REF(/mob, lord_suitor_choice)), 50)
 		if(STATION_TIME_PASSED() <= 30 MINUTES) //Late to the party? Stuck with default colors, sorry!
-			addtimer(CALLBACK(L, TYPE_PROC_REF(/mob, lord_color_choice)), 50)
+			spawn(50){
+				var/list/prefs = get_roleprefs(L.client)
+				if(prefs && prefs["primcolor"] && prefs["seccolor"])
+					var/prim = COLOR_MAP[prefs["primcolor"]]
+					var/sec = COLOR_MAP[prefs["seccolor"]]
+					GLOB.lordprimary = prim
+					GLOB.lordsecondary = sec
+					for(var/obj/O in GLOB.lordcolor)
+						O.lordcolor(prim,sec)
+					for(var/turf/T in GLOB.lordcolor)
+						T.lordcolor(prim,sec)
+				else
+					L.lord_color_choice()
+			}
 
 /datum/outfit/job/roguetown/lord
 	neck = /obj/item/storage/belt/rogue/pouch/coins/rich
@@ -116,7 +170,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	var/client/player = H?.client
 	if(player.prefs)
 		if(!istype(player.prefs.virtue_origin, /datum/virtue/origin/azuria) && !istype(player.prefs.virtue_origin, /datum/virtue/origin/grenzelhoft) && !istype(player.prefs.virtue_origin, /datum/virtue/origin/otava) && !istype(player.prefs.virtue_origin, /datum/virtue/origin/etrusca))
-			var/list/new_origins = list("Azuria" = /datum/virtue/origin/azuria, 
+			var/list/new_origins = list("Azuria" = /datum/virtue/origin/azuria,
 			"Grenzelhoft" = /datum/virtue/origin/grenzelhoft,
 			"Otava" = /datum/virtue/origin/otava,
 			"Etrusca" = /datum/virtue/origin/etrusca)
@@ -139,7 +193,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	tutorial = "You're a noble warrior. You rose to your rank through your own strength and skill, whether by leading your men or by fighting alongside them. Or perhaps you are none of that, but simply a well-trained heir elevated to the position of Lord. You're trained in the usage of heavy armor, and knows swordsmanship well."
 	outfit = /datum/outfit/job/roguetown/lord/warrior
 	category_tags = list(CTAG_LORD)
-	traits_applied = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR) //CC Edit: Removed dnr
+	traits_applied = list(TRAIT_NOBLE, TRAIT_HEAVYARMOR, TRAIT_DNR)
 	subclass_stats = list(
 		STATKEY_LCK = 5,
 		STATKEY_INT = 3,
@@ -168,7 +222,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	subclass_virtues = list(
 		/datum/virtue/utility/riding
 	)
-	
+
 	subclass_stashed_items = list(
 		"Ducal Caparison (Saiga)" = /obj/item/caparison/azure,
 		"Fogbeast Caparison" = /obj/item/caparison/fogbeast)
@@ -191,7 +245,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	outfit = /datum/outfit/job/roguetown/lord/merchant
 	category_tags = list(CTAG_LORD)
 	noble_income = 275 // Decently high but shouldn't remove any need for economic management
-	traits_applied = list(TRAIT_NOBLE, TRAIT_SEEPRICES, TRAIT_CICERONE, TRAIT_KEENEARS, TRAIT_MEDIUMARMOR) //CC Edit: Removed dnr)
+	traits_applied = list(TRAIT_NOBLE, TRAIT_SEEPRICES, TRAIT_CICERONE, TRAIT_KEENEARS, TRAIT_MEDIUMARMOR, TRAIT_DNR)
 	subclass_stats = list(
 		STATKEY_LCK = 5,
 		STATKEY_INT = 5,
@@ -242,7 +296,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	tutorial = "Despite spending your younger years focused on reading and the wonders of the arcyne, it came the time for you to take the throne. Now you rule not only by crown and steel, but by spell and wit, show those who doubted your time buried in books was well spent how wrong they were."
 	outfit = /datum/outfit/job/roguetown/lord/mage
 	category_tags = list(CTAG_LORD)
-	traits_applied = list(TRAIT_NOBLE, TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT) //CC Edit - Removed DNR
+	traits_applied = list(TRAIT_NOBLE, TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT, TRAIT_DNR) 
 	subclass_stats = list(
 		STATKEY_LCK = 5,
 		STATKEY_INT = 4,
@@ -259,7 +313,6 @@ GLOBAL_LIST_EMPTY(lord_titles)
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_MASTER,
-		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/magic/arcane = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
 	)
@@ -291,7 +344,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	tutorial = "Psydon and Astrata smiles upon you. For despite your inbred and weak body, and your family's conspiracies to remove you from succession, you have somehow become the Lord of Azure Peak. May your reign lasts a hundred years."
 	outfit = /datum/outfit/job/roguetown/lord/inbred
 	category_tags = list(CTAG_LORD)
-	traits_applied = list(TRAIT_NOBLE, TRAIT_CRITICAL_WEAKNESS, TRAIT_NORUN, TRAIT_HEAVYARMOR, TRAIT_GOODLOVER) //CC Edit: Removed dnr
+	traits_applied = list(TRAIT_NOBLE, TRAIT_CRITICAL_WEAKNESS, TRAIT_NORUN, TRAIT_HEAVYARMOR, TRAIT_GOODLOVER, TRAIT_DNR)
 	subclass_stats = list(
 		STATKEY_LCK = 10,
 		STATKEY_INT = -2,
@@ -302,7 +355,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	)
 	subclass_skills = list(
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/riding = SKILL_LEVEL_LEGENDARY,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/sewing = SKILL_LEVEL_NOVICE,
@@ -574,7 +627,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	accept_message = "FOR THE CROWN!"
 	refuse_message = "I refuse."
 	recharge_time = 100
-	applied_traits = list(TRAIT_FOOD_STIPEND)
+	applied_traits = list(TRAIT_ROYAL_SUBSIDY)
 
 /obj/effect/proc_holder/spell/self/convertrole/bog
 	name = "Recruit Warden"

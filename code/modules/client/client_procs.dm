@@ -21,7 +21,7 @@ GLOBAL_LIST_EMPTY(respawncounts)
 #define ADMINSWARNED_AT	5
 	/*
 	When somebody clicks a link in game, this Topic is called first.
-	It does the stuff in this proc and  then is redirected to the Topic() proc for the src=[0xWhatever]
+	It does the stuff in this proc and	then is redirected to the Topic() proc for the src=[0xWhatever]
 	(if specified in the link). ie locate(hsrc).Topic()
 
 	Such links can be spoofed.
@@ -32,7 +32,7 @@ GLOBAL_LIST_EMPTY(respawncounts)
 		- If so, does it have checks to see if the person who called it (usr.client) is an admin?
 		- Are the processes being called by Topic() particularly laggy?
 		- If so, is there any protection against somebody spam-clicking a link?
-	If you have any  questions about this stuff feel free to ask. ~Carn
+	If you have any	questions about this stuff feel free to ask. ~Carn
 	*/
 
 /client
@@ -146,7 +146,7 @@ GLOBAL_LIST_EMPTY(respawncounts)
 	if(href_list["schizohelp"])
 		answer_schizohelp(locate(href_list["schizohelp"]))
 		return
-	
+
 	if(href_list["viewchronicle"])
 		var/tab = href_list["chronicletab"] || "The Realm"
 		show_chronicle(tab)
@@ -213,6 +213,18 @@ GLOBAL_LIST_EMPTY(respawncounts)
 	show_round_stats(pick_assoc(GLOB.featured_stats))
 	log_admin("[key_name(src)] opened the Chronicle preview.")
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "View Chronicle")
+
+/client/proc/cmd_admin_view_economics()
+	set category = "Debug"
+	set name = "View Economics"
+	set desc = "Open the Realm Economics panel without waiting for round end."
+
+	if(!check_rights(R_ADMIN|R_DEBUG))
+		return
+	var/datum/economic_chronicle/chronicle = get_economic_chronicle()
+	chronicle.ui_interact(mob)
+	log_admin("[key_name(src)] opened the Realm Economics preview.")
+	SSblackbox.record_feedback("tally", "admin_verb", 1, "View Economics")
 
 /client/proc/is_content_unlocked()
 	if(!prefs.unlock_content)
@@ -298,8 +310,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	stat_panel = new(src, "statbrowser")
 	stat_panel.subscribe(src, PROC_REF(on_stat_panel_message))
 
-	winset(src, null, "browser-options=find,refresh") // OV Add: correct browser options
-
+	winset(src, null, "browser-options=find,refresh")
 	initialize_commandbar_spy()
 
 	GLOB.ahelp_tickets.ClientLogin(src)
@@ -322,7 +333,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 					autorank = R
 					break
 			if(!autorank)
-				to_chat(world, "Autoadmin rank not found")
+				to_world("Autoadmin rank not found")
 			else
 				new /datum/admins(autorank, ckey)
 	if(CONFIG_GET(flag/enable_localhost_rank) && !connecting_admin)
@@ -490,7 +501,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 		to_chat(src, get_message_output("memo"))
 		adminGreet()
 	if(!BC_IsKeyAllowedToConnect(ckey))
-		src << "Sorry, but the server is currently only accepting whitelisted players.  Please see the discord to be whitelisted."
+		src << "Sorry, but the server is currently only accepting whitelisted players.	Please see the discord to be whitelisted."
 		message_admins("[ckey] was denied a connection due to not being whitelisted.")
 		log_admin("[ckey] was denied a connection due to not being whitelisted.")
 		qdel(src)
@@ -856,7 +867,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 
 			sleep(15 SECONDS) //Longer sleep here since this would trigger if a client tries to reconnect manually because the inital reconnect failed
 
-			 //we sleep after telling the client to reconnect, so if we still exist something is up
+				//we sleep after telling the client to reconnect, so if we still exist something is up
 			log_access("Forced disconnect: [key] [computer_id] [address] - CID randomizer check")
 
 			qdel(src)
@@ -1220,10 +1231,6 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 /client/New()
 	..()
 	fullscreen()
-	/* OV Removal: This should be set in the main client/New
-	if(byond_version >= 516) // Enable 516 compat browser storage mechanisms
-		winset(src, null, "browser-options=find,byondstorage") */
-	// byondstorage,devtools <- other options
 
 /client/proc/give_award(achievement_type, mob/user)
 	return	player_details.achievements.unlock(achievement_type, mob/user)
@@ -1268,7 +1275,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 		return FALSE
 	return TRUE
 
-/client/proc/commendsomeone(var/forced = FALSE)
+/client/proc/commendsomeone(forced = FALSE)
 	if(!can_commend(forced))
 		return
 	if(alert(src,"Was there a character during this round that you would like to anonymously commend?", "Commendation", "YES", "NO") != "YES")
@@ -1323,7 +1330,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 #undef ADMINSWARNED_AT
 
 /client/proc/check_panel_loaded()
-	if(stat_panel.is_ready())
+	if(stat_panel.is_ready() && !stat_panel.fatally_errored)
 		return
 	to_chat(src, span_userdanger("Statpanel failed to load, click <a href='byond://?src=[REF(src)];reload_statbrowser=1'>here</a> to reload the panel "))
 

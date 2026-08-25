@@ -50,7 +50,7 @@ SUBSYSTEM_DEF(role_class_handler)
 /*
 	We init and build the ass lists
 */
-/datum/controller/subsystem/role_class_handler/Initialize()
+/datum/controller/subsystem/role_class_handler/Initialize(mapload)
 	build_category_lists()
 
 	initialized = TRUE
@@ -130,7 +130,6 @@ SUBSYSTEM_DEF(role_class_handler)
 			return FALSE // Along with stop here as they didn't get it.
 
 
-	H.advsetup = FALSE // This is actually on a lot of shit, so its a ghetto selector protector if u need one
 	if(H.mind)
 		H.mind.picked_advclass = picked_class
 	picked_class.equipme(H)
@@ -168,7 +167,7 @@ SUBSYSTEM_DEF(role_class_handler)
 				var/datum/class_select_handler/found_menu = class_select_handlers[HANDLER]
 
 				if(target_datum in found_menu.rolled_classes) // We found the target datum in one of the classes they rolled aka in the list of options they got visible,
-					found_menu.rolled_class_is_full(target_datum) //  inform the datum of its error.
+					found_menu.rolled_class_is_full(target_datum) //	inform the datum of its error.
 
 /datum/controller/subsystem/role_class_handler/proc/get_advclass_by_name(advclass_name)
 	for(var/category in sorted_class_categories)

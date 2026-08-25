@@ -29,7 +29,7 @@
 		usr.client.prefs.ShowChoices(usr, 4)
 
 /client/verb/toggle_fullscreen()
-	set name = "ToggleFullscreen"
+	set name = "Toggle Fullscreen"
 	set category = "Preferences.Options"
 	set desc = ""
 	if(prefs)
@@ -169,10 +169,14 @@
 	if(prefs)
 		prefs.no_redflash = !prefs.no_redflash
 		prefs.save_preferences()
+		var/mob/living/carbon/C = mob
+		if(istype(C))
+			C.update_damage_hud() // Fixes that the overlay is not removed when toggling if already present.
 		//Caustic Edit
 		to_chat(src, "You [prefs.no_redflash ? "will not" : "will"] see the red flashing effect.")
 		//Caustic Edit End
 
+//OV ADD START - Darkvision
 /client/verb/darkvision_accessibility()
 	set category = "Preferences.Options"
 	set name = "Darkvision Accessibility"
@@ -194,6 +198,7 @@
 	prefs.save_preferences()
 	mob?.update_sight()
 	to_chat(src, "Darkvision accessibility set to [prefs.darkvision_accessibility]%.")
+//OV ADD END
 
 /client/verb/toggle_topexamine()
 	set category = "Preferences.Options"
@@ -218,6 +223,7 @@
 		to_chat(src, "You will no longer hear music in the lobby.")
 		mob.stop_sound_channel(CHANNEL_LOBBYMUSIC)
 
+//OV ADD START - Roleplay Ad Maint
 /client/verb/toggle_roleplay_ads()
 	set name = "Roleplay Ads (Toggle)"
 	set category = "OOC"
@@ -229,6 +235,7 @@
 		to_chat(src, "You will now be notified of new roleplay ads.")
 	else
 		to_chat(src, "You will no longer be notified of new roleplay ads.")
+//OV ADD END
 
 /client/verb/stop_sounds_rogue()
 	set name = "StopSounds"
@@ -595,7 +602,7 @@ GLOBAL_LIST_INIT(ghost_forms, sortList(list("ghost","ghostking","ghostian2","ske
 							"ghost_mellow","ghost_rainbow","ghost_camo","ghost_fire", "catghost")))
 /client/proc/pick_form()
 	if(!is_content_unlocked())
-		alert("This setting is for accounts with BYOND premium only.")
+		alert(src, "This setting is for accounts with BYOND premium only.")
 		return
 	var/new_form = input(src, "Thanks for supporting BYOND - Choose your ghostly form:","Thanks for supporting BYOND",null) as null|anything in GLOB.ghost_forms
 	if(new_form)
@@ -609,7 +616,7 @@ GLOBAL_LIST_INIT(ghost_orbits, list(GHOST_ORBIT_CIRCLE,GHOST_ORBIT_TRIANGLE,GHOS
 
 /client/proc/pick_ghost_orbit()
 	if(!is_content_unlocked())
-		alert("This setting is for accounts with BYOND premium only.")
+		alert(src, "This setting is for accounts with BYOND premium only.")
 		return
 	var/new_orbit = input(src, "Thanks for supporting BYOND - Choose your ghostly orbit:","Thanks for supporting BYOND",null) as null|anything in GLOB.ghost_orbits
 	if(new_orbit)
@@ -620,7 +627,7 @@ GLOBAL_LIST_INIT(ghost_orbits, list(GHOST_ORBIT_CIRCLE,GHOST_ORBIT_TRIANGLE,GHOS
 			O.ghost_orbit = new_orbit
 
 /client/proc/pick_ghost_accs()
-	var/new_ghost_accs = alert("Do you want your ghost to show full accessories where possible, hide accessories but still use the directional sprites where possible, or also ignore the directions and stick to the default sprites?",,"full accessories", "only directional sprites", "default sprites")
+	var/new_ghost_accs = alert(src, "Do you want your ghost to show full accessories where possible, hide accessories but still use the directional sprites where possible, or also ignore the directions and stick to the default sprites?",,"full accessories", "only directional sprites", "default sprites")
 	if(new_ghost_accs)
 		switch(new_ghost_accs)
 			if("full accessories")
@@ -641,7 +648,7 @@ GLOBAL_LIST_INIT(ghost_orbits, list(GHOST_ORBIT_CIRCLE,GHOST_ORBIT_TRIANGLE,GHOS
 	if(!holder)
 		return
 	if(is_content_unlocked())
-		switch(alert("Which setting do you want to change?",,"Ghost Form","Ghost Orbit","Ghost Accessories"))
+		switch(alert(usr, "Which setting do you want to change?",,"Ghost Form","Ghost Orbit","Ghost Accessories"))
 			if("Ghost Form")
 				pick_form()
 			if("Ghost Orbit")
@@ -657,7 +664,7 @@ GLOBAL_LIST_INIT(ghost_orbits, list(GHOST_ORBIT_CIRCLE,GHOST_ORBIT_TRIANGLE,GHOS
 	set hidden = 1
 	if(!holder)
 		return
-	var/new_ghost_others = alert("Do you want the ghosts of others to show up as their own setting, as their default sprites or always as the default white ghost?",,"Their Setting", "Default Sprites", "White Ghost")
+	var/new_ghost_others = alert(usr, "Do you want the ghosts of others to show up as their own setting, as their default sprites or always as the default white ghost?",,"Their Setting", "Default Sprites", "White Ghost")
 	if(new_ghost_others)
 		switch(new_ghost_others)
 			if("Their Setting")
