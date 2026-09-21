@@ -40,6 +40,9 @@
 			user.visible_message(span_warning("[user]'s [src] glows ominously as [H] falls still."), span_warning("The [src] glows brilliantly as [H]'s lux fills it"), vision_distance = 1)
 			log_admin("[key_name(M)] has had their lux trapped by [key_name(user)].")
 			body_tracker = WEAKREF(M)
+			var/datum/component/conjured_minion/minion = M.GetComponent(/datum/component/conjured_minion)
+			if(minion) //Track the conjurers body if this is a minion, may still be a bit jank, but less so.
+				body_tracker = minion.summoner_ref
 			trapped = new /mob/living/carbon/human(src)
 			copy_to_trapped(H)
 			VORE_PREF_TRANSFER(trapped, H) //So prefs properly transfer over
@@ -61,6 +64,7 @@
 	if(H && trapped)
 		H.key = trapped.key
 		qdel(trapped)
+		trapped = null
 		body_tracker = null
 		originalDead = FALSE
 
@@ -73,7 +77,7 @@
 	trapped.copy_physical_features(source)
 	for(var/obj/item/I in items_to_copy)
 		var/obj/item/copy = new I.type()
-		
+
 		// Check each possible slot
 		if(source.head == I)
 			trapped.equip_to_slot_or_del(copy, SLOT_HEAD)
