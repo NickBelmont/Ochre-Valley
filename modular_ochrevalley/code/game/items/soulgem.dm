@@ -14,7 +14,8 @@
 	var/originalDead = FALSE
 /obj/item/soulgem/examine()
 	. = ..()
-	if(trapped)
+	//Sort of janky workaround for subtypes having their own examine text
+	if(!istype(src, /obj/item/soulgem/effigy) && trapped)
 		. += "</br><span class='notice'>Upon closer examination, the presence of [trapped] can be seen within the crystal.</span>"
 
 /obj/item/soulgem/attack(mob/living/M, mob/living/user)
@@ -27,8 +28,8 @@
 				return
 			user.visible_message(span_warning("[src]'s ominous light fades, as [M] begins to stir..."), vision_distance = 1)
 			UnregisterSignal(M, COMSIG_MOB_DIGESTION_DEATH)
-			clear_gem()
 			set_icon(FALSE)
+			clear_gem()
 	else if(ishuman(M) && !trapped)
 		var/mob/living/carbon/human/H = M
 		if(tgui_alert(M, "Are you certain you'd like your lux trapped by [user]? You will be unable to return to your body by yourself without OOC escape", "Become Entrapped",list("No","Yes")) == "Yes")
@@ -50,7 +51,6 @@
 			RegisterSignal(H, COMSIG_MOB_DIGESTION_DEATH, PROC_REF(handle_vore_death))
 			set_icon(TRUE)
 			H.set_resting(TRUE, FALSE)
-			H.eyesclosed = 1
 			if(M == user) //Drop the crystal if we trapped ourselves
 				user.dropItemToGround(src)
 
@@ -78,6 +78,12 @@
 	for(var/obj/item/I in items_to_copy)
 		var/obj/item/copy = new I.type()
 		ADD_TRAIT(copy, TRAIT_NODROP, TRAIT_GENERIC)
+		//Handle color stuff
+		if(I.atom_colours)
+			copy.add_atom_colour(I.atom_colours[FIXED_COLOUR_PRIORITY], FIXED_COLOUR_PRIORITY)
+		copy.detail_color = I.detail_color
+		copy.altdetail_color = I.altdetail_color
+		copy.update_icon()
 		// Check each possible slot
 		if(source.head == I)
 			trapped.equip_to_slot_or_del(copy, SLOT_HEAD)
