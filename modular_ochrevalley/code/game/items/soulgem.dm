@@ -20,7 +20,7 @@
 
 /obj/item/soulgem/attack(mob/living/M, mob/living/user)
 	if(trapped && body_tracker.resolve() == M)
-		if(tgui_alert(user, "Release the [trapped] back into their body?", "Release Lux",list("No","Yes")) == "Yes")
+		if(tgui_alert(user, "Release [trapped] back into their body?", "Release Lux",list("No","Yes")) == "Yes")
 			var/datum/beam/transfer_beam = M.Beam(user, icon_state = "drain_life", time = 5 SECONDS)
 			user.visible_message(span_warning("The light within [src] begins to fade, filtering back into [M]"), vision_distance = 1)
 			if(!do_after(user, 5 SECONDS, target = M))
