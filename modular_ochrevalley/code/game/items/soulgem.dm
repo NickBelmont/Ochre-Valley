@@ -77,7 +77,7 @@
 	trapped.copy_physical_features(source)
 	for(var/obj/item/I in items_to_copy)
 		var/obj/item/copy = new I.type()
-
+		ADD_TRAIT(copy, TRAIT_NODROP, TRAIT_GENERIC)
 		// Check each possible slot
 		if(source.head == I)
 			trapped.equip_to_slot_or_del(copy, SLOT_HEAD)
