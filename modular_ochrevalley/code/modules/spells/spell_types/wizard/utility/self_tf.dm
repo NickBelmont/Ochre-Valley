@@ -2,7 +2,7 @@
 	name = "Self-Transmutation"
 	desc = "Seal yourself within your currently held item. Note: You will not be able to free yourself without OOC escape"
 
-	invocations = list("Unita Materia!")
+	invocations = list("Materia Unita!")
 	invocation_type = INVOCATION_SHOUT
 	//To prevent whatever chees you could somehow pull off, make it like casting a ward, no moving, easily canceled
 	charge_required = TRUE
