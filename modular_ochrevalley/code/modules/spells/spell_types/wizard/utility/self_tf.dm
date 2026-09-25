@@ -1,6 +1,6 @@
 /datum/action/cooldown/spell/self_tf
 	name = "Self-Transmutation"
-	desc = "Seal yourself within your currently held item. Note: You will not be able to free yourself without OOC escape"
+	desc = "Seal yourself within your currently held item."
 
 	click_to_activate = FALSE
 
@@ -48,7 +48,7 @@
 	else
 		if(!the_item)
 			return FALSE
-		if(tgui_alert(H, "Are you certain you'd like to transform into [the_item]? You will be unable to return by yourself without OOC escape", "Become Entrapped",list("No","Yes")) == "No")
+		if(tgui_alert(H, "Are you certain you'd like to transform into [the_item]?", "Become Entrapped",list("No","Yes")) == "No")
 			return FALSE
 		H.dropItemToGround(the_item)
 		the_item.mob_possession = H
