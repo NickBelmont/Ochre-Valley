@@ -2,6 +2,8 @@
 	name = "Self-Transmutation"
 	desc = "Seal yourself within your currently held item. Note: You will not be able to free yourself without OOC escape"
 
+	click_to_activate = FALSE
+
 	invocations = list("Materia Unita!")
 	invocation_type = INVOCATION_SHOUT
 	//To prevent whatever chees you could somehow pull off, make it like casting a ward, no moving, easily canceled
@@ -21,6 +23,12 @@
 
 	charge_swingdelay_type = SWINGDELAY_CANCEL
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z | SPELL_REQUIRES_NO_MOVE
+/datum/action/cooldown/spell/self_tf/can_cast_spell(feedback)
+	if(istype(owner.loc, /obj/item)) //Do we care if you can untransform yourself? I don't think so.
+		var/obj/item/the_item = owner.loc
+		if(the_item.mob_possession) //Again, stop micros or soulgemmed people
+			return TRUE //Does this mean we don't check a bunch of shit? Yeah, but the spell has no cost, and the rest doesn't matter if they're in an item.
+	. = ..()
 
 /datum/action/cooldown/spell/self_tf/cast(atom/cast_on)
 	. = ..()
@@ -28,14 +36,24 @@
 	if(!istype(H))
 		return FALSE
 	var/obj/item/the_item = H.get_active_held_item()
-	if(!the_item)
-		return FALSE
-	if(tgui_alert(H, "Are you certain you'd like to transform into [the_item]? You will be unable to return by yourself without OOC escape", "Become Entrapped",list("No","Yes")) == "No")
-		return FALSE
-	H.dropItemToGround(the_item)
-	the_item.mob_possession = H
-	H.forceMove(the_item)
-	the_item.visible_message(src, span_warning("[H] is merged into [the_item]!"))
+	if(istype(H.loc, /obj/item))
+		the_item = H.loc
+		if(!the_item.mob_possession)
+			return FALSE //They're soul gemmed or a held micro, can't un TF those
+		if(the_item.mob_possession in the_item.contents)
+			var/our_loc = get_turf(the_item)
+			the_item.mob_possession.forceMove(our_loc)
+			the_item.visible_message(src, span_warning("[the_item.mob_possession] is separated from [the_item]!"))
+		the_item.mob_possession = null
+	else
+		if(!the_item)
+			return FALSE
+		if(tgui_alert(H, "Are you certain you'd like to transform into [the_item]? You will be unable to return by yourself without OOC escape", "Become Entrapped",list("No","Yes")) == "No")
+			return FALSE
+		H.dropItemToGround(the_item)
+		the_item.mob_possession = H
+		H.forceMove(the_item)
+		the_item.visible_message(src, span_warning("[H] is merged into [the_item]!"))
 
 /obj/item/book/granter/spell/bonechill/self_tf
 	name = "Scroll of Self-Transmutation"
