@@ -1,6 +1,6 @@
 /datum/action/cooldown/spell/self_tf
 	name = "Self-Transmutation"
-	desc = "Seal yourself within your currently held item."
+	desc = "Seal yourself within your currently held item. Can also be used while transformed to free yourself."
 
 	click_to_activate = FALSE
 
