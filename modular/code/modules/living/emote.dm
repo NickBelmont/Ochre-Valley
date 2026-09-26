@@ -55,7 +55,15 @@
 		if(L.stat != DEAD && L != src) // to those living only - slightly more expensive but subtle is not spammed
 			mobsinview += L
 			if(!L.rogue_sneaking && L.name != "Unknown") // do not let hidden/unknown targets be added to list
-				mobspickable += L
+				//OV Edit Start: Account for duplicate names
+				var/count = mobspickable[L.name] ? 1 : 0
+				if(count)
+					while(mobspickable["[L.name] ([count])"])
+						count++
+					mobspickable["[L.name] ([count])"] = L
+				else
+					mobspickable[L.name] = L
+				//OV Edit End
 	var/choice = input(src, "Pick a target?", "Subtle Emote") in mobspickable
 	to_chat(src, "<i>[message]</i>")
 
@@ -65,7 +73,7 @@
 	else if(choice == "Same Tile")
 		distance = 0
 	else // we picked a target
-		var/mob/living/target = choice
+		var/mob/living/target = mobspickable[choice] //OV Edit: Allow for duplicate names
 		if(!isliving(target) || QDELETED(target)) // mob has since been deleted/destroyed, skip
 			to_chat(src, span_boldwarning("The subtle emote target no longer exists, try again."))
 			return
