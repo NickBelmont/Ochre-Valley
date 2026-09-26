@@ -3751,6 +3751,7 @@
 #include "modular\Neu_Food\code\recipes\veggies_recipes.dm"
 #include "modular\Neu_teas_and_brews\code\drink_mix_recipes.dm"
 #include "modular\Neu_teas_and_brews\code\drink_mixes.dm"
+#include "modular_ochrevalley\code\datums\character_flaw\dormancy.dm"
 #include "modular\Neu_teas_and_brews\code\drink_reagents_tea.dm"
 #include "modular\piercing\carbon_defines.dm"
 #include "modular\piercing\features.dm"
