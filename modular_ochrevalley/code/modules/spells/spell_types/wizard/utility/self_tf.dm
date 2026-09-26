@@ -26,7 +26,7 @@
 /datum/action/cooldown/spell/self_tf/can_cast_spell(feedback)
 	if(istype(owner.loc, /obj/item)) //Do we care if you can untransform yourself? I don't think so.
 		var/obj/item/the_item = owner.loc
-		if(the_item.mob_possession) //Again, stop micros or soulgemmed people
+		if(the_item.mob_possession == owner) //Again, stop micros or soulgemmed people
 			return TRUE //Does this mean we don't check a bunch of shit? Yeah, but the spell has no cost, and the rest doesn't matter if they're in an item.
 	. = ..()
 
@@ -38,7 +38,7 @@
 	var/obj/item/the_item = H.get_active_held_item()
 	if(istype(H.loc, /obj/item))
 		the_item = H.loc
-		if(!the_item.mob_possession)
+		if(the_item.mob_possession != owner)
 			return FALSE //They're soul gemmed or a held micro, can't un TF those
 		if(the_item.mob_possession in the_item.contents)
 			var/our_loc = get_turf(the_item)
