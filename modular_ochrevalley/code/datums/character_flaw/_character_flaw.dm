@@ -204,12 +204,12 @@ GLOBAL_LIST_INIT(dendor_touched_animals, list(
 		next_check = world.time + check_interval
 		var/mob/living/carbon/human/H = user
 		if(!target)
-			H.add_stress(/datum/stressevent/dendor_touched)
-			H.apply_status_effect(/datum/status_effect/debuff/dendor_touched)
+			H.add_stress(/datum/stressevent/unbound)
+			H.apply_status_effect(/datum/status_effect/debuff/unbound)
 			return
 		else
-			H.remove_stress(/datum/stressevent/dendor_touched)
-			H.remove_status_effect(/datum/status_effect/debuff/dendor_touched)
+			H.remove_stress(/datum/stressevent/unbound)
+			H.remove_status_effect(/datum/status_effect/debuff/unbound)
 		if(H.energy <= 0 && isturf(user.loc)) //Don't TF if eaten, already a thing, or a held micro.
 			if(warned)
 				warned = 0

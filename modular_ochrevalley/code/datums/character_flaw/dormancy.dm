@@ -56,4 +56,19 @@
 			to_chat(usr, span_warning("You are unable to revert to your dormant state at this moment!"))
 			return FALSE
 
+/datum/stressevent/unbound
+	timer = 6 MINUTES
+	stressadd = 7
+	desc = span_red("Without an item to retreat to, my mind feels lost and muddled!")
+
+/datum/status_effect/debuff/unbound
+	id = "unbound"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/unbound
+	effectedstats = list(STATKEY_WIL = -3,STATKEY_INT = -2)
+	duration = 200
+
+/atom/movable/screen/alert/status_effect/debuff/unbound
+	name = "Unbound"
+	desc = "I must bind an item to myself!"
+	icon_state = "debuff"
 
