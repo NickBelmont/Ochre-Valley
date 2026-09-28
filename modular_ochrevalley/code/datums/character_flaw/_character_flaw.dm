@@ -312,6 +312,7 @@ GLOBAL_LIST_INIT(dendor_touched_animals, list(
 				warned = 1
 				to_chat(user, span_warning("My mana is spent, I should likely seek somewhere safe before I revert to [target]."))
 		if(user.loc == target)
-			if(H.energy + H.max_energy/30 >= H.max_energy/2 && H.energy < H.max_energy/2)
-				to_chat(user, span_warning("I feel enough of my mana return to change back to my usual state."))
-			H.energy_add(H.max_energy/30)
+			if(H.energy < H.max_energy/2)
+				if(H.energy + H.max_energy/30 >= H.max_energy/2)
+					to_chat(user, span_warning("I feel enough of my mana return to change back to my usual state."))
+				H.energy_add(H.max_energy/30)
