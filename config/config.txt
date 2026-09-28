@@ -5,7 +5,6 @@ $include dbconfig.txt
 $include comms.txt
 $include antag_rep.txt
 $include discord.txt
-$include resources.txt
 
 # You can use the @ character at the beginning of a config option to lock it from being edited in-game
 # Example usage:
@@ -71,7 +70,7 @@ ENABLE_LOCALHOST_RANK
 #USE_ACCOUNT_AGE_FOR_JOBS
 
 ## Unhash this to track player playtime in the database. Requires database to be enabled.
-#USE_EXP_TRACKING
+USE_EXP_TRACKING
 ## Unhash this to enable playtime requirements for head jobs.
 #USE_EXP_RESTRICTIONS_HEADS
 ## Unhash this to override head jobs' playtime requirements with this number of hours.
@@ -244,7 +243,7 @@ GUEST_BAN
 #WEBCLIENT_ONLY_BYOND_MEMBERS
 
 ## Set to prevent anyone but those ckeys listed in config/whitelist.txt and config/admins.txt from joining your server
-# USEWHITELIST
+#USEWHITELIST
 
 USEBLACKLIST
 
@@ -582,9 +581,3 @@ BORDER_CONTROL 0
 
 ## Once a typepath causes overrun from hard deletes this many times, stop hard deleting it on garbage collection failures. (set to 0 to disable)
 #HARD_DELETES_OVERRUN_LIMIT 0
-
-## Comms key for OchreBot
-COMMS_KEY MO6uVZ8#wH4!G^LbuH
-
-## AMIA bot behaviors enabled for OchreBot
-AMIA_ENABLED

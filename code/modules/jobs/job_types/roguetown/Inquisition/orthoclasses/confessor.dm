@@ -1,5 +1,5 @@
 /datum/advclass/confessor
-	name = "Redactus" //OV Edit - was "Confessor"
+	name = "Confessor" //OV Edit - was "Confessor"
 	tutorial = "Emissaries of the Otavan Faith, they are tasked to find relics and enemies to Humenkind. Maybe once you were an inquisitorial Confessor or just a really good relic hunter. Now you use your skills of subterfuge and investigation to protect those who cannot protect themselves." //OV Edit per Lore Doc
 	allowed_sexes = list(MALE, FEMALE)
 
@@ -46,7 +46,7 @@
 /datum/outfit/job/roguetown/confessor/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	..()
 	if(H.mind)
-		var/weapons = list("Psydonic Rapier", "Psydonic Shortsword", "Psydonic Tomahawk", "Psydonic Cudgel", "Psydonic Flanged Mace")
+		var/weapons = list("Psydonic Rapier", "Psydonic Shortsword", "Psydonic Tomahawk", "Psydonic Cudgel", "Psydonic Flanged Mace", "Psydonic Whip")
 		var/weapon_choice = input(H,"Choose your WEAPON.", "TAKE UP PSYDON'S ARMS.") as anything in weapons
 		switch(weapon_choice)
 			if("Psydonic Rapier")
@@ -66,6 +66,9 @@
 			if("Psydonic Flanged Mace")
 				l_hand = /obj/item/rogueweapon/mace/cudgel/flanged/psy
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
+			if("Psydonic Whip")
+				l_hand = /obj/item/rogueweapon/whip/psywhip_lesser
+				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 4, TRUE)
 		var/armors = list("Confessor - Dodge Expert, Complete Coverage", "Arbalist - Master Crossbows, +III STR / -III SPD")
 		var/armor_choice = input(H, "Choose your ARCHETYPE.", "TAKE UP PSYDON'S DUTY.") as anything in armors
 		switch(armor_choice)

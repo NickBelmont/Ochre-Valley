@@ -649,6 +649,7 @@
 		/datum/sprite_accessory/hair/head/bedhead2,
 		/datum/sprite_accessory/hair/head/bedhead3,
 		/datum/sprite_accessory/hair/head/bedheadlong,
+		/datum/sprite_accessory/hair/head/bedheadlongest,
 		/datum/sprite_accessory/hair/head/badlycut,
 		/datum/sprite_accessory/hair/head/beehive,
 		/datum/sprite_accessory/hair/head/beehive2,
@@ -1056,7 +1057,10 @@
 		/datum/sprite_accessory/hair/head/strand,
 		/datum/sprite_accessory/hair/head/sodden,
 		/datum/sprite_accessory/hair/head/lizbeth,
-		/datum/sprite_accessory/hair/head/skunky
+		/datum/sprite_accessory/hair/head/skunky,
+		//OV ADD START
+		/datum/sprite_accessory/hair/head/ochre/drillandbun,
+		//OV ADD END
 		)
 
 /datum/customizer_choice/bodypart_feature/hair/head/humanoid/get_random_accessory(datum/customizer_entry/entry, datum/preferences/prefs)

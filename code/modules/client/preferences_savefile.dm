@@ -212,7 +212,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	top_examine			= sanitize_bool(top_examine, initial(top_examine))
 	crt					= sanitize_bool(crt, initial(crt))
 	grain				= sanitize_bool(grain, initial(grain))
-	dnr_pref			= sanitize_bool(dnr_pref, initial(dnr_pref))
 	qsr_pref			= sanitize_bool(qsr_pref, initial(qsr_pref))
 	no_storyteller_events = sanitize_bool(no_storyteller_events, initial(no_storyteller_events))
 	verbose_character_creator = sanitize_bool(verbose_character_creator, initial(verbose_character_creator))
@@ -265,24 +264,85 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 			key_bindings -= key
 	// End
 
+// OV Edit Start: Export their entire save folder
+/client
+	COOLDOWN_DECLARE(savefile_export_cooldown)
+
 /client/verb/export_savefile()
 	set name = "Export Preferences"
 	set desc = "Export your preferences to a file."
 	set category = "OOC"
-	if(!prefs.path)
+
+	if(!COOLDOWN_FINISHED(src, savefile_export_cooldown))
+		to_chat(src, span_warning("You have recently exported your savefile, please wait 30 seconds before trying again."))
 		return
 
-	if(alert(src, "Are you sure you want to export your preferences? This will create a file on your computer that contains your preferences.", "Export Preferences", "Yes", "No") == "No")
+	var/directory = "data/player_saves/[copytext(ckey,1,2)]/[ckey]/"
+	if(!fexists(directory))
+		to_chat(src, span_warning("You seem to have no savefiles. Please contact an admin."))
 		return
 
-	if(!fexists(prefs.path))
-		to_chat(src, span_warning("No savefile, what?!"))
+	if(alert(src, "Are you sure you want to export your preferences? This will create a file on your computer that contains your preferences.", "Export Preferences", "Yes", "No") != "Yes")
 		return
 
-	var/file_name = "[ckey].sav"
-	var/exportable_file = file(prefs.path)
+	COOLDOWN_START(src, savefile_export_cooldown, 30 SECONDS)
 
-	DIRECT_OUTPUT(src, ftp(exportable_file, file_name))
+	var/temp = "tmp/player_save_[ckey]/"
+	if(fexists(temp))
+		if(!fdel(temp))
+			to_chat(src, span_warning("Your savefile export function is currently locked. Please try again in a few minutes, then contact an admin if that fails."))
+			return
+
+	var/success = fcopy(directory, temp)
+	if(!success)
+		to_chat(src, span_warning("Unable to copy savefiles. Please contact an admin."))
+		return
+
+	var/target = "tmp/player_save_[ckey].zip"
+	if(fexists(target))
+		if(!fdel(target))
+			to_chat(src, span_warning("Your savefile export function is currently locked. Please try again in a few minutes, then contact an admin if that fails."))
+			return
+
+	switch(world.system_type)
+		if(MS_WINDOWS)
+			// it's so particular about ending slashes...
+			var/code = shell("powershell -WindowStyle Hidden \"& Compress-Archive -Path [temp] -DestinationPath [target]\"")
+			if(code != 0)
+				to_chat(src, span_warning("Failed to zip savefile. Please contact an admin."))
+				// Clean up
+				INVOKE_ASYNC(src, PROC_REF(cleanup_temp_export_file), temp)
+				INVOKE_ASYNC(src, PROC_REF(cleanup_temp_export_file), target)
+				return
+
+		if(UNIX)
+			var/code = shell("zip -r [target] [temp]")
+			if(code != 0)
+				to_chat(src, span_warning("Failed to zip savefile. Please contact an admin."))
+				// Clean up
+				INVOKE_ASYNC(src, PROC_REF(cleanup_temp_export_file), temp)
+				INVOKE_ASYNC(src, PROC_REF(cleanup_temp_export_file), target)
+				return
+
+	log_admin("[key_name(src)] exported their whole savefile folder.")
+	// Fun fact: this doesn't block!!! but it SURE DOES LOCK THE FILE!
+	DIRECT_OUTPUT(src, ftp(file(target), "[ckey].zip"))
+
+	// So we're just gonna wait 30 seconds and HOPE they closed the dialog by then!
+	addtimer(CALLBACK(src, PROC_REF(cleanup_temp_export_file), temp), 30 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(cleanup_temp_export_file), target), 30 SECONDS)
+
+// We gotta sit here and keep trying!!!
+/client/proc/cleanup_temp_export_file(temp_file)
+	var/max_retries = 10
+	while(fexists(temp_file))
+		if(max_retries < 0)
+			CRASH("failed to delete temporary file '[temp_file]'")
+		fdel(temp_file)
+		// It's filesystem nonsense, so give it pleeennttttyyyyyy offff tiiiiimeeeee....
+		sleep(10 SECONDS)
+		max_retries--
+// OV Edit End
 
 /datum/preferences/proc/save_preferences()
 	if(!path)
@@ -610,7 +670,11 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["job_preferences"] >> job_preferences
 	S["job_subprefs"] >> job_subprefs
 
-	S["dnr"] >> dnr_pref
+	S["char_toggles"] >> char_toggles
+	if(isnull(char_toggles))
+		var/legacy_dnr
+		S["dnr"] >> legacy_dnr
+		char_toggles = legacy_dnr ? CHAR_TOGGLE_DNR : NONE
 
 	S["update_mutant_colors"] >> update_mutant_colors
 
@@ -671,6 +735,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["examine_theme"]		>> examine_theme
 
 	S["body_size"] >> features["body_size"]
+	S["body_build"] >> features["body_build"]
 	S["body_markings"] >> body_markings
 
 	S["descriptor_entries"] >> descriptor_entries
@@ -728,9 +793,17 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	vampire_ears = sanitize_hexcolor(vampire_ears, 6, TRUE, null, TRUE)
 	highlight_color = sanitize_hexcolor(highlight_color, 6, TRUE, initial(highlight_color))
 
+	char_toggles = sanitize_integer(char_toggles, 0, INFINITY, initial(char_toggles))
+
 	// floats
 	voice_pitch		= sanitize_float(voice_pitch, MIN_VOICE_PITCH, MAX_VOICE_PITCH, 0.01, 1)
 	features["body_size"] = sanitize_float(features["body_size"], BODY_SIZE_MIN, BODY_SIZE_MAX, 0.01, BODY_SIZE_NORMAL)
+	// A build the species doesn't offer (race swap, or a savefile predating builds) falls back to its default,
+	// so the character keeps rendering on their species' native shape rather than a body it has no sprites for.
+	if(!length(pref_species.allowed_body_builds))
+		features["body_build"] = null
+	else if(!pref_species.is_body_build_valid(features["body_build"], gender))
+		features["body_build"] = pref_species.get_default_body_build(gender)
 
 	// lists
 	age				= sanitize_inlist(age, pref_species.possible_ages, AGE_ADULT)
@@ -921,7 +994,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["bark_variance"]			, bark_variance)
 	WRITE_FILE(S["mute_barks"]				, mute_barks)
 
-	WRITE_FILE(S["dnr"] , dnr_pref)
+	WRITE_FILE(S["char_toggles"] , char_toggles)
 	WRITE_FILE(S["update_mutant_colors"] , update_mutant_colors)
 	WRITE_FILE(S["headshot_link"] , headshot_link)
 	WRITE_FILE(S["vampire_headshot_link"] , vampire_headshot_link)
@@ -963,6 +1036,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["race_bonus"], race_bonus)
 	WRITE_FILE(S["combat_music"], combat_music.type)
 	WRITE_FILE(S["body_size"] , features["body_size"])
+	WRITE_FILE(S["body_build"] , features["body_build"])
 	WRITE_FILE(S["nsfwflavortext"] , html_decode(nsfwflavortext))
 	WRITE_FILE(S["erpprefs"] , html_decode(erpprefs))
 	WRITE_FILE(S["img_gallery"] , img_gallery)

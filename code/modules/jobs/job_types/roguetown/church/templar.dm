@@ -10,7 +10,7 @@
 	//forbidden_races = list(RACES_DESPISED) //OV Edit - allow all
 	allowed_patrons = ALL_DIVINE_PATRONS
 	outfit = /datum/outfit/job/roguetown/templar
-	min_pq = 3 //OV EDIT
+	min_pq = 5 //OV EDIT
 	max_pq = null
 	round_contrib_points = 2
 	total_positions = 4
