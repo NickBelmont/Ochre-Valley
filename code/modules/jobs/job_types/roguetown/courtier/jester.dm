@@ -18,7 +18,7 @@
 	job_traits = list(TRAIT_ZJUMP, TRAIT_LEAPER, TRAIT_NUTCRACKER, TRAIT_TEMPO)
 	display_order = JDO_JESTER
 	give_bank_account = TRUE
-	min_pq = null //-4 //silly jesters are funny so low PQ requirement
+	min_pq = 5 //-4 //silly jesters are funny so low PQ requirement //OV EDIT
 	max_pq = null
 	round_contrib_points = 2
 	has_subprefs = FALSE // only one subclass
@@ -64,6 +64,7 @@
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/telltragedy)
 	add_verb(H, /mob/living/carbon/human/proc/ventriloquate)
 	add_verb(H, /mob/living/carbon/human/proc/ear_trick)
+	add_verb(H, /mob/living/carbon/human/proc/jester_flip)
 	if(!istype(H.getorganslot(ORGAN_SLOT_TONGUE), /obj/item/organ/tongue/wild_tongue))
 		H.internal_organs_slot[ORGAN_SLOT_TONGUE] = new /obj/item/organ/tongue/wild_tongue
 	if(prob(50))

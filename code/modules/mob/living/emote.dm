@@ -540,7 +540,7 @@
 				message_param = "kisses %t on the cheek."
 			//OV EDIT
 			else if(H.zone_selected == BODY_ZONE_PRECISE_STOMACH)
-				message_param = "kisses %t on their belly."
+				message_param = "kisses %t on the belly."
 			//OV EDIT END
 			else
 				message_param = "kisses %t on \the [parse_zone(H.zone_selected)]."
@@ -557,7 +557,7 @@
 /datum/emote/living/lick
 	key = "lick"
 	key_third_person = "licks"
-	message = "licking."
+	message = "licks their lips."
 	message_param = "licks %t."
 	emote_type = EMOTE_VISIBLE
 	use_params_for_runechat = TRUE
@@ -595,9 +595,9 @@
 				message_param = "licks %t between the legs."
 				to_chat(target, span_love("That feels nice..."))
 			else if(J.zone_selected == BODY_ZONE_HEAD)
-				message_param = "licks %t cheek."
+				message_param = "licks %t on the cheek."
 			else
-				message_param = "licks %t [parse_zone(J.zone_selected)]."
+				message_param = "licks %t on the [parse_zone(J.zone_selected)]."
 	playsound(target.loc, pick("sound/vo/lick.ogg"), 100, FALSE, -1)
 
 /datum/emote/living/spit

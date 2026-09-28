@@ -17,7 +17,7 @@
 	display_order = JDO_INQUISITOR
 	advclass_cat_rolls = list(CTAG_INQUSITOR = 20)
 	give_bank_account = 30
-	min_pq = 10 //OV EDIT
+	min_pq = 15 //OV EDIT
 	max_pq = null
 	round_contrib_points = 2
 	vice_restrictions = list(/datum/charflaw/silverweakness)
@@ -27,7 +27,7 @@
 	)
 
 /datum/outfit/job/roguetown/inquisitor
-	name = "Arch-Lector" //OV Edit - Was "Inquisitor"
+	name = "Inquisitor" //OV Edit - Was "Inquisitor"
 	jobtype = /datum/job/roguetown/inquisitor
 	job_bitflag = BITFLAG_HOLY_WARRIOR	//Counts as church.
 	allowed_patrons = list(/datum/patron/old_god)
@@ -35,7 +35,7 @@
 //// The Inquisitor. Jack of all trades, master of none. Respectable assortment of skills, stats, and equipment; good at both subterfuge and combat. Functions very well on their own, and even better with a full sect.
 
 /datum/advclass/inquisitor/inspector
-	name = "Arch-Lector" //OV Edit - Was "Inquisitor"
+	name = "Inquisitor" //OV Edit - Was "Inquisitor"
 	tutorial = "Relic hunters and diplomats, selected from a wide range of able candidates, they have shown their aptitude to spread the word of Psydon - a torch in the darkness, an inquisitive mind separating truth from fiction, they are the outstretched hand of Otava to faithful and wayward alike. Preach the word of Psydon and strike fear into the Archdevil's minions." //OV Edit per Lore Doc
 	outfit = /datum/outfit/job/roguetown/inquisitor/inspector
 	subclass_languages = list(/datum/language/otavan)
@@ -91,7 +91,6 @@
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq
 	belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/psydon_blessed
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel
-	shoes = /obj/item/clothing/shoes/roguetown/boots/otavan/inqboots
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan
 	backr = /obj/item/storage/backpack/rogue/satchel/otavan
 	beltl = /obj/item/rogueweapon/whip/antique/psywhip
@@ -113,6 +112,10 @@
 		/obj/item/paper/inqslip/arrival/inq = 1,
 		/obj/item/rogueweapon/scabbard/sheath/noble = 1
 		)
+	if(H.pronouns == HE_HIM || H.pronouns == THEY_THEM)
+		shoes = /obj/item/clothing/shoes/roguetown/boots/otavan/inqboots
+	else
+		shoes = /obj/item/clothing/shoes/roguetown/boots/otavan/inqboots/heels
 
 	change_origin(H, /datum/virtue/origin/otava, "Holy order")
 
@@ -225,7 +228,6 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/ornate/ordinator
 	belt = /obj/item/storage/belt/rogue/leather/steel/tasset
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel
-	shoes = /obj/item/clothing/shoes/roguetown/boots/otavan/inqboots
 	backl = /obj/item/storage/backpack/rogue/satchel/otavan
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
 	id = /obj/item/clothing/neck/roguetown/psicross/silver
@@ -243,6 +245,10 @@
 		/obj/item/rogueweapon/huntingknife/idagger/silver/psydagger/heavy = 1,
 		/obj/item/clothing/ring/signet/psy = 1
 		)
+	if(H.pronouns == HE_HIM || H.pronouns == THEY_THEM)
+		shoes = /obj/item/clothing/shoes/roguetown/boots/otavan/inqboots
+	else
+		shoes = /obj/item/clothing/shoes/roguetown/boots/otavan/inqboots/heels
 
 	change_origin(H, /datum/virtue/origin/otava, "Holy order")
 

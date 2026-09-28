@@ -19,7 +19,7 @@
 
 	give_bank_account = TRUE
 	noble_income = 20
-	min_pq = null //1 //Probably a bad idea to have a complete newbie advising the monarch
+	min_pq = 5 //1 //Probably a bad idea to have a complete newbie advising the monarch //OV EDIT
 	max_pq = null
 	round_contrib_points = 2
 	cmode_music = 'sound/music/combat_noble.ogg'

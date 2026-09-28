@@ -11,7 +11,7 @@
 	selection_color = JCOLOR_INQUISITION
 	outfit = /datum/outfit/job/roguetown/absolver
 	display_order = JDO_ABSOLVER
-	min_pq = 3 //OV EDIT
+	min_pq = 10 //OV EDIT
 	max_pq = null
 	round_contrib_points = 2
 	wanderer_examine = FALSE
@@ -115,4 +115,5 @@
 		)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_ABSOLVER, start_maxed = TRUE) // PSYDONIAN MIRACLE-WORKER. LUX-MERGING FREEK.
-	change_origin(H, /datum/virtue/origin/otava, "Holy order")
+	if(!istype(H.client?.prefs.virtue_origin, /datum/virtue/origin/azuria))
+		change_origin(H, /datum/virtue/origin/otava, "Holy order") //presume that Otavan origin is a good default if people have misclicked their origin in setup or w/e

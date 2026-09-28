@@ -14,7 +14,7 @@
 	obfuscated_job = TRUE
 
 	show_in_credits = FALSE
-	min_pq = 1 //OV Edit - Trying to make this less of a newb trap by making you play literally anything else first before you try Vagabond+
+	min_pq = 5 //OV Edit - Trying to make this less of a newb trap by making you play literally anything else first before you try Vagabond+
 	max_pq = null
 	announce_latejoin = FALSE
 	wanderer_examine = TRUE

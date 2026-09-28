@@ -24,7 +24,7 @@
 	advclass_cat_rolls = list(CTAG_COURTPHYS = 2)
 
 	give_bank_account = TRUE
-	min_pq = 2 //OV EDIT
+	min_pq = 5 //OV EDIT
 	max_pq = null
 	round_contrib_points = 5
 
