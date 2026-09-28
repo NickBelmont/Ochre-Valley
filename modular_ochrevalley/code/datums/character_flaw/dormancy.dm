@@ -30,8 +30,12 @@
 		if(!the_item)
 			to_chat(usr, "No item in hand!")
 			return FALSE
-		if(istype(the_item, /obj/item/holder/micro) || istype(the_item, /obj/item/melee/new_touch_attack) || istype(the_item, /obj/item/melee/touch_attack))
+		if(istype(the_item, /obj/item/holder/micro) || istype(the_item, /obj/item/melee/new_touch_attack) || istype(the_item, /obj/item/melee/touch_attack) || istype(the_item, /obj/item/handmirror/magic))
 			to_chat(usr, "Invalid item!")
+			return FALSE
+		var/datum/component/conjured_item/isConjured = the_item.GetComponent(/datum/component/conjured_item)
+		if(isConjured)
+			to_chat(usr, "Cannot bind to a conjured item!")
 			return FALSE
 		cf.target = the_item
 		the_item.forceMove(H)
