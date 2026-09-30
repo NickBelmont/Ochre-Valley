@@ -282,7 +282,7 @@ GLOBAL_LIST_INIT(dendor_touched_animals, list(
 		return
 	if(!ishuman(user))
 		return
-	if(target.loc != user && user.loc != target) //Do not let this exist outside of the person with the flaw
+	if(target && target.loc != user && user.loc != target) //Do not let this exist outside of the person with the flaw
 		target.forceMove(user)
 	if(user.stat) //If they're dying, un-tf them
 		if(target && user.loc == target)
