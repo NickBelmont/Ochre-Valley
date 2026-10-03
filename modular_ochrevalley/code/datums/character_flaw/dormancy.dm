@@ -39,6 +39,10 @@
 			return FALSE
 		cf.target = the_item
 		the_item.forceMove(H)
+		//If their dormant state is food, don't let it rot
+		if(istype(the_item, /obj/item/reagent_containers/food/snacks))
+			var/obj/item/reagent_containers/food/snacks/F = the_item
+			F.rotprocess = null
 		name = "Enter/Leave Dormancy"
 		desc = "Go into or leave your dormant state."
 	else
