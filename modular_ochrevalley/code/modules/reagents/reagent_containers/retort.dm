@@ -8,7 +8,7 @@
 
 /obj/item/reagent_containers/glass/filter/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("The retort will filter from most to least plentiful")
+	. += span_info("The retort will filter from most to least plentiful, with the reagent highest in the list taking precedence when ties occur")
 
 /obj/item/reagent_containers/glass/retort/attack_obj(obj/target, mob/user)
 	if(user.used_intent.type == INTENT_GENERIC)
