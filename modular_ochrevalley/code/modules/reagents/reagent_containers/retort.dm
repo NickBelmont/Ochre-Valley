@@ -3,8 +3,8 @@
 	desc = "A small, convenient piece of artifice that heats liquids to separate out their components."
 	volume = 60
 	amount_per_transfer_from_this = 5
-	icon = 'icons/roguetown/items/cooking.dmi'
-	icon_state = "clayskinnybaked_shattergold"
+	icon = 'modular_ochrevalley/icons/obj/retort.dmi'
+	icon_state = "retort"
 
 /obj/item/reagent_containers/glass/filter/get_mechanics_examine(mob/user)
 	. = ..()
