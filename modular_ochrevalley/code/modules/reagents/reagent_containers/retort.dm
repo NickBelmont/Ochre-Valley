@@ -135,3 +135,8 @@
 	verbage = "engineers"
 	skillcraft = /datum/skill/craft/alchemy
 	craftdiff = 2
+
+/datum/supply_pack/rogue/tools/scissors
+	name = "Retort"
+	cost = 30
+	contains = list(/obj/item/reagent_containers/glass/retort)
