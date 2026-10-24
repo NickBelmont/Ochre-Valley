@@ -1,0 +1,2 @@
+#define ASPECT_NAME_AEROMANCY "Winds"
+#define GLOW_COLOR_WIND "#8CDD8C"
