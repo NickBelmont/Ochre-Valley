@@ -3,7 +3,7 @@
 
 /datum/action/cooldown/spell/projectile/windblade_volley
 	button_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
-	name = "Windblade Volley"
+	name = "Razorwind Volley"
 	desc = "Launch a volley of three spinning blades of wind in a spread. Each blade shreds through up to 3 targets before dissipating. \
 	The blades stop on solid walls. \
 	Targets already struck by another windblade in the same volley take half damage."

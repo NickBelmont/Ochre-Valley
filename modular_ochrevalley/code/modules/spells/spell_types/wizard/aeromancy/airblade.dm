@@ -44,7 +44,6 @@
 	damage = 60
 	damage_type = BRUTE
 	woundclass = BCLASS_CUT
-	armor_penetration = PEN_LIGHT
 	speed = MAGE_PROJ_FAST
 	movement_type = UNSTOPPABLE
 	nodamage = FALSE
