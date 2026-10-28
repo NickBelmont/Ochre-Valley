@@ -33,6 +33,63 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
+	var/charge_steps = 4
+	var/step_delay = 1
+
+/datum/action/cooldown/spell/tailwind/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return FALSE
+
+	var/facing = H.dir
+	var/turf/start = get_turf(H)
+	var/turf/first_step = get_step(start, facing)
+	if(!first_step || first_step.density)
+		to_chat(H, span_warning("There's no room to move!"))
+		return FALSE
+
+	if(H.buckled)
+		H.buckled.unbuckle_mob(H, TRUE)
+
+
+	H.visible_message(
+		span_warning("[H] is carried forth by the wind!"),
+		span_notice("I am carried forth by the wind!"))
+	playsound(start, pick('sound/combat/wooshes/bladed/wooshsmall (1).ogg', 'sound/combat/wooshes/bladed/wooshsmall (2).ogg'), 60, TRUE)
+
+	var/steps_taken = 0
+	owner.pass_flags |= PASSMOB
+	for(var/i in 1 to charge_steps)
+		if(H.stat != CONSCIOUS || H.IsParalyzed() || H.IsStun() || QDELETED(H))
+			break
+		var/turf/next = get_step(get_turf(H), facing)
+		if(!next || next.density)
+			break
+
+		var/blocked = FALSE
+		for(var/obj/structure/S in next.contents)
+			if(S.density)
+				blocked = TRUE
+				break
+		if(blocked)
+			break
+
+		// Shove mobs on the next tile to the sides before stepping in
+		step(H, facing)
+		steps_taken++
+		new /obj/effect/tailwind(get_turf(H), H)
+
+		if(i < charge_steps)
+			sleep(step_delay)
+	owner.pass_flags &= ~PASSMOB
+	if(steps_taken == 0)
+		to_chat(H, span_warning("My path is blocked!"))
+		return FALSE
+
+	log_combat(H, null, "used Tailwind!")
+	return TRUE
+/*
 /datum/action/cooldown/spell/tailwind/cast(atom/cast_on)
 	. = ..()
 	var/mob/living/carbon/human/H = owner
@@ -45,7 +102,7 @@
 		H.apply_status_effect(/datum/status_effect/tailwind)
 		return TRUE
 	return FALSE
-
+*/
 /obj/effect/tailwind
 	name = "tailwind"
 	desc = "Whirling winds left in an aeromancer's wake."
@@ -62,13 +119,13 @@
 	. = ..()
 	caster = owner
 	RegisterSignal(get_turf(src), COMSIG_ATOM_ENTERED, PROC_REF(on_entered))
-	RegisterSignal(get_turf(src), COMSIG_ATOM_EXIT, PROC_REF(on_exit))
+	//RegisterSignal(get_turf(src), COMSIG_ATOM_EXIT, PROC_REF(on_exit))
 	if(lifespan)
 		QDEL_IN(src, lifespan)
 
 /obj/effect/tailwind/Destroy()
 	UnregisterSignal(get_turf(src), COMSIG_ATOM_ENTERED)
-	UnregisterSignal(get_turf(src),	COMSIG_ATOM_EXIT)
+	//UnregisterSignal(get_turf(src),	COMSIG_ATOM_EXIT)
 	return ..()
 
 /obj/effect/tailwind/proc/on_entered(datum/source, atom/movable/AM, atom/old_loc)
@@ -83,19 +140,19 @@
 	if(L.has_status_effect(/datum/status_effect/tailwind_slow))
 		return
 	L.apply_status_effect(/datum/status_effect/tailwind_slow)
-
+/*
 /obj/effect/tailwind/proc/on_exit(turf/exited, atom/movable/exiting, atom/newloc)
 	SIGNAL_HANDLER
 	var/mob/living/carbon/human/H = exiting
 	if(ishuman(exiting) && H.has_status_effect(/datum/status_effect/tailwind)) //Don't check caster here so two tailwinding mages don't cancel their tailwinds out
 		new /obj/effect/tailwind(get_turf(newloc), H)
-
+*/
 /datum/status_effect/tailwind_slow
 	id = "tailwind_slow"
 	duration = 3 SECONDS
 	alert_type = /atom/movable/screen/alert/status_effect/tailwind_slow
 	effectedstats = list(STATKEY_SPD = -1)
-
+/*
 /datum/status_effect/tailwind
 	id = "tailwind"
 	duration = 6 SECONDS
@@ -114,7 +171,7 @@
 	name = "Tailwind"
 	desc = "I am one with the winds, bolstering my speed and leaving a turbulent wake in my steps."
 	icon_state = "buff"
-
+*/
 /atom/movable/screen/alert/status_effect/tailwind_slow
 	name = "Tailwind"
 	desc = "An unfavorable wind is making movement slightly more difficult."

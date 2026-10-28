@@ -47,10 +47,10 @@
 	armor_penetration = PEN_LIGHT
 	speed = MAGE_PROJ_FAST
 	movement_type = UNSTOPPABLE
+	nodamage = FALSE
 	flag = "slash"
 	color = "#8CDD8C"
 	hitsound = 'sound/combat/hits/bladed/genslash (1).ogg'
-	var/reduced_damage = 15
 	/// How many mob targets have been pierced
 	var/hits = 0
 	/// Max mob targets before stopping
