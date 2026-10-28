@@ -241,7 +241,7 @@
 			if(source_spell?.spell_guard_check(L))
 				ticks_remaining = max(0, ticks_remaining - 1)
 				continue
-			if(ishuman(L) && ishuman(caster))
+			if(istype(L) && ishuman(caster))
 				var/mob/living/carbon/human/HC = caster
 				var/target_zone = HC.zone_selected || BODY_ZONE_CHEST
 				arcyne_strike(HC, L, null, tick_damage, target_zone, \
