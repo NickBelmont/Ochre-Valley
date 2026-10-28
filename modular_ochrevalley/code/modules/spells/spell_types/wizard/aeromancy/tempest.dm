@@ -42,8 +42,7 @@
 	/// Radius of the damage ring (center tile is safe)
 	var/tempest_radius = 1
 	var/static/list/mode_labels = list(TEMPEST_MODE_TWISTER = "TWST", TEMPEST_MODE_DOWNDRAFT = "DRFT")
-	var/blast_radius = 1
-	var/blast_delay = 1 SECONDS
+	var/blast_delay = 2 SECONDS
 	var/blast_damage = 60
 
 /datum/action/cooldown/spell/tempest/toggle_alt_mode(mob/user)
@@ -95,11 +94,11 @@
 /datum/action/cooldown/spell/tempest/proc/do_downdraft(mob/living/carbon/human/H, turf/center)
 	if(!center)
 		return
-	for(var/turf/T in range(blast_radius, center))
+	for(var/turf/T in range(tempest_radius, center))
 		if(T.density)
 			continue
 		new /obj/effect/temp_visual/telegraph/pillar/fadein(T, blast_delay)
-	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(downdraft_erupt), center, H, blast_radius, blast_damage, src, "Downdraft"), blast_delay)
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(downdraft_erupt), center, H, tempest_radius, blast_damage, src, "Downdraft"), blast_delay)
 
 /proc/downdraft_erupt(turf/epicenter, mob/living/carbon/human/caster, radius = 1, damage = 50, datum/action/cooldown/spell/guard_source, spell_name = "Downdraft")
 	if(!epicenter)

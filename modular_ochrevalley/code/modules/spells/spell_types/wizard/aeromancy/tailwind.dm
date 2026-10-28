@@ -33,7 +33,7 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
-	var/charge_steps = 4
+	var/charge_steps = 5
 	var/step_delay = 1
 
 /datum/action/cooldown/spell/tailwind/cast(atom/cast_on)
@@ -78,9 +78,9 @@
 		// Shove mobs on the next tile to the sides before stepping in
 		step(H, facing)
 		steps_taken++
-		new /obj/effect/tailwind(get_turf(H), H)
 
 		if(i < charge_steps)
+			new /obj/effect/tailwind(get_turf(H), H)
 			sleep(step_delay)
 	owner.pass_flags &= ~PASSMOB
 	if(steps_taken == 0)
@@ -149,7 +149,7 @@
 */
 /datum/status_effect/tailwind_slow
 	id = "tailwind_slow"
-	duration = 3 SECONDS
+	duration = 6 SECONDS
 	alert_type = /atom/movable/screen/alert/status_effect/tailwind_slow
 	effectedstats = list(STATKEY_SPD = -1)
 /*
