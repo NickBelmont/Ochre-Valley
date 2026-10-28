@@ -108,6 +108,8 @@
 		if(!(T in get_hear(radius, epicenter)))
 			continue
 		new /obj/effect/temp_visual/tempest(T)
+		for(var/obj/structure/S in T)
+			S.take_damage(damage, BRUTE, "slash", FALSE)
 		for(var/mob/living/L in T.contents)
 			if(L.anti_magic_check())
 				L.visible_message(span_warning("The winds dissipates around [L]!"))
@@ -231,6 +233,8 @@
 	for(var/turf/T in range(effect_radius, center))
 		if(T == center)
 			continue
+		for(var/obj/structure/S in T)
+			S.take_damage(tick_damage, BRUTE, "slash", FALSE)
 		for(var/mob/living/L in T.contents)
 			if(L.anti_magic_check())
 				continue
