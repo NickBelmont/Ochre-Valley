@@ -47,6 +47,7 @@
 
 /datum/action/cooldown/spell/tempest/toggle_alt_mode(mob/user)
 	tempest_mode = (tempest_mode == TEMPEST_MODE_TWISTER) ? TEMPEST_MODE_DOWNDRAFT : TEMPEST_MODE_TWISTER
+	cooldown_time = (tempest_mode == TEMPEST_MODE_TWISTER) ? 15 SECONDS : 12 SECONDS
 	to_chat(user, span_notice("Tempest set to: [tempest_mode]."))
 	update_mode_maptext()
 	return TRUE
