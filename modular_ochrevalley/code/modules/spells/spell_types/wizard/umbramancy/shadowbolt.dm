@@ -12,7 +12,7 @@
 	spell_color = GLOW_COLOR_DARK
 	glow_intensity = GLOW_INTENSITY_LOW
 
-	projectile_type = /obj/projectile/magic/arc_bolt
+	projectile_type = /obj/projectile/magic/shadow_bolt
 	cast_range = SPELL_RANGE_PROJECTILE
 
 	primary_resource_type = SPELL_COST_STAMINA
