@@ -1,11 +1,9 @@
 //Using this so we don't need to touch upstream defines.
 #define ASPECT_NAME_UMBRAMANCY "Darkness"
-#define GLOW_COLOR_DARK "#582858"
+#define GLOW_COLOR_DARK "#A050A0"
 #define DARKNESS_OVERLAY_COLOR rgb(176, 80, 176)
-#define SHADOW_THROWN_BURN_COOLDOWN (2 SECONDS)
-#define SHADOW_THROWN_GRACE (2 SECONDS)
+#define SHADOW_BURN_COOLDOWN (2 SECONDS)
 #define SHADOW_BURN_KEY "shadow_burn"
-#define SHADOW_GRACE_KEY "shadow_grace"
 
 /datum/magic_aspect/umbramancy
 	name = "Umbramancy"
@@ -167,15 +165,13 @@
 	anchored = TRUE
 	density = FALSE
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
-	light_outer_range = LIGHT_RANGE_FIRE
-	light_color = LIGHT_COLOR_FIRE
+	light_outer_range = 2
+	light_color = GLOW_COLOR_DARK
 	ai_path_weight = 15
 	var/lifetime = 4 SECONDS
 	var/tick_damage = SPELL_DMG(20)
 	/// Scorched stacks applied per burn
 	var/stacks = 1
-	var/burn_cooldown = 1 SECONDS
-	var/list/burn_times
 	var/datum/weakref/caster_ref
 	var/aim_zone
 
@@ -211,12 +207,11 @@
 
 /obj/effect/lingering_shadows/proc/burn_occupant(mob/living/L, involuntary = FALSE)
 	var/mob_key = REF(L)
+	if(involuntary) //Let's just not burn them if they were forced in here.
+		return
 	if(L.mob_timers[SHADOW_BURN_KEY] && world.time < L.mob_timers[SHADOW_BURN_KEY])
 		return
-	else if(LAZYACCESS(burn_times, mob_key) && world.time < burn_times[mob_key])
-		return
-	L.mob_timers[SHADOW_BURN_KEY] = world.time + SHADOW_THROWN_BURN_COOLDOWN
-	LAZYSET(burn_times, mob_key, world.time + burn_cooldown)
+	L.mob_timers[SHADOW_BURN_KEY] = world.time + SHADOW_BURN_COOLDOWN
 	var/hit_zone = aim_zone || BODY_ZONE_CHEST
 	var/mob/living/carbon/human/caster = caster_ref?.resolve()
 	if(istype(caster) && !QDELETED(caster))
@@ -230,7 +225,5 @@
 		apply_darkness_stack(L, stacks, hit_zone)
 	L.emote("pain", forced = TRUE)
 
-#undef SHADOW_THROWN_BURN_COOLDOWN
-#undef SHADOW_THROWN_GRACE
+#undef SHADOW_BURN_COOLDOWN
 #undef SHADOW_BURN_KEY
-#undef SHADOW_GRACE_KEY

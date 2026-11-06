@@ -1,10 +1,10 @@
 /datum/action/cooldown/spell/projectile/shadowcrash
-	button_icon = 'icons/mob/actions/mage_hex.dmi'
+	button_icon = 'icons/mob/actions/nocmiracles.dmi'
 	name = "Shadow Crash"
 	desc = "Conjure ice and hurl it in one of two forms. Lance drives a single spear straight ahead, punching through up to three foes in a line, leaving two stacks of frost on each. \
 	Burst lobs an arcing shard that shatters on impact in a 3x3 area, dealing 66% damage to non primary targets while leaving one stack of frost on all of them. \
 	Toggle firing mode (Shift+G) while the spell is active: Lance or Burst."
-	button_icon_state = "wither"
+	button_icon_state = "blindness"
 	sound = 'sound/magic/shadowstep_destination.ogg'
 	spell_color = GLOW_COLOR_DARK
 	glow_intensity = GLOW_INTENSITY_HIGH

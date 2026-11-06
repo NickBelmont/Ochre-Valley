@@ -71,7 +71,7 @@
 			holder = new(B)
 			B.vis_contents.Add(holder)
 		holder.maptext = MAPTEXT(tag)
-		holder.color = "#00ccff"
+		holder.color = GLOW_COLOR_DARK
 
 /datum/action/cooldown/spell/projectile/shadow_bolt/fire_projectile(atom/target)
 	if(!modes[current_mode]["ground"])
