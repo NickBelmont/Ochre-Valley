@@ -1,16 +1,16 @@
 /datum/action/cooldown/spell/projectile/shadowcrash
-	button_icon = 'icons/mob/actions/mage_cryomancy.dmi'
+	button_icon = 'icons/mob/actions/mage_hex.dmi'
 	name = "Shadow Crash"
 	desc = "Conjure ice and hurl it in one of two forms. Lance drives a single spear straight ahead, punching through up to three foes in a line, leaving two stacks of frost on each. \
 	Burst lobs an arcing shard that shatters on impact in a 3x3 area, dealing 66% damage to non primary targets while leaving one stack of frost on all of them. \
 	Toggle firing mode (Shift+G) while the spell is active: Lance or Burst."
-	button_icon_state = "ice_burst"
-	sound = 'sound/spellbooks/icicle.ogg'
+	button_icon_state = "wither"
+	sound = 'sound/magic/shadowstep_destination.ogg'
 	spell_color = GLOW_COLOR_DARK
 	glow_intensity = GLOW_INTENSITY_HIGH
 	attunement_school = ASPECT_NAME_UMBRAMANCY
 
-	projectile_type = /obj/projectile/magic/ice_lance
+	projectile_type = /obj/projectile/magic/shadowcrash
 	cast_range = SPELL_RANGE_PROJECTILE
 	point_cost = 6
 	spell_impact_intensity = SPELL_IMPACT_MEDIUM
@@ -18,7 +18,7 @@
 	primary_resource_type = SPELL_COST_STAMINA
 	primary_resource_cost = SPELLCOST_MAJOR_PROJECTILE
 
-	invocations = list("Hasta Glaciei!")
+	invocations = list("Umbra Coeunt!")
 	invocation_type = INVOCATION_SHOUT
 
 	charge_required = TRUE
@@ -35,8 +35,138 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
+	var/flow_damage = SPELL_DMG(90)
 	var/current_mode = 1
 	var/list/modes = list(
-		list("name" = "Ice Lance", "tag" = "LANCE", "proj" = /obj/projectile/magic/ice_lance, "sound" = 'sound/spellbooks/icicle.ogg', "invocation" = "Hasta Glaciei!"),
-		list("name" = "Ice Burst", "tag" = "BURST", "proj" = /obj/projectile/magic/ice_burst, "sound" = 'sound/spellbooks/crystal.ogg', "invocation" = "Glacies Frangor!"),
+		list("name" = "Shadow Crash", "tag" = "CRSH", "proj" = /obj/projectile/magic/shadowcrash, "invocation" = "Umbra Coeunt!", "ground" = FALSE),
+		list("name" = "Umbral Flow", "tag" = "FLOW", "proj" = /obj/projectile/magic/shadowcrash, "invocation" = "Umbra Coeunt!", "ground" = TRUE),
 	)
+
+/datum/action/cooldown/spell/projectile/shadowcrash/Grant(mob/grant_to)
+	. = ..()
+	apply_mode(current_mode)
+
+/datum/action/cooldown/spell/projectile/shadowcrash/proc/apply_mode(index)
+	var/list/mode = modes[index]
+	projectile_type = mode["proj"]
+	invocations = list(mode["invocation"])
+	update_mode_maptext(mode["tag"])
+
+/datum/action/cooldown/spell/projectile/shadowcrash/toggle_arc_mode(mob/user)
+	current_mode = (current_mode % length(modes)) + 1
+	apply_mode(current_mode)
+	to_chat(user, span_notice("[name]: [modes[current_mode]["name"]] mode."))
+
+/datum/action/cooldown/spell/projectile/shadowcrash/proc/update_mode_maptext(tag)
+	for(var/datum/hud/hud as anything in viewers)
+		var/atom/movable/screen/movable/action_button/B = viewers[hud]
+		var/atom/movable/screen/arc_maptext_holder/holder
+		for(var/atom/movable/screen/arc_maptext_holder/existing in B.vis_contents)
+			holder = existing
+			break
+		if(!holder)
+			holder = new(B)
+			B.vis_contents.Add(holder)
+		holder.maptext = MAPTEXT(tag)
+		holder.color = GLOW_COLOR_DARK
+
+/datum/action/cooldown/spell/projectile/shadowcrash/fire_projectile(atom/target)
+	if(!modes[current_mode]["ground"])
+		return ..()
+	var/list/target_turfs = telegraph_resolve_turfs(get_turf(owner), telegraph_cardinal(owner.dir), get_pattern_offsets(), TRUE)
+	for(var/turf/T in target_turfs)
+		new /obj/effect/temp_visual/telegraph/pillar/fadein(T, 1 SECONDS)
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(umbral_flow), target_turfs, owner, flow_damage, owner.zone_selected), 1 SECONDS)
+	return TRUE
+
+/datum/action/cooldown/spell/projectile/shadowcrash/proc/get_pattern_offsets()
+	var/list/offs = list()
+	for(var/d in 1 to 5)
+		offs += list(list(-1, d), list(0, d), list(1, d))
+	return offs
+
+/proc/umbral_flow(list/turfs, mob/living/carbon/human/caster, damage, aim_zone)
+	for(var/turf/T in turfs)
+		new /obj/effect/temp_visual/umbral(T)
+		new /obj/effect/lingering_shadows(T, 4 SECONDS, caster, aim_zone)
+		for(var/mob/living/L in T)
+			if(L.stat == DEAD)
+				continue
+			if(L.anti_magic_check())
+				continue
+			if(L.guard_deflect_spell("Umbral Flow", TRUE, caster, punish_caster = FALSE)) //Punish the initial hit, not any riders
+				continue
+			if(istype(caster) && !QDELETED(caster))
+				if(arcyne_strike(caster, L, null, damage, aim_zone || BODY_ZONE_CHEST, BCLASS_BURN, spell_name = "umbral flow", damage_type = BURN, skip_animation = TRUE, exact_zone = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
+					continue
+			else
+				L.adjustFireLoss(SPELL_DMG_VS(L, damage))
+
+/obj/projectile/magic/shadowcrash
+	name = "condensed shadows"
+	expose_caster_on_deflect = TRUE
+	icon = 'icons/obj/projectiles.dmi'
+	icon_state = "wipe"
+	speed = MAGE_PROJ_VERY_SLOW
+	damage = SPELL_DMG(80)
+	damage_type = BURN
+	woundclass = BCLASS_BURN
+	nodamage = FALSE
+	intdamfactor = SPELL_INTDAM(1)
+	spell_damage_scaled = TRUE
+	flag = "fire"
+	arcshot = TRUE
+	hitsound = 'sound/blank.ogg'
+	/// Radius for AOE blast around impact point
+	var/aoe_radius = 1
+	/// AOE damage as a fraction of the projectile's base damage
+	var/aoe_damage_ratio = 0.375
+
+/obj/projectile/magic/shadowcrash/on_hit(target, blocked = FALSE)
+	..()
+	var/mob/living/M = ismob(target) ? target : null
+
+	if(M?.anti_magic_check())
+		visible_message(span_warning("[src] fizzles on contact with \the [target]!"))
+		playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
+		qdel(src)
+		return BULLET_ACT_BLOCK
+
+	if(out_of_effective_range())
+		return
+
+	var/aoe_damage = round(damage * aoe_damage_ratio)
+	var/turf/epicenter = get_turf(target)
+
+	if(epicenter)
+		playsound(epicenter, 'sound/spellbooks/crystal.ogg', 100, TRUE, 6)
+		playsound(epicenter, pick('sound/combat/fracture/fracturedry (1).ogg', 'sound/combat/fracture/fracturedry (2).ogg', 'sound/combat/fracture/fracturedry (3).ogg'), 80, TRUE)
+
+	if(aoe_radius > 0 && istype(firer, /mob/living/carbon/human))
+		var/mob/living/carbon/human/caster = firer
+		var/mob/living/direct_hit = M
+		for(var/turf/T in range(aoe_radius, epicenter))
+			new /obj/effect/temp_visual/umbral(T)
+			if(!T.density)
+				new /obj/effect/lingering_shadows(T, 4 SECONDS, caster, caster.zone_selected)
+			for(var/mob/living/L in T)
+				if(L == direct_hit || L.stat == DEAD)
+					continue
+				if(L.anti_magic_check())
+					continue
+				if(L.guard_deflect_spell("Shadow Crash", TRUE, caster, punish_caster = FALSE))
+					continue
+				if(arcyne_strike(caster, L, null, aoe_damage, BODY_ZONE_CHEST, \
+					BCLASS_BURN, spell_name = "Shadow Crash", \
+					allow_shield_check = TRUE, damage_type = BURN, \
+					skip_animation = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
+					continue
+				new /obj/effect/temp_visual/spell_impact(get_turf(L), GLOW_COLOR_DARK, SPELL_IMPACT_MEDIUM)
+
+	// Apply frost to direct hit target (AOE loop skips them)
+	if(isliving(target) && blocked < 100)
+		var/mob/living/L = target
+		apply_darkness_stack(L, 1)
+
+	qdel(src)
+	return TRUE

@@ -1,14 +1,14 @@
 #define RESONANCE_RIDER_DAMAGE 45
 
 /datum/action/cooldown/spell/projectile/shadow_bolt
-	button_icon = 'icons/mob/actions/mage_fulgurmancy.dmi'
+	button_icon = 'icons/mob/actions/mage_hex.dmi'
 	name = "Shadow Bolt"
 	desc = "Fire a precise jolt of lightning that sears a target's struck body part with heavy burn. \
 	Toggle firing mode (Shift+G) while active: Chain leaps to up to three foes behind the target, searing the same body part for half as much, \
 	Focus only strike one target, and Arc lobs a single weakened bolt over obstacles. \
 	The bolt loses power past 5 paces."
-	button_icon_state = "shock"
-	sound = 'sound/magic/lightning.ogg'
+	button_icon_state = "wither"
+	sound = 'sound/magic/shadowstep_destination.ogg'
 	spell_color = GLOW_COLOR_DARK
 	glow_intensity = GLOW_INTENSITY_LOW
 
@@ -91,7 +91,7 @@
 	playsound(epicenter, pick('sound/misc/explode/incendiary (1).ogg', 'sound/misc/explode/incendiary (2).ogg'), 100, TRUE, 5)
 	for(var/turf/T in range(radius, epicenter))
 		new /obj/effect/temp_visual/umbral(T)
-		for(var/mob/living/L in epicenter)
+		for(var/mob/living/L in T)
 			if(L.stat == DEAD)
 				continue
 			if(L.anti_magic_check())
