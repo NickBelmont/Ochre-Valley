@@ -4,7 +4,7 @@
 #define DARKNESS_OVERLAY_COLOR rgb(176, 80, 176)
 #define SHADOW_BURN_COOLDOWN (2 SECONDS)
 #define SHADOW_BURN_KEY "shadow_burn"
-
+#define SHADOW_GRACE_KEY "shadow_grace"
 /datum/magic_aspect/umbramancy
 	name = "Umbramancy"
 	latin_name = "Maior Aspectus Venti"
@@ -182,6 +182,7 @@
 	ai_path_weight = 15
 	var/lifetime = 4 SECONDS
 	var/tick_damage = SPELL_DMG(20)
+	var/shadow_cooldown = 1 SECONDS
 	/// Scorched stacks applied per burn
 	var/stacks = 1
 	var/list/burn_times
@@ -220,12 +221,16 @@
 
 /obj/effect/lingering_shadows/proc/burn_occupant(mob/living/L, involuntary = FALSE)
 	var/mob_key = REF(L)
+	if(L.mob_timers[SHADOW_GRACE_KEY] && world.time < L.mob_timers[SHADOW_GRACE_KEY])
+		return
 	if(involuntary && L.mob_timers[SHADOW_BURN_KEY] && world.time < L.mob_timers[SHADOW_BURN_KEY])
 		return
 	else if(LAZYACCESS(burn_times, mob_key) && world.time < burn_times[mob_key])
 		return
 	L.mob_timers[SHADOW_BURN_KEY] = world.time + SHADOW_BURN_COOLDOWN
-	LAZYSET(burn_times, mob_key, world.time + SHADOW_BURN_COOLDOWN)
+	LAZYSET(burn_times, mob_key, world.time + shadow_cooldown)
+	if(involuntary)
+		L.mob_timers[SHADOW_GRACE_KEY] = world.time + SHADOW_BURN_COOLDOWN
 	var/hit_zone = aim_zone || BODY_ZONE_CHEST
 	var/mob/living/carbon/human/caster = caster_ref?.resolve()
 	if(istype(caster) && !QDELETED(caster))
@@ -241,3 +246,4 @@
 
 #undef SHADOW_BURN_COOLDOWN
 #undef SHADOW_BURN_KEY
+#undef SHADOW_GRACE_KEY
