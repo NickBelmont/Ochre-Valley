@@ -109,7 +109,7 @@
 					for(var/turf/Tg in range(1, epicenter))
 						new /obj/effect/temp_visual/telegraph/pillar/fadein(Tg, 0.5 SECONDS)
 					playsound(epicenter, 'sound/magic/charging_fire.ogg', 80, TRUE)
-					addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(resonance_erupt), epicenter, caster, damage, 1, caster.zone_selected, TRUE), 0.5 SECONDS)
+					addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(resonance_erupt), T, caster, damage, 1, caster.zone_selected, TRUE), 0.5 SECONDS)
 					has_exploded = TRUE
 					remove_all_darkness_stacks(L)
 			else
