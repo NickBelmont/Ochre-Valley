@@ -35,12 +35,11 @@
 /proc/apply_darkness_stack(mob/living/target, stacks = 1, zone_override = null)
 	if(!isliving(target))
 		return
+	if(target.has_status_effect(/datum/status_effect/debuff/darkness3)) //Max stacks, can't do anything more, sire
+		return
 	//new /obj/effect/temp_visual/scorch_flash(get_turf(target))
 	var/final_tier = 0
 	for(var/i in 1 to stacks)
-		if(target.has_status_effect(/datum/status_effect/debuff/darkness3))
-			final_tier = 3
-			continue
 		if(target.has_status_effect(/datum/status_effect/debuff/darkness2))
 			target.remove_status_effect(/datum/status_effect/debuff/darkness2)
 			target.apply_status_effect(/datum/status_effect/debuff/darkness3)
