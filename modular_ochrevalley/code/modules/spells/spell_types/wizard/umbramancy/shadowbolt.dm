@@ -44,7 +44,7 @@
 		list("name" = "Umbral Resonance", "tag" = "RESN", "proj" = /obj/projectile/magic/shadow_bolt, "invocation" = "Tenebra Resonat!", "charge_time" = CHARGETIME_MINOR, "ground" = TRUE),
 	)
 
-/datum/action/cooldown/spell/projectile/arc_bolt/Grant(mob/grant_to)
+/datum/action/cooldown/spell/projectile/shadow_bolt/Grant(mob/grant_to)
 	. = ..()
 	apply_mode(current_mode)
 
