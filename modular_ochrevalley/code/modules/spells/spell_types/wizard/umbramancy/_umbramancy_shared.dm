@@ -234,7 +234,7 @@
 	var/hit_zone = aim_zone || BODY_ZONE_CHEST
 	var/mob/living/carbon/human/caster = caster_ref?.resolve()
 	if(istype(caster) && !QDELETED(caster))
-		if(arcyne_strike(caster, L, null, tick_damage, hit_zone, BCLASS_BURN, spell_name = "lingering shadow", damage_type = BURN, skip_animation = TRUE, exact_zone = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
+		if(arcyne_strike(caster, L, null, tick_damage, hit_zone, BCLASS_BURN, spell_name = "lingering shadow", damage_type = BURN, skip_animation = TRUE, skip_message = TRUE, exact_zone = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
 			return
 	else
 		var/fallback_zone = check_zone(hit_zone)
