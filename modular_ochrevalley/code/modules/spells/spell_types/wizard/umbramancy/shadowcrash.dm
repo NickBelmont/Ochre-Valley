@@ -89,6 +89,9 @@
 	for(var/turf/T in turfs)
 		new /obj/effect/temp_visual/umbral(T)
 		new /obj/effect/lingering_shadows(T, 4 SECONDS, caster, aim_zone)
+		for(var/obj/effect/umbralfount/U in T)
+			U.intense = TRUE
+			U.visible_message(span_warning("The umbral flow interacts with the umbral fountain, next burst will be empowered!"))
 		for(var/mob/living/L in T)
 			if(L.stat == DEAD)
 				continue
@@ -101,6 +104,7 @@
 					continue
 			else
 				L.adjustFireLoss(SPELL_DMG_VS(L, damage))
+			apply_darkness_stack(L, 1)
 
 /obj/projectile/magic/shadowcrash
 	name = "condensed shadows"

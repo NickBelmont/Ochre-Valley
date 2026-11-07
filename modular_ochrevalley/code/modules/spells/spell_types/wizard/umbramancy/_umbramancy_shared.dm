@@ -27,6 +27,7 @@
 	fixed_spells = list(
 		/datum/action/cooldown/spell/projectile/shadow_bolt,
 		/datum/action/cooldown/spell/projectile/shadowcrash,
+		/datum/action/cooldown/spell/shadowbreach,
 	)
 	variants = list(
 	)
@@ -51,11 +52,11 @@
 		final_tier = max(final_tier, 1)
 	switch(final_tier)
 		if(1)
-			target.balloon_alert_to_viewers("<font color='#B050B0'>Pervasive Darkness I</font>")
+			target.balloon_alert_to_viewers("<font color='#B050B0'>Shadowed I</font>")
 		if(2)
-			target.balloon_alert_to_viewers("<font color='#B050B0'>Pervasive Darkness II</font>")
+			target.balloon_alert_to_viewers("<font color='#B050B0'>Shadowed II</font>")
 		if(3)
-			target.balloon_alert_to_viewers("<font color='#B050B0'>Pervasive Darkness III</font>")
+			target.balloon_alert_to_viewers("<font color='#B050B0'>Shadowed III</font>")
 
 /proc/remove_darkness_stack(mob/living/target)
 	if(!isliving(target))
@@ -206,7 +207,6 @@
 	return !!(L.throwing || L.pulledby)
 
 /obj/effect/lingering_shadows/proc/burn_occupant(mob/living/L, involuntary = FALSE)
-	var/mob_key = REF(L)
 	if(involuntary) //Let's just not burn them if they were forced in here.
 		return
 	if(L.mob_timers[SHADOW_BURN_KEY] && world.time < L.mob_timers[SHADOW_BURN_KEY])

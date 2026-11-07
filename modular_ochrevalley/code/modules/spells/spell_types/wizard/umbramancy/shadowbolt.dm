@@ -91,6 +91,9 @@
 	playsound(epicenter, pick('sound/misc/explode/incendiary (1).ogg', 'sound/misc/explode/incendiary (2).ogg'), 100, TRUE, 5)
 	for(var/turf/T in range(radius, epicenter))
 		new /obj/effect/temp_visual/umbral(T)
+		for(var/obj/effect/umbralfount/U in T)
+			U.intense = TRUE
+			U.visible_message(span_warning("The umbral resonance interacts with the umbral fountain, next burst will be empowered!"))
 		for(var/mob/living/L in T)
 			if(L.stat == DEAD)
 				continue
@@ -102,7 +105,7 @@
 				if(arcyne_strike(caster, L, null, damage, aim_zone || BODY_ZONE_CHEST, BCLASS_BURN, spell_name = "Umbral Resonance", damage_type = BURN, skip_animation = TRUE, exact_zone = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
 					continue
 				if(get_darkness_stacks(L) > 2 && !chained && !has_exploded) //No chaining rider effects, while also letting us use one proc for all our explodey needs.
-					arcyne_strike(caster, L, null, SPELL_DMG(RESONANCE_RIDER_DAMAGE), aim_zone || BODY_ZONE_CHEST, BCLASS_BURN, spell_name = "Umbral Resonance II", damage_type = BURN, skip_animation = TRUE, exact_zone = TRUE, SPELL_STRIKE_SCALING)
+					arcyne_strike(caster, L, null, SPELL_DMG(RESONANCE_RIDER_DAMAGE), aim_zone || BODY_ZONE_CHEST, BCLASS_BURN, spell_name = "Shadow Burst", damage_type = BURN, skip_animation = TRUE, exact_zone = TRUE, SPELL_STRIKE_SCALING)
 					for(var/turf/Tg in range(1, epicenter))
 						new /obj/effect/temp_visual/telegraph/pillar/fadein(Tg, 0.5 SECONDS)
 					playsound(epicenter, 'sound/magic/charging_fire.ogg', 80, TRUE)
@@ -146,7 +149,7 @@
 			return BULLET_ACT_BLOCK
 		if(get_darkness_stacks(L) > 2 && isliving(firer))
 			var/mob/living/caster = firer
-			arcyne_strike(caster, L, null, stack_boost, def_zone || BODY_ZONE_CHEST, BCLASS_BURN, spell_name = "Shadow Bolt II", damage_type = BURN, skip_animation = TRUE, exact_zone = TRUE, SPELL_STRIKE_SCALING)
+			arcyne_strike(caster, L, null, stack_boost, def_zone || BODY_ZONE_CHEST, BCLASS_BURN, spell_name = "Shadow Burst", damage_type = BURN, skip_animation = TRUE, exact_zone = TRUE, SPELL_STRIKE_SCALING)
 			L.apply_status_effect(/datum/status_effect/debuff/exposed, 5 SECONDS)
 			remove_all_darkness_stacks(L)
 
