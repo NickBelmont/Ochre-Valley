@@ -184,6 +184,7 @@
 	var/tick_damage = SPELL_DMG(20)
 	/// Scorched stacks applied per burn
 	var/stacks = 1
+	var/list/burn_times
 	var/datum/weakref/caster_ref
 	var/aim_zone
 
@@ -218,11 +219,13 @@
 	return !!(L.throwing || L.pulledby)
 
 /obj/effect/lingering_shadows/proc/burn_occupant(mob/living/L, involuntary = FALSE)
-	if(involuntary) //Let's just not burn them if they were forced in here.
+	var/mob_key = REF(L)
+	if(involuntary && L.mob_timers[SHADOW_BURN_KEY] && world.time < L.mob_timers[SHADOW_BURN_KEY])
 		return
-	if(L.mob_timers[SHADOW_BURN_KEY] && world.time < L.mob_timers[SHADOW_BURN_KEY])
+	else if(LAZYACCESS(burn_times, mob_key) && world.time < burn_times[mob_key])
 		return
 	L.mob_timers[SHADOW_BURN_KEY] = world.time + SHADOW_BURN_COOLDOWN
+	LAZYSET(burn_times, mob_key, world.time + SHADOW_BURN_COOLDOWN)
 	var/hit_zone = aim_zone || BODY_ZONE_CHEST
 	var/mob/living/carbon/human/caster = caster_ref?.resolve()
 	if(istype(caster) && !QDELETED(caster))
