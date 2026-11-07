@@ -38,6 +38,9 @@
 	//new /obj/effect/temp_visual/scorch_flash(get_turf(target))
 	var/final_tier = 0
 	for(var/i in 1 to stacks)
+		if(target.has_status_effect(/datum/status_effect/debuff/darkness3))
+			final_tier = 3
+			continue
 		if(target.has_status_effect(/datum/status_effect/debuff/darkness2))
 			target.remove_status_effect(/datum/status_effect/debuff/darkness2)
 			target.apply_status_effect(/datum/status_effect/debuff/darkness3)

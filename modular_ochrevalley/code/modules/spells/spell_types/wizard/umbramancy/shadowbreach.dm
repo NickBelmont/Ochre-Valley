@@ -57,7 +57,7 @@
 	var/pulse_period = 3 SECONDS
 	var/pulse_warning = 2 SECONDS
 	var/last_pulse
-	var/damage = SPELL_DMG(60)
+	var/damage = SPELL_DMG(50)
 	var/aimed_zone = BODY_ZONE_CHEST
 	var/intense = FALSE
 
@@ -95,7 +95,7 @@
 			if(L.guard_deflect_spell("Umbral Fountain", TRUE, caster, punish_caster = FALSE)) //Punish the initial hit, not any riders
 				continue
 			if(istype(caster) && !QDELETED(caster))
-				if(arcyne_strike(caster, L, null, damage * ((pulses < max_pulses || !intense) ? 1 : 1.5), aimed_zone || BODY_ZONE_CHEST, BCLASS_BURN, spell_name = "Umbral Fountain", damage_type = BURN, skip_animation = TRUE, exact_zone = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
+				if(arcyne_strike(caster, L, null, damage * ((pulses < max_pulses || !intense) ? 1 : 1.8), aimed_zone || BODY_ZONE_CHEST, BCLASS_BURN, spell_name = "Umbral Fountain", damage_type = BURN, skip_animation = TRUE, exact_zone = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
 					continue
 			else
 				L.adjustFireLoss(SPELL_DMG_VS(L, damage))

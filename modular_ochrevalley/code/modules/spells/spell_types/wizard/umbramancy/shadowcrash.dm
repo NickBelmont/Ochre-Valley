@@ -35,7 +35,7 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
-	var/flow_damage = SPELL_DMG(90)
+	var/flow_damage = SPELL_DMG(50)
 	var/current_mode = 1
 	var/list/modes = list(
 		list("name" = "Shadow Crash", "tag" = "CRSH", "proj" = /obj/projectile/magic/shadowcrash, "invocation" = "Umbra Coeunt!", "ground" = FALSE),
@@ -88,7 +88,7 @@
 /proc/umbral_flow(list/turfs, mob/living/carbon/human/caster, damage, aim_zone)
 	for(var/turf/T in turfs)
 		new /obj/effect/temp_visual/umbral(T)
-		new /obj/effect/lingering_shadows(T, 4 SECONDS, caster, aim_zone)
+		new /obj/effect/lingering_shadows(T, 8 SECONDS, caster, aim_zone)
 		for(var/obj/effect/umbralfount/U in T)
 			U.intense = TRUE
 			U.visible_message(span_warning("The umbral flow interacts with the umbral fountain, next burst will be empowered!"))
