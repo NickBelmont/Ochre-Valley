@@ -152,7 +152,7 @@
 		if(get_darkness_stacks(L) > 2 && isliving(firer))
 			var/mob/living/caster = firer
 			arcyne_strike(caster, L, null, stack_boost, def_zone || BODY_ZONE_CHEST, BCLASS_BURN, spell_name = "Shadow Burst", damage_type = BURN, skip_animation = TRUE, exact_zone = TRUE, SPELL_STRIKE_SCALING)
-			L.apply_status_effect(/datum/status_effect/debuff/exposed, 5 SECONDS)
+			L.apply_status_effect(/datum/status_effect/debuff/vulnerable, 5 SECONDS)
 			remove_all_darkness_stacks(L)
 
 
