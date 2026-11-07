@@ -160,6 +160,14 @@
 	icon_state = "curseblob"
 	duration = 1 SECONDS
 
+/obj/effect/temp_visual/umbral_explosion
+	name = "umbral explosion"
+	icon = 'icons/effects/96x96.dmi'
+	icon_state = "void_blink_in"
+	pixel_x = -32
+	pixel_y = -32
+	duration = 10
+
 /obj/effect/lingering_shadows
 	name = "lingering shadow"
 	desc = "A miasma of swirling darkness."
