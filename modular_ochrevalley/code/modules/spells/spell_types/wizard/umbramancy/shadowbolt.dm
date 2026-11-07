@@ -138,7 +138,7 @@
 	damage = SPELL_DMG(30)
 	arcshot = TRUE
 
-/obj/projectile/magic/shadow_bolt/on_hit(target)
+/obj/projectile/magic/shadow_bolt/on_hit(target, blocked = FALSE)
 	. = ..()
 	if(isliving(target))
 		var/mob/living/L = target
@@ -147,6 +147,8 @@
 			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
 			qdel(src)
 			return BULLET_ACT_BLOCK
+		if(blocked >= 100)
+			return
 		if(get_darkness_stacks(L) > 2 && isliving(firer))
 			var/mob/living/caster = firer
 			arcyne_strike(caster, L, null, stack_boost, def_zone || BODY_ZONE_CHEST, BCLASS_BURN, spell_name = "Shadow Burst", damage_type = BURN, skip_animation = TRUE, exact_zone = TRUE, SPELL_STRIKE_SCALING)
