@@ -86,12 +86,7 @@
 	var/list/indicator = list()
 	var/iterations = 5
 	var/turf/last_turf
-	var/last_facing
 	var/locked_facing = telegraph_cardinal(H.dir)
-	H.setDir(locked_facing)
-	H.tempfixeye = TRUE
-	H.nodirchange = TRUE
-	H.facing_locked = TRUE
 	if(charge_slowdown)
 		H.add_movespeed_modifier(MOVESPEED_ID_SPELL_CASTING, TRUE, 100, override = TRUE, multiplicative_slowdown = charge_slowdown)
 	announce_telegraph(H)
@@ -100,24 +95,18 @@
 	for(var/i in 1 to iterations)
 		if(QDELETED(H) || H.stat != CONSCIOUS)
 			break
-		var/facing = telegraph_cardinal(H.dir)
-		if(get_turf(H) != last_turf || facing != last_facing)
+		if(get_turf(H) != last_turf)
 			last_turf = get_turf(H)
-			last_facing = facing
-			telegraph_draw(last_turf, facing, indicator, get_pattern_offsets(), /obj/effect/temp_visual/telegraph/pillar, TRUE)
+			telegraph_draw(last_turf, locked_facing, indicator, get_pattern_offsets(), /obj/effect/temp_visual/telegraph/pillar, TRUE)
 		sleep(2)
 	if(charge_slowdown && !QDELETED(H))
 		H.remove_movespeed_modifier(MOVESPEED_ID_SPELL_CASTING)
-	if(!QDELETED(H))
-		H.tempfixeye = FALSE
-		H.nodirchange = FALSE
-		H.facing_locked = FALSE
 	clear_cast_freeze(H)
 	clear_cast_effect(H)
 	telegraph_clear(indicator)
 	if(QDELETED(H) || H.stat != CONSCIOUS)
 		return
-	umbral_flow(telegraph_resolve_turfs(get_turf(owner), telegraph_cardinal(owner.dir), get_pattern_offsets(), TRUE), owner, flow_damage, owner.zone_selected)
+	umbral_flow(telegraph_resolve_turfs(get_turf(owner), locked_facing, get_pattern_offsets(), TRUE), owner, flow_damage, owner.zone_selected)
 
 /datum/action/cooldown/spell/projectile/shadowcrash/proc/get_pattern_offsets()
 	var/list/offs = list()
