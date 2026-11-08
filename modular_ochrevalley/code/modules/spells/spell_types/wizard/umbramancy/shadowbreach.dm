@@ -136,9 +136,9 @@
 
 /obj/effect/umbralfount/proc/burst()
 	pulses++
+	playsound(get_turf(src), 'sound/magic/soulshot.ogg', 100, TRUE, 5)
 	if(pulses >= max_pulses || intense)
 		new /obj/effect/temp_visual/umbral_explosion(get_turf(src))
-		playsound(get_turf(src), 'sound/magic/soulshot.ogg', 100, TRUE, 5)
 	for(var/turf/T in range(1, get_turf(src)))
 		new /obj/effect/temp_visual/umbral(T)
 		if(pulses >= max_pulses || intense)

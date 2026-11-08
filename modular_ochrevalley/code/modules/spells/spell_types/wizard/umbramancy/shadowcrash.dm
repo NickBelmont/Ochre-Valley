@@ -114,6 +114,7 @@
 	return offs
 
 /proc/umbral_flow(list/turfs, mob/living/carbon/human/caster, damage, aim_zone, shadow_duration = 8 SECONDS, no_stack = FALSE)
+	playsound(turfs[0], 'sound/magic/soulshot.ogg', 100, TRUE, 5)
 	for(var/turf/T in turfs)
 		new /obj/effect/temp_visual/umbral(T)
 		if(no_stack)
