@@ -26,7 +26,7 @@
 	spell_tier = 1
 	spell_impact_intensity = SPELL_IMPACT_NONE
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
-
+	var/breach_damage = SPELL_DMG(70)
 	var/obj/effect/umbralfount/active_fount
 	var/current_mode = 1
 	var/list/modes = list(
@@ -90,7 +90,7 @@
 		var/list/target_turfs = telegraph_resolve_turfs(aimed, dir, get_pattern_offsets(i), TRUE)
 		for(var/turf/T in target_turfs)
 			new /obj/effect/temp_visual/telegraph/pillar/fadein(T, 1 SECONDS)
-		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(umbral_flow), target_turfs, owner, SPELL_DMG(50), owner.zone_selected, (8 - i) SECONDS, TRUE), 1 SECONDS)
+		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(umbral_flow), target_turfs, owner, breach_damage , owner.zone_selected, (8 - i) SECONDS, TRUE), 1 SECONDS)
 		sleep(1 SECONDS)
 
 /*

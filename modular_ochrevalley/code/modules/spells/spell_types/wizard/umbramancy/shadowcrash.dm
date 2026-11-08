@@ -84,7 +84,6 @@
 
 /datum/action/cooldown/spell/projectile/shadowcrash/proc/windup_flow(mob/living/H, atom/cast_on)
 	var/list/indicator = list()
-	var/iterations = 5
 	var/turf/last_turf
 	var/locked_facing = telegraph_cardinal(H.dir)
 	if(charge_slowdown)
@@ -92,7 +91,7 @@
 	announce_telegraph(H)
 	apply_cast_freeze(H, 1 SECONDS)
 	show_cast_effect(H)
-	for(var/i in 1 to iterations)
+	for(var/i in 1 to 5)
 		if(QDELETED(H) || H.stat != CONSCIOUS)
 			break
 		if(get_turf(H) != last_turf)
