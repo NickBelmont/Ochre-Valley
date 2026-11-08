@@ -88,11 +88,10 @@
 	var/turf/last_turf
 	var/last_facing
 	var/locked_facing = telegraph_cardinal(H.dir)
-	if(locked_facing)
-		H.setDir(locked_facing)
-		H.tempfixeye = TRUE
-		H.nodirchange = TRUE
-		H.facing_locked = TRUE
+	H.setDir(locked_facing)
+	H.tempfixeye = TRUE
+	H.nodirchange = TRUE
+	H.facing_locked = TRUE
 	if(charge_slowdown)
 		H.add_movespeed_modifier(MOVESPEED_ID_SPELL_CASTING, TRUE, 100, override = TRUE, multiplicative_slowdown = charge_slowdown)
 	announce_telegraph(H)
@@ -109,7 +108,7 @@
 		sleep(2)
 	if(charge_slowdown && !QDELETED(H))
 		H.remove_movespeed_modifier(MOVESPEED_ID_SPELL_CASTING)
-	if(locked_facing && !QDELETED(H))
+	if(!QDELETED(H))
 		H.tempfixeye = FALSE
 		H.nodirchange = FALSE
 		H.facing_locked = FALSE
@@ -126,10 +125,13 @@
 		offs += list(list(-1, d), list(0, d), list(1, d))
 	return offs
 
-/proc/umbral_flow(list/turfs, mob/living/carbon/human/caster, damage, aim_zone)
+/proc/umbral_flow(list/turfs, mob/living/carbon/human/caster, damage, aim_zone, shadow_duration = 8 SECONDS, no_stack = FALSE)
 	for(var/turf/T in turfs)
 		new /obj/effect/temp_visual/umbral(T)
-		new /obj/effect/lingering_shadows(T, 8 SECONDS, caster, aim_zone)
+		if(no_stack)
+			for(var/obj/effect/lingering_shadows/S in T)
+				qdel(S)
+		new /obj/effect/lingering_shadows(T, shadow_duration, caster, aim_zone)
 		for(var/obj/effect/umbralfount/U in T)
 			U.intense = TRUE
 			U.visible_message(span_warning("The umbral flow interacts with the umbral fountain, next burst will be empowered!"))

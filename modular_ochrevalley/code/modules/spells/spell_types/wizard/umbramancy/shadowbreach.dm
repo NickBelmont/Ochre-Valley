@@ -1,6 +1,6 @@
 /datum/action/cooldown/spell/shadowbreach
 	name = "Shadowbreach"
-	desc = ""
+	desc = "Summon an unstable crystal of umbral energies, which will periodically release a burst that damages all nearby."
 	button_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
 	button_icon_state = "leyline_anchor"
 	sound = 'sound/misc/portalactivate.ogg'
@@ -28,6 +28,39 @@
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
 	var/obj/effect/umbralfount/active_fount
+	var/current_mode = 1
+	var/list/modes = list(
+		list("name" = "Shadow Breach", "tag" = "BREACH",  "invocation" = "Umbra Coeunt!", "cooldown" = 25 SECONDS),
+		list("name" = "Umbral Fountain", "tag" = "FOUNT",  "invocation" = "Umbra Coeunt!", "cooldown" = 30 SECONDS),
+	)
+
+/datum/action/cooldown/spell/shadowbreach/Grant(mob/grant_to)
+	. = ..()
+	apply_mode(current_mode)
+
+/datum/action/cooldown/spell/shadowbreach/proc/apply_mode(index)
+	var/list/mode = modes[index]
+	invocations = list(mode["invocation"])
+	cooldown_time = mode["cooldown"]
+	update_mode_maptext(mode["tag"])
+
+/datum/action/cooldown/spell/shadowbreach/toggle_alt_mode(mob/user)
+	current_mode = (current_mode % length(modes)) + 1
+	apply_mode(current_mode)
+	to_chat(user, span_notice("[name]: [modes[current_mode]["name"]] mode."))
+
+/datum/action/cooldown/spell/shadowbreach/proc/update_mode_maptext(tag)
+	for(var/datum/hud/hud as anything in viewers)
+		var/atom/movable/screen/movable/action_button/B = viewers[hud]
+		var/atom/movable/screen/arc_maptext_holder/holder
+		for(var/atom/movable/screen/arc_maptext_holder/existing in B.vis_contents)
+			holder = existing
+			break
+		if(!holder)
+			holder = new(B)
+			B.vis_contents.Add(holder)
+		holder.maptext = MAPTEXT(tag)
+		holder.color = GLOW_COLOR_DARK
 
 /datum/action/cooldown/spell/shadowbreach/cast(atom/cast_on)
 	. = ..()
@@ -37,12 +70,32 @@
 	var/turf/aimed = get_turf(cast_on)
 	if(!aimed)
 		return FALSE
-	active_fount = new /obj/effect/umbralfount(aimed, owner)
+	if(current_mode == 1)
+		INVOKE_ASYNC(src, PROC_REF(shadow_breach), aimed, telegraph_cardinal(owner.dir))
+	else
+		active_fount = new /obj/effect/umbralfount(aimed, owner)
 
+/datum/action/cooldown/spell/shadowbreach/proc/get_pattern_offsets(flanks = 0)
+	var/list/offs = list()
+	for(var/d in -1 to 1)
+		var/list/band = list(list(0, d))
+		if(flanks > 0)
+			for(var/s in 1 to flanks)
+				band += list(list(-s, d), list(s, d))
+		offs += band
+	return offs
 
+/datum/action/cooldown/spell/shadowbreach/proc/shadow_breach(turf/aimed, dir)
+	for(var/i in 0 to 2)
+		var/list/target_turfs = telegraph_resolve_turfs(aimed, dir, get_pattern_offsets(i), TRUE)
+		for(var/turf/T in target_turfs)
+			new /obj/effect/temp_visual/telegraph/pillar/fadein(T, 1 SECONDS)
+		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(umbral_flow), target_turfs, owner, SPELL_DMG(50), owner.zone_selected, (8 - i) SECONDS, TRUE), 1 SECONDS)
+		sleep(1 SECONDS)
 
-// --- Tether object ---
-
+/*
+/datum/action/cooldown/spell/shadowbreach/proc/do_breach(list/target_turfs)
+*/
 /obj/effect/umbralfount
 	name = "umbral fountain"
 	desc = "A condensed mass of arcyne darkness which periodically releases its energies in destructive bursts."
