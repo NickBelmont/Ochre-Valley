@@ -114,9 +114,10 @@
 	var/aimed_zone = BODY_ZONE_CHEST
 	var/intense = FALSE
 
-/obj/effect/umbralfount/Initialize(mapload, mob/living/castby)
+/obj/effect/umbralfount/Initialize(mapload, mob/living/castby, max = 5)
 	. = ..()
 	caster = castby
+	max_pulses = max
 	if(istype(caster) && caster.zone_selected)
 		aimed_zone = caster.zone_selected
 	START_PROCESSING(SSobj, src)

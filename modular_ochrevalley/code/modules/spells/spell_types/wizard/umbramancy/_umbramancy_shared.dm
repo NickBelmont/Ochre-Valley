@@ -7,7 +7,7 @@
 #define SHADOW_GRACE_KEY "shadow_grace"
 /datum/magic_aspect/umbramancy
 	name = "Umbramancy"
-	latin_name = "Maior Aspectus Venti"
+	latin_name = "Maior Aspectus Umbrae"
 	desc = "A first-order school focused on wielding the air itself as a weapon. \
 			Utilizing arcyne force, Magi practicing Aeromancy conjure and shape vicious vicious winds to lacerate and devastate their foes. \
 			Historically, Aeromancy has its roots spread far across the eastern reaches of Psydonia, from the deserts of Raneshen to the grass sea of Lingyue — now mainland Kazengun."
@@ -28,8 +28,12 @@
 		/datum/action/cooldown/spell/projectile/shadow_bolt,
 		/datum/action/cooldown/spell/projectile/shadowcrash,
 		/datum/action/cooldown/spell/shadowbreach,
+		/datum/action/cooldown/spell/living_shadow,
 	)
 	variants = list(
+		"mastery" = list(
+			VARIANT_ADDITIVE = /datum/action/cooldown/spell/nitefall,
+		),
 	)
 
 /proc/apply_darkness_stack(mob/living/target, stacks = 1, zone_override = null)
