@@ -29,6 +29,7 @@
 		/datum/action/cooldown/spell/projectile/shadowcrash,
 		/datum/action/cooldown/spell/shadowbreach,
 		/datum/action/cooldown/spell/living_shadow,
+		/datum/action/cooldown/spell/darkvision,
 	)
 	variants = list(
 		"mastery" = list(

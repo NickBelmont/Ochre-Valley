@@ -55,7 +55,7 @@
 			var/original_y = U.pixel_y
 			U.pixel_x = 32 * (aimed.x - U.x)
 			U.pixel_y = 32 * (aimed.y - U.y)
-			//Behold, the nonsense needed to make things spread out in a spiral.
+			//Behold, the nonsense needed to make things spread out in a spiral. Basically, depending on the set of corners, invert behavior.
 			if(((i%size < size/2) && (i/size < size/2)) || ((i%size > size/2) && (i/size > size/2)))
 				animate(U, pixel_x = original_x, time = 5, easing = SINE_EASING | EASE_OUT)
 				animate(pixel_y = original_y, time = 5, easing = SINE_EASING | EASE_IN, flags = ANIMATION_PARALLEL)
