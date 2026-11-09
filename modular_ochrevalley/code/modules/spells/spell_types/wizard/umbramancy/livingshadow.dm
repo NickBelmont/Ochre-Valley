@@ -5,8 +5,8 @@
 		7 tile maximum recall range. Same level only. \
 		Cannot recall while grabbed, restrained, or buckled. \
 		If the tether is destroyed or expires, the spell goes on full cooldown."
-	button_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
-	button_icon_state = "leyline_anchor"
+	button_icon = 'icons/mob/actions/vheslynspells.dmi'
+	button_icon_state = "phaseroll"
 	sound = 'sound/misc/portalactivate.ogg'
 	spell_color = GLOW_COLOR_DARK
 	glow_intensity = GLOW_INTENSITY_LOW
@@ -36,6 +36,7 @@
 	var/obj/structure/living_shadow/active_portal
 	var/max_range = 7
 	var/teleport_delay = 5
+	var/burst_damage = SPELL_DMG(50)
 
 /datum/action/cooldown/spell/living_shadow/before_cast(atom/cast_on)
 	. = ..()
@@ -135,12 +136,12 @@
 
 /obj/structure/living_shadow/Destroy()
 	if(parent_spell)
-		INVOKE_ASYNC(GLOBAL_PROC, GLOBAL_PROC_REF(shadow_burst), parent_spell.owner, 1, get_turf(src))
+		INVOKE_ASYNC(GLOBAL_PROC, GLOBAL_PROC_REF(shadow_burst), parent_spell.owner, get_turf(src), parent_spell.burst_damage, 1)
 		parent_spell.clear_portal()
 		parent_spell = null
 	return ..()
 
-/proc/shadow_burst(mob/living/caster, radius = 1, turf/target)
+/proc/shadow_burst(mob/living/caster, turf/target, damage = SPELL_DMG(50), radius = 1)
 	for(var/turf/Te in range(radius, target))
 		new /obj/effect/temp_visual/telegraph/pillar/fadein(Te, 1 SECONDS)
 	spawn(1 SECONDS)

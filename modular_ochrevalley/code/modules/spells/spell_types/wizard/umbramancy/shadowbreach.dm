@@ -113,6 +113,7 @@
 	var/damage = SPELL_DMG(50)
 	var/aimed_zone = BODY_ZONE_CHEST
 	var/intense = FALSE
+	var/list/cached_targets
 
 /obj/effect/umbralfount/Initialize(mapload, mob/living/castby, max = 5)
 	. = ..()
@@ -120,6 +121,7 @@
 	max_pulses = max
 	if(istype(caster) && caster.zone_selected)
 		aimed_zone = caster.zone_selected
+	cached_targets = telegraph_resolve_turfs(get_turf(src), telegraph_cardinal(src.dir), get_pattern_offsets(), TRUE)
 	START_PROCESSING(SSobj, src)
 
 /obj/effect/umbralfount/process()
@@ -132,15 +134,20 @@
 	last_pulse = world.time
 
 /obj/effect/umbralfount/proc/telegraph_burst()
-	for(var/turf/T in range(1, get_turf(src)))
+	var/list/target_turfs = range(1, get_turf(src))
+	if(pulses >= max_pulses - 1 || intense) //We've not incremented the pulses by this point
+		target_turfs = cached_targets
+	for(var/turf/T in target_turfs)
 		new /obj/effect/temp_visual/telegraph/pillar/fadein(T, pulse_warning)
 
 /obj/effect/umbralfount/proc/burst()
 	pulses++
 	playsound(get_turf(src), 'sound/magic/soulshot.ogg', 100, TRUE, 5)
+	var/list/target_turfs = range(1, get_turf(src))
 	if(pulses >= max_pulses || intense)
 		new /obj/effect/temp_visual/umbral_explosion(get_turf(src))
-	for(var/turf/T in range(1, get_turf(src)))
+		target_turfs = cached_targets
+	for(var/turf/T in target_turfs)
 		new /obj/effect/temp_visual/umbral(T)
 		if(pulses >= max_pulses || intense)
 			new /obj/effect/lingering_shadows(T, 3 SECONDS, caster, aimed_zone)
@@ -164,3 +171,13 @@
 /obj/effect/umbralfount/Destroy()
 	STOP_PROCESSING(SSobj, src)
 	return ..()
+
+/obj/effect/umbralfount/proc/get_pattern_offsets()
+	var/list/offs = list()
+	for(var/d in -2 to 2)
+		var/list/band = list(list(0, d))
+		if(abs(d) < 2)
+			for(var/s in 1 to (2 - abs(d)))
+				band += list(list(-s, d), list(s, d))
+		offs += band
+	return offs
