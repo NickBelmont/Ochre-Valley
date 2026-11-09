@@ -121,9 +121,13 @@
 			for(var/obj/effect/lingering_shadows/S in T)
 				qdel(S)
 		new /obj/effect/lingering_shadows(T, shadow_duration, caster, aim_zone)
-		for(var/obj/effect/umbralfount/U in T)
-			U.intense = TRUE
-			U.visible_message(span_warning("The umbral flow interacts with the umbral fountain, next burst will be empowered!"))
+		if(!no_stack)
+			for(var/obj/effect/umbralfount/U in T)
+				U.intense = TRUE
+				U.visible_message(span_warning("The umbral flow interacts with the umbral fountain, next burst will be empowered!"))
+			for(var/obj/structure/living_shadow/S in T)
+				S.visible_message(span_warning("The umbral flow interacts with the living shadow, causing it to burst into an umbral cloud!"))
+				qdel(S)
 		for(var/mob/living/L in T)
 			if(L.stat == DEAD)
 				continue

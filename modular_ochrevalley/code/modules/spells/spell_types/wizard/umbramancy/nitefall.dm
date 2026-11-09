@@ -1,6 +1,6 @@
 /datum/action/cooldown/spell/nitefall
 	name = "Nitefall"
-	desc = "Summon an unstable crystal of umbral energies, which will periodically release a burst that damages all nearby."
+	desc = "Summon many unstable crystals of umbral energies, which will periodically release a burst that damages all nearby."
 	button_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon_state = "cataclysm"
 	sound = 'sound/misc/portalactivate.ogg'
@@ -40,23 +40,23 @@
 	if(!aimed)
 		return FALSE
 	new /obj/effect/umbralfount(aimed, owner, 3)
-	addtimer(CALLBACK(src, PROC_REF(do_ring), aimed), 1.5 SECONDS, fount_size)
+	addtimer(CALLBACK(src, PROC_REF(do_ring), aimed, fount_size), 1.5 SECONDS)
 	return TRUE
 
 
 /datum/action/cooldown/spell/nitefall/proc/do_ring(turf/aimed, size = 2)
 	if(!aimed)
 		return
-	for(var/i in 0 to 3)
-		var/turf/fountLoc = locate(aimed.x - 2 + (4*(i%2)), aimed.y - 2 + (4*round(i/2)), aimed.z)
-		if(fountLoc && !fountLoc.density)
+	for(var/i in 0 to (size**2 - 1)) //Why am I generalising this to any size? Because funny, and maybe admemes
+		var/turf/fountLoc = locate(aimed.x - (2 * (size - 1)) + (4*(i%size)), aimed.y - (2 * (size - 1)) + (4*round(i/size)), aimed.z)
+		if(fountLoc && !fountLoc.density && i != (size**2-1)/2)
 			var/obj/effect/umbralfount/U = new /obj/effect/umbralfount(fountLoc, owner, 3)
 			var/original_x = U.pixel_x
 			var/original_y = U.pixel_y
-			U.pixel_x = U.pixel_x + 64 - (128 * (i%2))
-			U.pixel_y = U.pixel_y + 64 - (128 * round(i/2))
-			//Behold, the nonsense needed to make things spread out in an arc.
-			if(i < 1 || i > 2)
+			U.pixel_x = 32 * (aimed.x - U.x)
+			U.pixel_y = 32 * (aimed.y - U.y)
+			//Behold, the nonsense needed to make things spread out in a spiral.
+			if(((i%size < size/2) && (i/size < size/2)) || ((i%size > size/2) && (i/size > size/2)))
 				animate(U, pixel_x = original_x, time = 5, easing = SINE_EASING | EASE_OUT)
 				animate(pixel_y = original_y, time = 5, easing = SINE_EASING | EASE_IN, flags = ANIMATION_PARALLEL)
 			else

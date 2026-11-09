@@ -120,7 +120,7 @@
 	icon = 'icons/effects/effects.dmi'
 	icon_state = "static"
 	color = GLOW_COLOR_DARK
-	max_integrity = 75
+	max_integrity = 35
 	anchored = TRUE
 	density = FALSE
 	opacity = 0
