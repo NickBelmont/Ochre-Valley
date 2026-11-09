@@ -55,18 +55,10 @@
 			var/original_y = U.pixel_y
 			U.pixel_x = U.pixel_x + 64 - (128 * (i%2))
 			U.pixel_y = U.pixel_y + 64 - (128 * round(i/2))
-
-			if(i%2)
-				if(round(i/2))
-					animate(U, pixel_x = original_x, time = 5, easing = SINE_EASING | EASE_IN)
-					animate(pixel_y = original_y, time = 5, easing = SINE_EASING | EASE_OUT, flags = ANIMATION_PARALLEL)
-				else
-					animate(U, pixel_x = original_x, time = 5, easing = SINE_EASING | EASE_OUT)
-					animate(pixel_y = original_y, time = 5, easing = SINE_EASING | EASE_IN, flags = ANIMATION_PARALLEL)
+			//Behold, the nonsense needed to make things spread out in an arc.
+			if(i < 1 || i > 2)
+				animate(U, pixel_x = original_x, time = 5, easing = SINE_EASING | EASE_OUT)
+				animate(pixel_y = original_y, time = 5, easing = SINE_EASING | EASE_IN, flags = ANIMATION_PARALLEL)
 			else
-				if(round(i/2))
-					animate(U, pixel_y = original_y, time = 5, easing = SINE_EASING | EASE_IN)
-					animate(pixel_x = original_x, time = 5, easing = SINE_EASING | EASE_OUT, flags = ANIMATION_PARALLEL)
-				else
-					animate(U, pixel_y = original_y, time = 5, easing = SINE_EASING | EASE_OUT)
-					animate(pixel_x = original_x, time = 5, easing = SINE_EASING | EASE_IN, flags = ANIMATION_PARALLEL)
+				animate(U, pixel_x = original_x, time = 5, easing = SINE_EASING | EASE_IN)
+				animate(pixel_y = original_y, time = 5, easing = SINE_EASING | EASE_OUT, flags = ANIMATION_PARALLEL)
