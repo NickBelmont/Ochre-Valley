@@ -26,7 +26,7 @@
 	spell_tier = 1
 	spell_impact_intensity = SPELL_IMPACT_NONE
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
-	var/breach_damage = SPELL_DMG(70)
+	var/breach_damage = SPELL_DMG(60)
 	var/obj/effect/umbralfount/active_fount
 	var/current_mode = 1
 	var/list/modes = list(
@@ -102,7 +102,7 @@
 			qdel(S)
 		new /obj/effect/lingering_shadows(T, shadow_duration, caster, aim_zone)
 		for(var/mob/living/L in T)
-			var/mult = (L in hit) ? 0.5 : 1
+			var/mult = (L in hit) ? 0.333 : 1
 			if(L.stat == DEAD)
 				continue
 			if(L.anti_magic_check())
@@ -185,7 +185,7 @@
 			if(L.guard_deflect_spell("Umbral Fountain", TRUE, caster, punish_caster = FALSE)) //Punish the initial hit, not any riders
 				continue
 			if(istype(caster) && !QDELETED(caster))
-				if(arcyne_strike(caster, L, null, damage * ((pulses < max_pulses || !intense) ? 1 : 1.8), aimed_zone || BODY_ZONE_CHEST, BCLASS_BURN, spell_name = "Umbral Fountain", damage_type = BURN, skip_animation = TRUE, exact_zone = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
+				if(arcyne_strike(caster, L, null, damage * ((pulses < max_pulses || !intense) ? 1 : 1.7), aimed_zone || BODY_ZONE_CHEST, BCLASS_BURN, spell_name = "Umbral Fountain", damage_type = BURN, skip_animation = TRUE, exact_zone = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
 					continue
 			else
 				L.adjustFireLoss(SPELL_DMG_VS(L, damage))

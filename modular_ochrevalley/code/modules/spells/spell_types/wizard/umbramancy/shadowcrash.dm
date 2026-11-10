@@ -38,8 +38,8 @@
 	var/flow_damage = SPELL_DMG(50)
 	var/current_mode = 1
 	var/list/modes = list(
-		list("name" = "Shadow Crash", "tag" = "CRSH", "proj" = /obj/projectile/magic/shadowcrash, "invocation" = "Umbra Coeunt!", "ground" = FALSE),
-		list("name" = "Umbral Flow", "tag" = "FLOW", "proj" = /obj/projectile/magic/shadowcrash, "invocation" = "Umbra Coeunt!", "ground" = TRUE),
+		list("name" = "Shadow Crash", "tag" = "CRSH", "invocation" = "Umbra Coeunt!", "ground" = FALSE, "cooldown" = 16 SECONDS),
+		list("name" = "Umbral Flow", "tag" = "FLOW", "invocation" = "Umbra Coeunt!", "ground" = TRUE, "cooldown" = 20 SECONDS),
 	)
 
 /datum/action/cooldown/spell/projectile/shadowcrash/Grant(mob/grant_to)
@@ -48,7 +48,7 @@
 
 /datum/action/cooldown/spell/projectile/shadowcrash/proc/apply_mode(index)
 	var/list/mode = modes[index]
-	projectile_type = mode["proj"]
+	cooldown_time = mode["cooldown"]
 	invocations = list(mode["invocation"])
 	update_mode_maptext(mode["tag"])
 
@@ -131,9 +131,12 @@
 			new /obj/effect/lingering_shadows(T, shadow_duration, caster, aim_zone)
 			if(!no_stack)
 				for(var/obj/effect/umbralfount/U in T)
-					U.intense = TRUE
-					U.telegraph_burst(U.last_pulse + U.pulse_period - world.time) //Redraw telegraph
-					U.visible_message(span_warning("The umbral flow interacts with the umbral fountain, next burst will be empowered!"))
+					//Prevent weird behavior, and keep people from sliming. 0.5 before so there's time to see what's happening, 0.2 after to account for any weirdness with the timer
+					if(U.last_pulse + U.pulse_period - world.time > 0.5 SECONDS || U.last_pulse + U.pulse_period - world.time < -0.2 SECONDS)
+						U.intense = TRUE
+						if(U.last_pulse + U.pulse_period - world.time > 0) //Don't telegraph if we're waiting on the next processing tick anyways
+							U.telegraph_burst(U.last_pulse + U.pulse_period - world.time) //Redraw telegraph
+						U.visible_message(span_warning("The umbral flow interacts with the umbral fountain, next burst will be empowered!"))
 				for(var/obj/structure/living_shadow/S in T)
 					S.visible_message(span_warning("The umbral flow interacts with the living shadow, causing it to burst into an umbral cloud!"))
 					qdel(S)
@@ -159,7 +162,7 @@
 	icon_state = "gumball"
 	color = GLOW_COLOR_DARK
 	speed = MAGE_PROJ_VERY_SLOW
-	damage = SPELL_DMG(80)
+	damage = SPELL_DMG(60)
 	damage_type = BURN
 	woundclass = BCLASS_BURN
 	nodamage = FALSE
@@ -171,7 +174,7 @@
 	/// Radius for AOE blast around impact point
 	var/aoe_radius = 1
 	/// AOE damage as a fraction of the projectile's base damage
-	var/aoe_damage_ratio = 0.375
+	var/aoe_damage_ratio = 0.333
 
 /obj/projectile/magic/shadowcrash/on_hit(target, blocked = FALSE)
 	..()

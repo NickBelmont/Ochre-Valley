@@ -92,9 +92,12 @@
 	for(var/turf/T in range(radius, epicenter))
 		new /obj/effect/temp_visual/umbral(T)
 		for(var/obj/effect/umbralfount/U in T)
-			U.intense = TRUE
-			U.telegraph_burst(U.last_pulse + U.pulse_period - world.time) //Redraw telegraph
-			U.visible_message(span_warning("The umbral resonance interacts with the umbral fountain, next burst will be empowered!"))
+			//Prevent weird behavior, and keep people from sliming. 0.5 before so there's time to see what's happening, 0.2 after to account for any weirdness with the timer
+			if(U.last_pulse + U.pulse_period - world.time > 0.5 SECONDS || U.last_pulse + U.pulse_period - world.time < -0.2 SECONDS)
+				U.intense = TRUE
+				if(U.last_pulse + U.pulse_period - world.time > 0) //Don't telegraph if we're waiting on the next processing tick anyways
+					U.telegraph_burst(U.last_pulse + U.pulse_period - world.time) //Redraw telegraph
+				U.visible_message(span_warning("The umbral resonance interacts with the umbral fountain, next burst will be empowered!"))
 		for(var/obj/structure/living_shadow/S in T)
 			S.visible_message(span_warning("The umbral resonance interacts with the living shadow, causing it to burst into an umbral cloud!"))
 			qdel(S)
