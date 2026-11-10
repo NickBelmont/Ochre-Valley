@@ -105,7 +105,7 @@
 	telegraph_clear(indicator)
 	if(QDELETED(H) || H.stat != CONSCIOUS)
 		return
-	umbral_flow(telegraph_resolve_turfs(get_turf(owner), locked_facing, get_pattern_offsets(), TRUE), owner, flow_damage, owner.zone_selected)
+	umbral_flow(get_sweep_bands(), get_turf(owner), locked_facing, owner, flow_damage, owner.zone_selected)
 
 /datum/action/cooldown/spell/projectile/shadowcrash/proc/get_pattern_offsets()
 	var/list/offs = list()
@@ -113,34 +113,44 @@
 		offs += list(list(-1, d), list(0, d), list(1, d))
 	return offs
 
-/proc/umbral_flow(list/turfs, mob/living/carbon/human/caster, damage, aim_zone, shadow_duration = 8 SECONDS, no_stack = FALSE)
-	playsound(turfs[1], 'sound/magic/soulshot.ogg', 100, TRUE, 5)
-	for(var/turf/T in turfs)
-		new /obj/effect/temp_visual/umbral(T)
-		if(no_stack)
-			for(var/obj/effect/lingering_shadows/S in T)
-				qdel(S)
-		new /obj/effect/lingering_shadows(T, shadow_duration, caster, aim_zone)
-		if(!no_stack)
-			for(var/obj/effect/umbralfount/U in T)
-				U.intense = TRUE
-				U.visible_message(span_warning("The umbral flow interacts with the umbral fountain, next burst will be empowered!"))
-			for(var/obj/structure/living_shadow/S in T)
-				S.visible_message(span_warning("The umbral flow interacts with the living shadow, causing it to burst into an umbral cloud!"))
-				qdel(S)
-		for(var/mob/living/L in T)
-			if(L.stat == DEAD)
-				continue
-			if(L.anti_magic_check())
-				continue
-			if(L.guard_deflect_spell("Umbral Flow", TRUE, caster, punish_caster = FALSE)) //Punish the initial hit, not any riders
-				continue
-			if(istype(caster) && !QDELETED(caster))
-				if(arcyne_strike(caster, L, null, damage, aim_zone || BODY_ZONE_CHEST, BCLASS_BURN, spell_name = "umbral flow", damage_type = BURN, skip_animation = TRUE, exact_zone = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
+/datum/action/cooldown/spell/projectile/shadowcrash/proc/get_sweep_bands()
+	var/list/offs = list()
+	for(var/d in 1 to 5)
+		offs += list(list(list(-1, d), list(0, d), list(1, d)))
+	return offs
+
+/proc/umbral_flow(list/offsets, turf/origin, dir, mob/living/carbon/human/caster, damage, aim_zone, shadow_duration = 8 SECONDS, no_stack = FALSE, delay = 2)
+	playsound(origin, 'sound/magic/soulshot.ogg', 100, TRUE, 5)
+	for(var/list/band in offsets)
+		var/list/turfs = telegraph_resolve_turfs(origin, dir, band, TRUE)
+		for(var/turf/T in turfs)
+			new /obj/effect/temp_visual/umbral(T)
+			if(no_stack)
+				for(var/obj/effect/lingering_shadows/S in T)
+					qdel(S)
+			new /obj/effect/lingering_shadows(T, shadow_duration, caster, aim_zone)
+			if(!no_stack)
+				for(var/obj/effect/umbralfount/U in T)
+					U.intense = TRUE
+					U.telegraph_burst(U.last_pulse + U.pulse_period - world.time) //Redraw telegraph
+					U.visible_message(span_warning("The umbral flow interacts with the umbral fountain, next burst will be empowered!"))
+				for(var/obj/structure/living_shadow/S in T)
+					S.visible_message(span_warning("The umbral flow interacts with the living shadow, causing it to burst into an umbral cloud!"))
+					qdel(S)
+			for(var/mob/living/L in T)
+				if(L.stat == DEAD)
 					continue
-			else
-				L.adjustFireLoss(SPELL_DMG_VS(L, damage))
-			apply_darkness_stack(L, 1)
+				if(L.anti_magic_check())
+					continue
+				if(L.guard_deflect_spell("Umbral Flow", TRUE, caster, punish_caster = FALSE)) //Punish the initial hit, not any riders
+					continue
+				if(istype(caster) && !QDELETED(caster))
+					if(arcyne_strike(caster, L, null, damage, aim_zone || BODY_ZONE_CHEST, BCLASS_BURN, spell_name = "umbral flow", damage_type = BURN, skip_animation = TRUE, exact_zone = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
+						continue
+				else
+					L.adjustFireLoss(SPELL_DMG_VS(L, damage))
+				apply_darkness_stack(L, 1)
+		sleep(delay)
 
 /obj/projectile/magic/shadowcrash
 	name = "condensed shadows"

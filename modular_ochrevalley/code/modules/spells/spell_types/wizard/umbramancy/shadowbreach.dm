@@ -86,12 +86,36 @@
 	return offs
 
 /datum/action/cooldown/spell/shadowbreach/proc/shadow_breach(turf/aimed, dir)
+	var/list/hit = list()
 	for(var/i in 0 to 2)
-		var/list/target_turfs = telegraph_resolve_turfs(aimed, dir, get_pattern_offsets(i), TRUE)
+		var/list/target_turfs = telegraph_resolve_turfs(aimed, dir, get_pattern_offsets(i))
 		for(var/turf/T in target_turfs)
 			new /obj/effect/temp_visual/telegraph/pillar/fadein(T, 1 SECONDS)
-		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(umbral_flow), target_turfs, owner, breach_damage , owner.zone_selected, (8 - i) SECONDS, TRUE), 1 SECONDS)
+		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(shadow_breach), target_turfs, hit, owner, breach_damage , owner.zone_selected, (8 - i) SECONDS), 1 SECONDS)
 		sleep(1 SECONDS)
+
+/proc/shadow_breach(list/turfs, list/hit, mob/living/carbon/human/caster, damage, aim_zone, shadow_duration = 8 SECONDS)
+	playsound(turfs[1], 'sound/magic/soulshot.ogg', 100, TRUE, 5)
+	for(var/turf/T in turfs)
+		new /obj/effect/temp_visual/umbral(T)
+		for(var/obj/effect/lingering_shadows/S in T)
+			qdel(S)
+		new /obj/effect/lingering_shadows(T, shadow_duration, caster, aim_zone)
+		for(var/mob/living/L in T)
+			var/mult = (L in hit) ? 0.5 : 1
+			if(L.stat == DEAD)
+				continue
+			if(L.anti_magic_check())
+				continue
+			if(L.guard_deflect_spell("Shadow Breach", TRUE, caster, punish_caster = FALSE)) //Punish the initial hit, not any riders
+				continue
+			if(istype(caster) && !QDELETED(caster))
+				if(arcyne_strike(caster, L, null, damage * mult, aim_zone || BODY_ZONE_CHEST, BCLASS_BURN, spell_name = "shadow breach", damage_type = BURN, skip_animation = TRUE, exact_zone = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
+					continue
+			else
+				L.adjustFireLoss(SPELL_DMG_VS(L, damage * mult))
+			hit += L
+			apply_darkness_stack(L, 1)
 
 /*
 /datum/action/cooldown/spell/shadowbreach/proc/do_breach(list/target_turfs)
@@ -131,16 +155,16 @@
 		qdel(src) //Just to make sure it can't linger
 	if(last_pulse && world.time < last_pulse + pulse_period)
 		return
-	addtimer(CALLBACK(src, PROC_REF(telegraph_burst)), pulse_period - pulse_warning)
+	addtimer(CALLBACK(src, PROC_REF(telegraph_burst), pulse_warning), pulse_period - pulse_warning)
 	addtimer(CALLBACK(src, PROC_REF(burst)), pulse_period)
 	last_pulse = world.time
 
-/obj/effect/umbralfount/proc/telegraph_burst()
+/obj/effect/umbralfount/proc/telegraph_burst(warning_period)
 	var/list/target_turfs = circle_turfs
 	if(pulses >= max_pulses - 1 || intense) //We've not incremented the pulses by this point
 		target_turfs = star_turfs
 	for(var/turf/T in target_turfs)
-		new /obj/effect/temp_visual/telegraph/pillar/fadein(T, pulse_warning)
+		new /obj/effect/temp_visual/telegraph/pillar/fadein(T, warning_period)
 
 /obj/effect/umbralfount/proc/burst()
 	pulses++
