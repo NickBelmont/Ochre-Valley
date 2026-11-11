@@ -73,12 +73,6 @@
 /datum/action/cooldown/spell/projectile/shadowcrash/fire_projectile(atom/target)
 	if(!modes[current_mode]["ground"])
 		return ..()
-	/*
-	var/list/target_turfs = telegraph_resolve_turfs(get_turf(owner), telegraph_cardinal(owner.dir), get_pattern_offsets(), TRUE)
-	for(var/turf/T in target_turfs)
-		new /obj/effect/temp_visual/telegraph/pillar/fadein(T, 1 SECONDS)
-	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(umbral_flow), target_turfs, owner, flow_damage, owner.zone_selected), 1 SECONDS)
-	*/
 	INVOKE_ASYNC(src, PROC_REF(windup_flow), owner, target)
 	return TRUE
 

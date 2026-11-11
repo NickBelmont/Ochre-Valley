@@ -14,6 +14,7 @@
 	aspect_type = ASPECT_MAJOR
 	attuned_name = ASPECT_NAME_UMBRAMANCY
 	school_color = GLOW_COLOR_DARK
+	class_locked = TRUE
 	binding_chants = list(
 		"Invoco aeternos ventos!",
 		"I call upon the winds from on high, descend!",
@@ -247,6 +248,19 @@
 	if(stacks)
 		apply_darkness_stack(L, stacks, hit_zone)
 	L.emote("pain", forced = TRUE)
+
+//May move this to a more generalized file in the future. Patron locked aspects go here, though!
+/datum/patron/on_gain(mob/living/pious)
+	. = ..()
+	if(istype(src, /datum/patron/divine/noc) || istype(src, /datum/patron/inhumen/zizo))
+		if(pious.mind && LAZYLEN(pious.mind.mage_aspect_config))
+			pious.mind.mage_aspect_config["unlocked_aspects"] += list(/datum/magic_aspect/umbramancy)
+
+/datum/patron/on_loss(mob/living/pious)
+	. = ..()
+	if(istype(src, /datum/patron/divine/noc) || istype(src, /datum/patron/inhumen/zizo))
+		if(pious.mind && LAZYLEN(pious.mind.mage_aspect_config))
+			pious.mind.mage_aspect_config["unlocked_aspects"] -= list(/datum/magic_aspect/umbramancy)
 
 #undef SHADOW_BURN_COOLDOWN
 #undef SHADOW_BURN_KEY
