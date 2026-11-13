@@ -36,6 +36,9 @@
 		"mastery" = list(
 			VARIANT_ADDITIVE = /datum/action/cooldown/spell/nitefall,
 		),
+		"gefechtsgelehrter" = list(
+			VARIANT_ADDITIVE = /datum/action/cooldown/spell/nocfall,
+		),
 	)
 
 /proc/apply_darkness_stack(mob/living/target, stacks = 1, zone_override = null)

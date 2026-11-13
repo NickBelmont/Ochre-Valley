@@ -91,6 +91,9 @@
 	playsound(epicenter, pick('sound/misc/explode/incendiary (1).ogg', 'sound/misc/explode/incendiary (2).ogg'), 100, TRUE, 5)
 	for(var/turf/T in range(radius, epicenter))
 		new /obj/effect/temp_visual/umbral(T)
+		for(var/obj/machinery/light/rogue/Ls in T)
+			if(Ls.on)
+				Ls.extinguish()
 		for(var/obj/effect/umbralfount/U in T)
 			//Prevent weird behavior, and keep people from sliming. 0.5 before so there's time to see what's happening, 0.2 after to account for any weirdness with the timer
 			if(U.last_pulse + U.pulse_period - world.time > 0.5 SECONDS || U.last_pulse + U.pulse_period - world.time < -0.2 SECONDS)
@@ -147,6 +150,10 @@
 
 /obj/projectile/magic/shadow_bolt/on_hit(target, blocked = FALSE)
 	. = ..()
+	if(istype(target, /obj/machinery/light/rogue))
+		var/obj/machinery/light/rogue/L = target
+		if(L.on)
+			L.extinguish()
 	if(isliving(target))
 		var/mob/living/L = target
 		if(L.anti_magic_check())

@@ -3936,6 +3936,7 @@
 #include "modular_ochrevalley\code\modules\spells\spell_types\wizard\umbramancy\_umbramancy_shared.dm"
 #include "modular_ochrevalley\code\modules\spells\spell_types\wizard\umbramancy\livingshadow.dm"
 #include "modular_ochrevalley\code\modules\spells\spell_types\wizard\umbramancy\nitefall.dm"
+#include "modular_ochrevalley\code\modules\spells\spell_types\wizard\umbramancy\nocfall.dm"
 #include "modular_causticcove\code\modules\deadite_pac\deadite_pac.dm"
 #include "modular_ochrevalley\code\modules\reagents\hemovore_snacks.dm"
 #include "modular_ochrevalley\code\modules\spells\spell_types\wizard\aeromancy\_aeromancy_shared.dm"
