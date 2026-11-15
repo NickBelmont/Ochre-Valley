@@ -22,6 +22,8 @@
 	)
 	fixed_spells = list(
 		/datum/action/cooldown/spell/projectile/hydrosphere,
+		/datum/action/cooldown/spell/torrent,
+		/datum/action/cooldown/spell/aqueous_barrier,
 		/datum/action/cooldown/spell/projectile/waterbolt,
 	)
 	choice_spells = list(

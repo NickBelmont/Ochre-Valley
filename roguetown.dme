@@ -3955,6 +3955,7 @@
 #include "modular_ochrevalley\code\modules\spells\spell_types\wizard\aeromancy\tempest.dm"
 #include "modular_ochrevalley\code\modules\spells\spell_types\wizard\aeromancy\windblade.dm"
 #include "modular_ochrevalley\code\modules\spells\spell_types\wizard\hydromancy\_hydromancy_shared.dm"
+#include "modular_ochrevalley\code\modules\spells\spell_types\wizard\hydromancy\aqueousbarrier.dm"
 #include "modular_ochrevalley\code\modules\spells\spell_types\wizard\hydromancy\hydrocantrips.dm"
 #include "modular_ochrevalley\code\modules\spells\spell_types\wizard\hydromancy\hydrosphere.dm"
 #include "modular_ochrevalley\code\modules\spells\spell_types\wizard\hydromancy\torrent.dm"

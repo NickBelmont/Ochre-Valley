@@ -128,6 +128,7 @@
 
 	var/telegraph_delay = TELEGRAPH_SKILLSHOT
 	var/charge_damage = SPELL_DMG(60)
+	var/got_stack = FALSE //With how I did this, has to be an object variable to avoid more than 1 stack
 
 /datum/action/cooldown/spell/depth_charge/cast(atom/cast_on)
 	. = ..()
@@ -149,30 +150,41 @@
 		return FALSE
 
 	new /obj/effect/temp_visual/telegraph(T, telegraph_delay)
+	got_stack = FALSE
 	playsound(T, 'sound/foley/water_land3.ogg', 60, TRUE, soundping = FALSE)
 	addtimer(CALLBACK(src, PROC_REF(charge_strike), T, H), telegraph_delay)
+	addtimer(CALLBACK(src, PROC_REF(telegraph_strike), T, 1), telegraph_delay)
+	addtimer(CALLBACK(src, PROC_REF(charge_strike), T, H, 1), telegraph_delay*2)
 	return TRUE
 
-/datum/action/cooldown/spell/depth_charge/proc/charge_strike(turf/T, mob/living/carbon/human/caster)
-	new /obj/effect/temp_visual/hydro_burst(T)
-	playsound(T, 'sound/foley/water_land1.ogg', 100, TRUE, soundping = FALSE)
-	var/got_stack = FALSE
-	for(var/mob/living/L in T.contents)
-		if(L.anti_magic_check())
-			L.visible_message(span_warning("The water splashed harmlessly against [L]!"))
-			playsound(get_turf(L), 'sound/magic/magic_nulled.ogg', 100)
+/datum/action/cooldown/spell/depth_charge/proc/telegraph_strike(turf/epicenter, radius = 0)
+	for(var/turf/T in range(radius, epicenter))
+		if(radius > 0 && T == epicenter)
 			continue
-		if(spell_guard_check(L, TRUE))
-			L.visible_message(span_warning("[L] stands firm against the tide!"))
-			continue
+		new /obj/effect/temp_visual/telegraph(T, telegraph_delay)
 
-		var/target_zone = caster?.zone_selected || pick(BODY_ZONE_HEAD, BODY_ZONE_CHEST)
-		if(arcyne_strike(caster, L, null, charge_damage, target_zone, BCLASS_BLUNT, \
-			spell_name = "Depth Charge", damage_type = BRUTE, \
-			skip_animation = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
+/datum/action/cooldown/spell/depth_charge/proc/charge_strike(turf/epicenter, mob/living/carbon/human/caster, radius = 0)
+	playsound(epicenter, 'sound/foley/water_land1.ogg', 100, TRUE, soundping = FALSE)
+	for(var/turf/T in range(radius, epicenter))
+		if(radius > 0 && T == epicenter)
 			continue
-		if(!got_stack) // Make sure you can't pile up a bunch of dying mobs to farm stacks
-			apply_tide_stack(caster, 1)
-			got_stack = TRUE
-		new /obj/effect/temp_visual/spell_impact(get_turf(L), spell_color, spell_impact_intensity)
+		new /obj/effect/temp_visual/hydro_burst(T)
+		for(var/mob/living/L in T.contents)
+			if(L.anti_magic_check())
+				L.visible_message(span_warning("The water splashed harmlessly against [L]!"))
+				playsound(get_turf(L), 'sound/magic/magic_nulled.ogg', 100)
+				continue
+			if(spell_guard_check(L, TRUE))
+				L.visible_message(span_warning("[L] stands firm against the tide!"))
+				continue
+
+			var/target_zone = caster?.zone_selected || pick(BODY_ZONE_HEAD, BODY_ZONE_CHEST)
+			if(arcyne_strike(caster, L, null, charge_damage, target_zone, BCLASS_BLUNT, \
+				spell_name = "Depth Charge", damage_type = BRUTE, \
+				skip_animation = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
+				continue
+			if(!got_stack) // Make sure you can't pile up a bunch of dying mobs to farm stacks
+				apply_tide_stack(caster, 1)
+				got_stack = TRUE
+			new /obj/effect/temp_visual/spell_impact(get_turf(L), spell_color, spell_impact_intensity)
 
