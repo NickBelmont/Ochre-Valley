@@ -125,7 +125,6 @@
 	nodamage = FALSE
 	intdamfactor = SPELL_INTDAM(1)
 	spell_damage_scaled = TRUE
-	arcshot = TRUE
 	hitsound = 'sound/blank.ogg'
 	/// Radius for AOE blast around impact point
 	var/aoe_radius = 1
