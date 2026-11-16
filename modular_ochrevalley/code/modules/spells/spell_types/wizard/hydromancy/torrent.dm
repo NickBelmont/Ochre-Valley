@@ -180,13 +180,12 @@
 			last_turf = get_turf(H)
 			telegraph_draw(last_turf, locked_facing, indicator, offsets, /obj/effect/temp_visual/telegraph/pillar, TRUE)
 		sleep(2)
-	if(charge_slowdown && !QDELETED(H))
-		H.remove_movespeed_modifier(MOVESPEED_ID_SPELL_CASTING)
 	clear_cast_effect(H)
 	telegraph_clear(indicator)
 	if(QDELETED(H) || H.stat != CONSCIOUS)
 		clear_cast_freeze(H)
 		REMOVE_TRAIT(H, TRAIT_SPELLBLOCK, LOCKDOWN_CAST)
+		H.remove_movespeed_modifier(MOVESPEED_ID_SPELL_CASTING)
 		return
 	if(mode == 1)
 		do_flood(get_flood_bands(empowered), get_turf(owner), locked_facing, owner, flood_damage, owner.zone_selected, (empowered ? 2 : 3))
@@ -194,6 +193,8 @@
 		do_torrent(offsets, get_turf(owner), locked_facing, owner, torrent_damage, owner.zone_selected, empowered)
 	clear_cast_freeze(H)
 	REMOVE_TRAIT(H, TRAIT_SPELLBLOCK, LOCKDOWN_CAST) //We don't want you casting during the big aoes
+	if(charge_slowdown && !QDELETED(H))
+		H.remove_movespeed_modifier(MOVESPEED_ID_SPELL_CASTING)
 
 /datum/action/cooldown/spell/torrent/proc/get_flood_bands(empowered)
 	var/list/bands = list()

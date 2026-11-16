@@ -10,7 +10,6 @@
 	attunement_school = ASPECT_NAME_HYDROMANCY
 
 	click_to_activate = TRUE
-	self_cast_possible = FALSE
 	cast_range = 7
 
 	primary_resource_type = SPELL_COST_STAMINA

@@ -154,14 +154,14 @@
 	playsound(T, 'sound/foley/water_land3.ogg', 60, TRUE, soundping = FALSE)
 	addtimer(CALLBACK(src, PROC_REF(charge_strike), T, H), telegraph_delay)
 	addtimer(CALLBACK(src, PROC_REF(telegraph_strike), T, 1), telegraph_delay)
-	addtimer(CALLBACK(src, PROC_REF(charge_strike), T, H, 1), telegraph_delay*2)
+	addtimer(CALLBACK(src, PROC_REF(charge_strike), T, H, 1), telegraph_delay*2.5)
 	return TRUE
 
 /datum/action/cooldown/spell/depth_charge/proc/telegraph_strike(turf/epicenter, radius = 0)
 	for(var/turf/T in range(radius, epicenter))
 		if(radius > 0 && T == epicenter)
 			continue
-		new /obj/effect/temp_visual/telegraph(T, telegraph_delay)
+		new /obj/effect/temp_visual/telegraph(T, telegraph_delay*1.5)
 
 /datum/action/cooldown/spell/depth_charge/proc/charge_strike(turf/epicenter, mob/living/carbon/human/caster, radius = 0)
 	playsound(epicenter, 'sound/foley/water_land1.ogg', 100, TRUE, soundping = FALSE)
