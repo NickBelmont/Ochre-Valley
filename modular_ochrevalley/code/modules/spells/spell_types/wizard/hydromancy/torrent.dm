@@ -38,8 +38,8 @@
 	var/current_mode = 1
 	var/torrent_range = 5
 	var/torrent_delay = 1.5 SECONDS
-	var/torrent_damage = SPELL_DMG(100)
-	var/flood_damage = SPELL_DMG(80)
+	var/torrent_damage = SPELL_DMG(60)
+	var/flood_damage = SPELL_DMG(60)
 	var/push_dist = 1
 	var/torrent_iterations = 3
 	var/list/modes = list(
