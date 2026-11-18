@@ -140,7 +140,7 @@
 					if(L.guard_deflect_spell((empowered ? "Geyser" : "Torrent"), TRUE, caster, punish_caster = FALSE)) //Punish the initial hit, not any riders
 						continue
 					if(istype(caster) && !QDELETED(caster))
-						if(arcyne_strike(caster, L, null, damage, aim_zone || BODY_ZONE_CHEST, BCLASS_BLUNT, spell_name = (empowered ? "Geyser" : "Torrent"), damage_type = BRUTE, skip_animation = TRUE, exact_zone = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
+						if(arcyne_strike(caster, L, null, damage, aim_zone || BODY_ZONE_CHEST, BCLASS_STAB, spell_name = (empowered ? "Geyser" : "Torrent"), damage_type = BRUTE, skip_animation = TRUE, exact_zone = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
 							continue
 					else
 						L.adjustBruteLoss(SPELL_DMG_VS(L, damage))
