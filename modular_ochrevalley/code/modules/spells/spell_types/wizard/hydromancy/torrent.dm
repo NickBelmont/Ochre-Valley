@@ -31,7 +31,7 @@
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 3
 	spell_impact_intensity = SPELL_IMPACT_MEDIUM
-	displayed_damage = SPELL_DMG(100)
+	displayed_damage = SPELL_DMG(60)
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 

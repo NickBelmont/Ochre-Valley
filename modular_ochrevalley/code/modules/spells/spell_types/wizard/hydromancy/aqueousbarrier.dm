@@ -19,13 +19,11 @@
 	invocation_type = INVOCATION_SHOUT
 
 	charge_required = FALSE
-	cooldown_time = 15 SECONDS
+	cooldown_time = 40 SECONDS
 
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 2
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
-
-	supports_fellowship_snap = TRUE
 
 	var/orb_count = 3
 
@@ -38,11 +36,6 @@
 	target.apply_status_effect(/datum/status_effect/buff/aqueous_barrier, owner, orb_count)
 	return TRUE
 
-/datum/action/cooldown/spell/aqueous_barrier/get_spell_statistics(mob/living/user)
-	var/list/stats = ..()
-	stats += span_info("Fellowship Mode (toggle with Shift+G): An off-target cast snaps the ward to your nearest fellowship member in range.")
-	return stats
-
 /atom/movable/screen/alert/status_effect/buff/aqueous_barrier
 	name = "Aqueous Barrier"
 	desc = "Arcyne orbs circle me,ready to blunt a blow before it lands."
@@ -50,7 +43,7 @@
 
 /datum/status_effect/buff/aqueous_barrier
 	id = "aqueous_barrier"
-	duration = 30 SECONDS
+	duration = 18 SECONDS
 	alert_type = /atom/movable/screen/alert/status_effect/buff/aqueous_barrier
 	var/orbs = 3
 	var/list/orb_visuals
