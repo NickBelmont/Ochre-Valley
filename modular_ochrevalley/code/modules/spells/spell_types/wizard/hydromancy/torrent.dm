@@ -125,11 +125,11 @@
 		for(var/turf/T in turfs)
 			index++
 			var/obj/effect/temp_visual/geyser/seg = new(T)
-			seg.setDir(dir)
+			seg.setDir(REVERSE_DIR(dir))
 			if(index == 1)
-				seg.icon_state = "obeliskbeam_start"
-			else if(index == (empowered ? 7 : 5))
 				seg.icon_state = "obeliskbeam_end"
+			else if(index == (empowered ? 7 : 5))
+				seg.icon_state = "obeliskbeam_start"
 			if(i%5 == 0) //Damage every second
 				var/has_exploded = FALSE
 				for(var/mob/living/L in T)
