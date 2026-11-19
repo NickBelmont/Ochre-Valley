@@ -122,6 +122,7 @@
 	for(var/i in 0 to (torrent_iterations + empowered - 1) * 5)
 		var/list/turfs = telegraph_resolve_turfs(get_turf(caster), dir, offsets, TRUE)
 		var/index = 0
+		var/last_explosion = -2 //Saves us an equivalence check
 		for(var/turf/T in turfs)
 			index++
 			var/obj/effect/temp_visual/geyser/seg = new(T)
@@ -131,7 +132,6 @@
 			else if(index == (empowered ? 7 : 5))
 				seg.icon_state = "obeliskbeam_start"
 			if(i%5 == 0) //Damage every second
-				var/has_exploded = FALSE
 				for(var/mob/living/L in T)
 					if(L.stat == DEAD)
 						continue
@@ -144,8 +144,8 @@
 							continue
 					else
 						L.adjustBruteLoss(SPELL_DMG_VS(L, damage))
-					if(empowered && !has_exploded && i%10 == 0)
-						has_exploded = TRUE
+					if(empowered && i%10 == 0 && index - last_explosion > 2)
+						last_explosion = index
 						for(var/turf/E in range(1, T))
 							new /obj/effect/temp_visual/hydro_burst(E)
 							for(var/mob/living/Le in E)
