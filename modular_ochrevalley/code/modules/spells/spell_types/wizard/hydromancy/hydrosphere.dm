@@ -147,7 +147,7 @@
 	var/turf/epicenter = get_turf(target)
 
 	if(epicenter)
-		playsound(epicenter, 'sound/foley/water_land3.ogg', 100, TRUE, 6)
+		playsound(epicenter, 'sound/foley/jumpland/waterland.ogg', 100, TRUE, 6)
 
 	if(aoe_radius > 0 && istype(firer, /mob/living/carbon/human))
 		var/mob/living/carbon/human/caster = firer

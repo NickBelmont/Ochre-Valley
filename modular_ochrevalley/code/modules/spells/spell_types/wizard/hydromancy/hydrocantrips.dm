@@ -68,7 +68,7 @@
 	damage_type = BRUTE
 	woundclass = BCLASS_BLUNT
 	speed = MAGE_PROJ_MEDIUM
-	hitsound = 'sound/combat/hits/blunt/bluntsmall (1).ogg'
+	hitsound = 'sound/foley/water_land2.ogg'
 
 /obj/projectile/magic/bubble/on_hit(atom/target, blocked)
 	..()
