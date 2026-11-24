@@ -26,42 +26,19 @@
 	charge_sound = 'sound/magic/charging.ogg'
 	cooldown_time = SPELL_COOLDOWN_BIG_WHOOPER
 
-	var/current_mode = 1
 	var/waterfall_damage = SPELL_DMG(60)
 	var/waterfall_delay = 1.5 SECONDS
-	var/list/modes = list(
+	modes = list(
 		list("name" = "Hydrosphere", "tag" = "BALL", "invocation" = "Sphaera Aqua!"),
 		list("name" = "Waterfall", "tag" = "FALL", "ground" = TRUE, "invocation" = "Cataracta!"),
 	)
 
-/datum/action/cooldown/spell/projectile/hydrosphere/Grant(mob/grant_to)
-	. = ..()
-	apply_mode(current_mode)
-
-/datum/action/cooldown/spell/projectile/hydrosphere/proc/apply_mode(index)
+/datum/action/cooldown/spell/projectile/hydrosphere/apply_mode(index)
+	..()
 	var/list/mode = modes[index]
 	invocations = list(mode["invocation"])
 	build_all_button_icons()
 	update_mode_maptext(mode["tag"])
-
-/datum/action/cooldown/spell/projectile/hydrosphere/toggle_arc_mode(mob/user)
-	current_mode = (current_mode % length(modes)) + 1
-	apply_mode(current_mode)
-	var/list/mode = modes[current_mode]
-	to_chat(user, span_notice("[name]: [mode["name"]] mode."))
-
-/datum/action/cooldown/spell/projectile/hydrosphere/proc/update_mode_maptext(tag)
-	for(var/datum/hud/hud as anything in viewers)
-		var/atom/movable/screen/movable/action_button/B = viewers[hud]
-		var/atom/movable/screen/arc_maptext_holder/holder
-		for(var/atom/movable/screen/arc_maptext_holder/existing in B.vis_contents)
-			holder = existing
-			break
-		if(!holder)
-			holder = new(B)
-			B.vis_contents.Add(holder)
-		holder.maptext = MAPTEXT(tag)
-		holder.color = "#5b89df"
 
 /datum/action/cooldown/spell/projectile/hydrosphere/fire_projectile(atom/target)
 	if(!modes[current_mode]["ground"])

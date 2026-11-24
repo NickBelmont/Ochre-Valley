@@ -35,46 +35,21 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
-	var/current_mode = 1
 	var/torrent_range = 5
 	var/torrent_delay = 1.5 SECONDS
 	var/torrent_damage = SPELL_DMG(60)
 	var/flood_damage = SPELL_DMG(60)
 	var/push_dist = 1
 	var/torrent_iterations = 3
-	var/list/modes = list(
+	modes = list(
 		list("name" = "Flood", "tag" = "FLOOD", "invocation" = "Diluvium Aquae!"),
 		list("name" = "Torrent", "tag" = "TRNT", "invocation" = "Torrens Aquae!"),
 	)
 
-/datum/action/cooldown/spell/torrent/Grant(mob/grant_to)
-	. = ..()
-	apply_mode(current_mode)
-
-/datum/action/cooldown/spell/torrent/proc/apply_mode(index)
+/datum/action/cooldown/spell/torrent/apply_mode(index)
+	..()
 	var/list/mode = modes[index]
 	invocations = list(mode["invocation"])
-	build_all_button_icons()
-	update_mode_maptext(mode["tag"])
-
-/datum/action/cooldown/spell/torrent/toggle_alt_mode(mob/user)
-	current_mode = (current_mode % length(modes)) + 1
-	apply_mode(current_mode)
-	var/list/mode = modes[current_mode]
-	to_chat(user, span_notice("[name]: [mode["name"]] mode."))
-
-/datum/action/cooldown/spell/torrent/proc/update_mode_maptext(tag)
-	for(var/datum/hud/hud as anything in viewers)
-		var/atom/movable/screen/movable/action_button/B = viewers[hud]
-		var/atom/movable/screen/arc_maptext_holder/holder
-		for(var/atom/movable/screen/arc_maptext_holder/existing in B.vis_contents)
-			holder = existing
-			break
-		if(!holder)
-			holder = new(B)
-			B.vis_contents.Add(holder)
-		holder.maptext = MAPTEXT(tag)
-		holder.color = "#5b89df"
 
 /datum/action/cooldown/spell/torrent/cast(atom/cast_on)
 	. = ..()
