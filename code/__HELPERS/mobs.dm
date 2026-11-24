@@ -266,7 +266,6 @@ GLOBAL_LIST_EMPTY(species_list)
 	//Caustic Edit End
 
 	user.doing = TRUE
-	SEND_SIGNAL(user, COMSIG_DO_AFTER_BEGAN)
 
 	var/atom/Tloc = null
 	if(target && !isturf(target))
@@ -327,7 +326,6 @@ GLOBAL_LIST_EMPTY(species_list)
 				. = FALSE
 				break
 	user.doing = FALSE
-	SEND_SIGNAL(user, COMSIG_DO_AFTER_ENDED)
 	if (progress)
 		qdel(progbar)
 
@@ -344,7 +342,6 @@ GLOBAL_LIST_EMPTY(species_list)
 	if(user.doing)
 		return 0
 	user.doing = 1
-	SEND_SIGNAL(user, COMSIG_DO_AFTER_BEGAN)
 
 	var/atom/Tloc = null
 	if(target && !isturf(target))
@@ -408,7 +405,6 @@ GLOBAL_LIST_EMPTY(species_list)
 				. = 0
 				break
 	user.doing = 0
-	SEND_SIGNAL(user, COMSIG_DO_AFTER_ENDED)
 	if (progress)
 		qdel(progbar)
 
@@ -693,3 +689,6 @@ GLOBAL_LIST_EMPTY(species_list)
 	if(ishuman(src))
 		var/mob/living/carbon/human/H = src
 		H.update_body_parts()
+
+/mob/proc/should_hear_dsay()
+	return FALSE
